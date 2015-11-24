@@ -5,6 +5,14 @@
     <title>Login</title>
   </head>
   <body>
-    <h1>Hello World!</h1>
+    <form method="POST" action="<?php echo base_url('Users/user_login');?>">
+    	<label>Username: </label>
+    	<input type="text" name="username" />
+    	<br/>
+    	<label>Password: </label>
+    	<input type="password" name="password" />
+    	<br/>
+    	<input type="submit" value="Login"/>
+    </form>
   </body>
 </html>
