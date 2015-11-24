@@ -1,3 +1,1 @@
-######################
--DENR Document Tracking
-#####################
+DENR Document Tracking
