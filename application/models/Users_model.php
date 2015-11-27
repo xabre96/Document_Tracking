@@ -3,9 +3,70 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Users_model extends CI_Model {
 
-  public function get_users(){
-		return $this->db->get('user_account')->result_array();
+  public function getUser($user, $pass){
+		return $this->db->get_where('user_account', array("user_name" => $user, "password" => $pass))->result();
 	}
+
+  public function getCouriers(){
+    return $this->db->get('user_account')->result();
+  }
+
+  public function getCourierCredentials($id){
+    return $this->db->query('select a.user_id, a.user_name, a.user_type_id, b.first_name, b.last_name, b.middle_name, b.contact_number, b.address, b.email from user_account as a, user_profile as b where a.user_id = '.$id.' and a.user_id = b.user_id')->result();
+  }
+
+  public function deleteUser($id){
+    $this->db->delete('user_account', array('user_id' => $id));
+    return $this->db->delete('user_profile', array('user_id' => $id));
+  }
+
+  public function insertUser($data){
+
+    $pass = hash('sha512', 123);
+
+    $dat=array(
+      "user_name"=>$data['uname'],
+      "password"=>$pass,
+      "user_type_id"=>2
+    );
+
+    $this->db->insert('user_account',$dat);
+
+    $dat = array(
+      "user_id" => $this->db->insert_id(),
+      "first_name" => $data['fname'],
+      "last_name" => $data['lname'],
+      "middle_name" => $data['mname'],
+      "contact_number" => $data['contact'],
+      "address" => $data['address'],
+      "email" => $data['email'],
+    );
+
+    return $this->db->insert('user_profile',$dat);
+
+  }
+
+  public function updateUser($data, $id){
+
+    $dat = array(
+      "user_name"=>$data['uname']
+    );
+
+    $this->db->update('user_account', $dat , array('user_id' => $id));
+
+    $dat = array(
+      "first_name" => $data['fname'],
+      "last_name" => $data['lname'],
+      "middle_name" => $data['mname'],
+      "contact_number" => $data['contact'],
+      "address" => $data['address'],
+      "email" => $data['email'],
+    );
+
+    return $this->db->update('user_profile', $dat , array('user_id' => $id));
+
+  }
+
 }
  //  public function get_user($id){
 	// 	return $this->db->where('user_id',$id)->get('user_details')->result();

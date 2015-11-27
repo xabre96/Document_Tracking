@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.11
+-- version 4.5.1
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 24, 2015 at 01:13 PM
--- Server version: 5.6.21
--- PHP Version: 5.6.3
+-- Generation Time: Nov 27, 2015 at 10:08 AM
+-- Server version: 10.1.8-MariaDB
+-- PHP Version: 5.6.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `denr_document_tracking`
@@ -23,42 +23,19 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user_account`
+-- Table structure for table `document`
 --
 
-CREATE TABLE IF NOT EXISTS `user_account` (
-`user_id` int(11) NOT NULL,
-  `user_name` varchar(30) NOT NULL,
-  `password` varchar(64) NOT NULL,
-  `user_type_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user_profile`
---
-
-CREATE TABLE IF NOT EXISTS `user_profile` (
-`user_id` int(11) NOT NULL,
-  `first_name` varchar(45) NOT NULL,
-  `last_name` varchar(45) NOT NULL,
-  `middle_name` varchar(45) NOT NULL,
-  `contact_number` varchar(45) NOT NULL,
-  `address` varchar(45) NOT NULL,
-  `email` varchar(45) NOT NULL,
-  `birthday` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user_type`
---
-
-CREATE TABLE IF NOT EXISTS `user_type` (
-`user_type_id` int(11) NOT NULL,
-  `user_type` varchar(30) NOT NULL
+CREATE TABLE `document` (
+  `document_id` int(11) NOT NULL,
+  `subject` varchar(45) NOT NULL,
+  `sender` varchar(45) NOT NULL,
+  `instructions` varchar(45) NOT NULL,
+  `time_received` time NOT NULL,
+  `date_received` date NOT NULL,
+  `followUp_date` date NOT NULL,
+  `due_date` date NOT NULL,
+  `released_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -66,42 +43,20 @@ CREATE TABLE IF NOT EXISTS `user_type` (
 --
 
 --
--- Indexes for table `user_account`
+-- Indexes for table `document`
 --
-ALTER TABLE `user_account`
- ADD PRIMARY KEY (`user_id`);
-
---
--- Indexes for table `user_profile`
---
-ALTER TABLE `user_profile`
- ADD PRIMARY KEY (`user_id`);
-
---
--- Indexes for table `user_type`
---
-ALTER TABLE `user_type`
- ADD PRIMARY KEY (`user_type_id`);
+ALTER TABLE `document`
+  ADD PRIMARY KEY (`document_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `user_account`
+-- AUTO_INCREMENT for table `document`
 --
-ALTER TABLE `user_account`
-MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `user_profile`
---
-ALTER TABLE `user_profile`
-MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `user_type`
---
-ALTER TABLE `user_type`
-MODIFY `user_type_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `document`
+  MODIFY `document_id` int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
