@@ -9,6 +9,7 @@ class Users extends CI_Controller {
 		$this->load->model('Users_model','users');
 		$this->load->model('Offices_model','offices');
 		$this->load->model('Compliance_model','compliance');
+		$this->load->model('Document_model','document');
 	}
 
 	public function index(){
@@ -171,6 +172,21 @@ class Users extends CI_Controller {
 				$this->load->view('compliance-form', array('data' => $data, 'data2' => $data2));
 			}
 		}	
+	}
+
+	public function addDocument(){
+		$data = $this->input->post();
+		// var_dump($data);
+ 		// if ($this->form_validation->run() == FALSE){
+   //      	redirect('Users/complianceForm');
+   //      }else{
+        	$confirm = $this->document->insertDocument($data);
+			if(!$confirm){
+				echo "Monitoring failed.";
+			}else{
+				echo "Monitoring started successfully.";
+			}
+        // }
 	}
 
 }
