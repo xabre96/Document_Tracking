@@ -7,7 +7,8 @@ app.controller('myController', function($scope) {
     var today = new Date();
 
     if($scope.date==1){
-      //1 Day 
+      //2 Days
+      today.setDate(today.getDate() + 2); 
       var dd = today.getDate();
       var mm = today.getMonth()+1;
       var yyyy = today.getFullYear();
@@ -39,7 +40,7 @@ app.controller('myController', function($scope) {
 
     else if($scope.date==3){
       //10 Days
-      today.setDate(today.getDate() + 10);
+      today.setDate(today.getDate() + 5);
       var dd = today.getDate();
       var mm = today.getMonth()+1;
       var yyyy = today.getFullYear();

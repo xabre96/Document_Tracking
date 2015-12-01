@@ -73,7 +73,10 @@ class Users extends CI_Controller {
 				redirect('Users/courierDashboard');
 			}else{
 				$couriers = $this->users->getCouriers();
-				$this->load->view('admin-dashboard', array('couriers' => $couriers));
+				$documents = $this->document->getDocuments();
+				$details = $this->document->getDocumentDetails();
+				$office = $this->document->getOffices();
+				$this->load->view('admin-dashboard', array('office' => $office, 'couriers' => $couriers, 'documents' => $documents, 'details' => $details));
 			}
 		}
 	}
@@ -174,6 +177,31 @@ class Users extends CI_Controller {
 		}	
 	}
 
+	public function updateComplianceForm($id){
+		if($this->session->userdata('logged_in')==null){
+			redirect('Users/index');
+		}else{
+			if($this->session->userdata('user_type')==2){
+				redirect('Users/courierDashboard');
+			}else{
+				$data2 = $this->document->getDocument();
+				$this->load->view('compliance-form', array('data' => $data));
+			}
+		}	
+	}
+
+	public function deleteComplianceForm($id){
+		if($this->session->userdata('logged_in')==null){
+			redirect('Users/index');
+		}else{
+			if($this->session->userdata('user_type')==2){
+				redirect('Users/courierDashboard');
+			}else{
+				echo $id;
+			}
+		}	
+	}
+
 	public function addDocument(){
 		$data = $this->input->post();
 		// var_dump($data);
@@ -187,6 +215,16 @@ class Users extends CI_Controller {
 				echo "Monitoring started successfully.";
 			}
         // }
+	}
+
+	public function updateStatus($id){
+		$confirm = $this->document->updateStatus($id);
+			if(!$confirm){
+				echo "Status Update failed.";
+			}else{
+				echo "Status Updated successfully.";
+				redirect('Users/adminDashboard');
+			}
 	}
 
 }
