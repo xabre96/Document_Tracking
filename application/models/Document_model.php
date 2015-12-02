@@ -3,8 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Document_model extends CI_Model {
 
-	// public function 
-
   public function updateStatus($id){
   		date_default_timezone_set("Asia/Manila");
 	  	$data = array(

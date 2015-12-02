@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 02, 2015 at 05:46 AM
+-- Generation Time: Dec 02, 2015 at 06:09 AM
 -- Server version: 10.1.8-MariaDB
 -- PHP Version: 5.6.14
 
@@ -69,15 +69,17 @@ CREATE TABLE `document` (
   `subject` varchar(45) NOT NULL,
   `sender` varchar(45) NOT NULL,
   `instructions` varchar(45) NOT NULL,
-  `status` tinyint(4) NOT NULL
+  `status` tinyint(4) NOT NULL,
+  `others` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `document`
 --
 
-INSERT INTO `document` (`document_id`, `subject`, `sender`, `instructions`, `status`) VALUES
-(40, 'asdX', 'asdX', 'asdX', 1);
+INSERT INTO `document` (`document_id`, `subject`, `sender`, `instructions`, `status`, `others`) VALUES
+(40, 'asdX', 'asdX', 'asdX', 1, 'PENRO'),
+(41, 'asd', 'asd', 'asd', 1, 'CENRO');
 
 -- --------------------------------------------------------
 
@@ -99,7 +101,8 @@ CREATE TABLE `document_date` (
 --
 
 INSERT INTO `document_date` (`document_date_id`, `date_received`, `followUp_date`, `due_date`, `released_date`, `document_id`) VALUES
-(39, '2015-12-02', '0000-00-00', '2015-12-04', '2015-12-02', 40);
+(39, '2015-12-02', '0000-00-00', '2015-12-04', '2015-12-02', 40),
+(40, '2015-12-02', '0000-00-00', '2015-12-04', '0000-00-00', 41);
 
 -- --------------------------------------------------------
 
@@ -122,8 +125,8 @@ INSERT INTO `document_details` (`document_details_id`, `compliance_type_id`, `of
 (254, 1, 1, 40),
 (255, 1, 2, 40),
 (256, 1, 3, 40),
-(262, 1, 11, 40),
-(263, 1, 13, 40);
+(264, 1, 1, 41),
+(265, 1, 7, 41);
 
 -- --------------------------------------------------------
 
@@ -142,7 +145,8 @@ CREATE TABLE `document_time` (
 --
 
 INSERT INTO `document_time` (`document_time_id`, `time_received`, `document_id`) VALUES
-(39, '11:28:05', 40);
+(39, '11:28:05', 40),
+(40, '12:56:10', 41);
 
 -- --------------------------------------------------------
 
@@ -164,15 +168,14 @@ INSERT INTO `offices` (`office_id`, `office`) VALUES
 (2, 'ARD-TS'),
 (3, 'RPAO'),
 (4, 'INREMP'),
-(5, 'Others'),
-(6, 'PMD'),
-(7, 'Legal Division'),
-(8, 'Finance Division'),
-(9, 'Administrative Division'),
-(10, 'CDD'),
-(11, 'Enforcement Division'),
-(12, 'LPDD'),
-(13, 'Surveys & Mapping Division');
+(5, 'PMD'),
+(6, 'Legal Division'),
+(7, 'Finance Division'),
+(8, 'Administrative Division'),
+(9, 'CDD'),
+(10, 'Enforcement Division'),
+(11, 'LPDD'),
+(12, 'Surveys & Mapping Division');
 
 -- --------------------------------------------------------
 
@@ -320,22 +323,22 @@ ALTER TABLE `compliance_type`
 -- AUTO_INCREMENT for table `document`
 --
 ALTER TABLE `document`
-  MODIFY `document_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `document_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 --
 -- AUTO_INCREMENT for table `document_date`
 --
 ALTER TABLE `document_date`
-  MODIFY `document_date_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `document_date_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 --
 -- AUTO_INCREMENT for table `document_details`
 --
 ALTER TABLE `document_details`
-  MODIFY `document_details_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=264;
+  MODIFY `document_details_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=266;
 --
 -- AUTO_INCREMENT for table `document_time`
 --
 ALTER TABLE `document_time`
-  MODIFY `document_time_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `document_time_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 --
 -- AUTO_INCREMENT for table `offices`
 --
