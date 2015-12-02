@@ -11,6 +11,8 @@
 		<br/>
 		<input type="text" name="instructions" placeholder="Instructions" required="">
 		<br/>
+		<input type="text" name="others" placeholder="Others" required="">
+		<br/>
 
 		<?php foreach ($data as $key => $value) {?>
 			<input type="checkbox" name="office[]" value="<?php echo $value->office_id;?>"/><?php echo $value->office; ?>

@@ -18,8 +18,7 @@ class Document_model extends CI_Model {
   }
 
   public function getDocument($id){
-  	return $this->db->get('document, document_time, document_date', array('document_id' => $id))->result();
-  	// return $this->db->query("SELECT * FROM document_date as a, document as b, document_time as c WHERE a.document_id = ".$id)->result();
+  	return $this->db->query("SELECT * FROM document as a, document_date as b WHERE a.document_id = ".$id." and b.document_id = ".$id)->result();
   }
 
   public function getDocumentDetail($id){
@@ -51,6 +50,7 @@ class Document_model extends CI_Model {
 		      "subject" => $data['subject'],
 		      "sender" => $data['sender'],
 		      "instructions" => $data['instructions'],
+		      "others" => $data['others'],
 		      "status" => 1
 		    );
 	$confirm = $this->db->insert('document', $dat);
@@ -94,6 +94,7 @@ class Document_model extends CI_Model {
 	$dat = array(
 		      "subject" => $data['subject'],
 		      "sender" => $data['sender'],
+		      "others" => $data['others'],
 		      "instructions" => $data['instructions']
 		    );
 	$confirm = $this->db->update('document', $dat, array('document_id' => $id));

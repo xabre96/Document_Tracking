@@ -12,6 +12,8 @@
 		<br/>
 		<input type="text" value="<?php echo $value->instructions; ?>" name="instructions" placeholder="Instructions" required="">
 		<br/>
+		<input type="text" value="<?php echo $value->others; ?>" name="others" placeholder="Others" required="">
+		<br/>
 
 		<?php 
 		$x = 0;
