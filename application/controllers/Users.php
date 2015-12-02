@@ -8,6 +8,7 @@ class Users extends CI_Controller {
 		parent::__construct();
 		$this->load->model('Users_model','users');
 		$this->load->model('Offices_model','offices');
+		$this->load->model('Sub_offices_model','sub_offices');
 		$this->load->model('Compliance_model','compliance');
 		$this->load->model('Document_model','document');
 	}
@@ -184,8 +185,11 @@ class Users extends CI_Controller {
 			if($this->session->userdata('user_type')==2){
 				redirect('Users/courierDashboard');
 			}else{
-				$data2 = $this->document->getDocument();
-				$this->load->view('compliance-form', array('data' => $data));
+				$data = $this->document->getDocument($id);
+				$detail = $this->document->getDocumentDetail($id);
+				$data2 = $this->compliance->getCompliance();
+				$office = $this->offices->getOffices();
+				$this->load->view('compliance-form2', array('id' => $id, 'data' => $data, 'data2' => $data2, 'detail' => $detail, 'office' => $office));
 			}
 		}	
 	}
@@ -197,7 +201,13 @@ class Users extends CI_Controller {
 			if($this->session->userdata('user_type')==2){
 				redirect('Users/courierDashboard');
 			}else{
-				echo $id;
+				$confirm = $this->document->deleteDocument($id);
+				if(!$confirm){
+					echo "Document deletion failed.";
+				}else{
+					echo "Document successfully deleted.";
+					redirect('Users/adminDashboard');
+				}
 			}
 		}	
 	}
@@ -213,6 +223,23 @@ class Users extends CI_Controller {
 				echo "Monitoring failed.";
 			}else{
 				echo "Monitoring started successfully.";
+				redirect('Users/adminDashboard');
+			}
+        // }
+	}
+
+	public function editDocument($id){
+		$data = $this->input->post();
+		// var_dump($data);
+ 		// if ($this->form_validation->run() == FALSE){
+   //      	redirect('Users/complianceForm');
+   //      }else{
+        	$confirm = $this->document->updateDocument($data, $id);
+			if(!$confirm){
+				echo "Monitoring update failed.";
+			}else{
+				echo "Monitoring updated successfully.";
+				redirect('Users/adminDashboard');
 			}
         // }
 	}

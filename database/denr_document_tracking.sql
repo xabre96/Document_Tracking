@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 27, 2015 at 12:09 PM
+-- Generation Time: Dec 02, 2015 at 05:46 AM
 -- Server version: 10.1.8-MariaDB
 -- PHP Version: 5.6.14
 
@@ -69,12 +69,80 @@ CREATE TABLE `document` (
   `subject` varchar(45) NOT NULL,
   `sender` varchar(45) NOT NULL,
   `instructions` varchar(45) NOT NULL,
-  `time_received` time NOT NULL,
+  `status` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `document`
+--
+
+INSERT INTO `document` (`document_id`, `subject`, `sender`, `instructions`, `status`) VALUES
+(40, 'asdX', 'asdX', 'asdX', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `document_date`
+--
+
+CREATE TABLE `document_date` (
+  `document_date_id` int(11) NOT NULL,
   `date_received` date NOT NULL,
   `followUp_date` date NOT NULL,
   `due_date` date NOT NULL,
-  `released_date` date NOT NULL
+  `released_date` date NOT NULL,
+  `document_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `document_date`
+--
+
+INSERT INTO `document_date` (`document_date_id`, `date_received`, `followUp_date`, `due_date`, `released_date`, `document_id`) VALUES
+(39, '2015-12-02', '0000-00-00', '2015-12-04', '2015-12-02', 40);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `document_details`
+--
+
+CREATE TABLE `document_details` (
+  `document_details_id` int(11) NOT NULL,
+  `compliance_type_id` int(11) NOT NULL,
+  `office_id` int(11) NOT NULL,
+  `document_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `document_details`
+--
+
+INSERT INTO `document_details` (`document_details_id`, `compliance_type_id`, `office_id`, `document_id`) VALUES
+(254, 1, 1, 40),
+(255, 1, 2, 40),
+(256, 1, 3, 40),
+(262, 1, 11, 40),
+(263, 1, 13, 40);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `document_time`
+--
+
+CREATE TABLE `document_time` (
+  `document_time_id` int(11) NOT NULL,
+  `time_received` time NOT NULL,
+  `document_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `document_time`
+--
+
+INSERT INTO `document_time` (`document_time_id`, `time_received`, `document_id`) VALUES
+(39, '11:28:05', 40);
 
 -- --------------------------------------------------------
 
@@ -92,28 +160,19 @@ CREATE TABLE `offices` (
 --
 
 INSERT INTO `offices` (`office_id`, `office`) VALUES
-(1, 'Office I'),
-(2, 'Office II'),
-(3, 'Office I'),
-(4, 'Office II'),
-(5, 'Office III'),
-(6, 'Office IV'),
-(7, 'Office V'),
-(8, 'Office VI'),
-(9, 'Office VII'),
-(10, 'Office VIII'),
-(11, 'Office IX'),
-(12, 'Office X'),
-(13, 'Office XI'),
-(14, 'Office XII'),
-(15, 'Office XIII'),
-(16, 'Office XIV'),
-(17, 'Office XV'),
-(18, 'Office XVI'),
-(19, 'Office XVII'),
-(20, 'Office XVII'),
-(21, 'Office IXI'),
-(22, 'Office XX');
+(1, 'ARD-MS'),
+(2, 'ARD-TS'),
+(3, 'RPAO'),
+(4, 'INREMP'),
+(5, 'Others'),
+(6, 'PMD'),
+(7, 'Legal Division'),
+(8, 'Finance Division'),
+(9, 'Administrative Division'),
+(10, 'CDD'),
+(11, 'Enforcement Division'),
+(12, 'LPDD'),
+(13, 'Surveys & Mapping Division');
 
 -- --------------------------------------------------------
 
@@ -207,6 +266,24 @@ ALTER TABLE `document`
   ADD PRIMARY KEY (`document_id`);
 
 --
+-- Indexes for table `document_date`
+--
+ALTER TABLE `document_date`
+  ADD PRIMARY KEY (`document_date_id`);
+
+--
+-- Indexes for table `document_details`
+--
+ALTER TABLE `document_details`
+  ADD PRIMARY KEY (`document_details_id`);
+
+--
+-- Indexes for table `document_time`
+--
+ALTER TABLE `document_time`
+  ADD PRIMARY KEY (`document_time_id`);
+
+--
 -- Indexes for table `offices`
 --
 ALTER TABLE `offices`
@@ -238,17 +315,32 @@ ALTER TABLE `user_type`
 -- AUTO_INCREMENT for table `compliance_type`
 --
 ALTER TABLE `compliance_type`
-  MODIFY `compliance_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `compliance_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `document`
 --
 ALTER TABLE `document`
-  MODIFY `document_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `document_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+--
+-- AUTO_INCREMENT for table `document_date`
+--
+ALTER TABLE `document_date`
+  MODIFY `document_date_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+--
+-- AUTO_INCREMENT for table `document_details`
+--
+ALTER TABLE `document_details`
+  MODIFY `document_details_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=264;
+--
+-- AUTO_INCREMENT for table `document_time`
+--
+ALTER TABLE `document_time`
+  MODIFY `document_time_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 --
 -- AUTO_INCREMENT for table `offices`
 --
 ALTER TABLE `offices`
-  MODIFY `office_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `office_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT for table `user_account`
 --

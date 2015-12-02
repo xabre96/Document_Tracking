@@ -2,8 +2,10 @@ var app = angular.module('myApp', []);
 app.controller('myController', function($scope) {
 
   $scope.date = "";
+  $scope.office = "";
+  // $scope.off ="";
 
-  $scope.fuck = function(){
+  $scope.due = function(){
     var today = new Date();
 
     if($scope.date==1){
