@@ -8,7 +8,6 @@ class Users extends CI_Controller {
 		parent::__construct();
 		$this->load->model('Users_model','users');
 		$this->load->model('Offices_model','offices');
-		$this->load->model('Sub_offices_model','sub_offices');
 		$this->load->model('Compliance_model','compliance');
 		$this->load->model('Document_model','document');
 	}
@@ -126,42 +125,66 @@ class Users extends CI_Controller {
 	}
 
 	public function addCourier(){
-		$data = $this->input->post();
+		 if($this->session->userdata('logged_in')==null){
+ 			redirect('Users/index');
+ 		}else{
+ 			if($this->session->userdata('user_type')==2){
+ 				redirect('Users/courierDashboard');
+ 			}else{
+ 				$data = $this->input->post();
 
- 		if ($this->form_validation->run() == FALSE){
-        	$this->load->view('register-courier');
-        }else{
-        	$confirm = $this->users->insertUser($data);
-			if(!$confirm){
-				echo "Courier registration failed.";
-			}else{
-				echo "Courier successfully registered.";
-			}
-        }
+		 		if ($this->form_validation->run() == FALSE){
+		        	$this->load->view('register-courier');
+		        }else{
+		        	$confirm = $this->users->insertUser($data);
+					if(!$confirm){
+						echo "Courier registration failed.";
+					}else{
+						echo "Courier successfully registered.";
+					}
+		        }
+ 			}
+ 		}
 	}
 
 	public function editCourier($id){
-		$data = $this->input->post();
+		 if($this->session->userdata('logged_in')==null){
+ 			redirect('Users/index');
+ 		}else{
+ 			if($this->session->userdata('user_type')==2){
+ 				redirect('Users/courierDashboard');
+ 			}else{
+ 				$data = $this->input->post();
 
- 		if ($this->form_validation->run() == FALSE){
-        	$this->load->view('edit-courier');
-        }else{
-        	$confirm = $this->users->updateUser($data, $id);
-			if(!$confirm){
-				echo "Courier credentials update failed.";
-			}else{
-				echo "Courier successfully updated.";
-			}
-        }
+		 		if ($this->form_validation->run() == FALSE){
+		        	$this->load->view('edit-courier');
+		        }else{
+		        	$confirm = $this->users->updateUser($data, $id);
+					if(!$confirm){
+						echo "Courier credentials update failed.";
+					}else{
+						echo "Courier successfully updated.";
+					}
+		        }
+ 			}
+ 		}
 	}
 
 	public function deleteCourier($id){
-		$confirm = $this->users->deleteUser($id);
-			if(!$confirm){
-				echo "Courier credentials deletion failed.";
+		if($this->session->userdata('logged_in')==null){
+			redirect('Users/index');
+		}else{
+			if($this->session->userdata('user_type')==2){
+				redirect('Users/courierDashboard');
 			}else{
-				echo "Courier successfully deleted.";
+				$confirm = $this->users->deleteUser($id);
+				if(!$confirm){
+					echo "Courier credentials deletion failed.";
+				}else{
+					echo "Courier successfully deleted.";
+				}		
 			}
+		}
 	}
 
 	public function complianceForm(){
@@ -213,45 +236,67 @@ class Users extends CI_Controller {
 	}
 
 	public function addDocument(){
-		$data = $this->input->post();
-		// var_dump($data);
- 		// if ($this->form_validation->run() == FALSE){
-   //      	redirect('Users/complianceForm');
-   //      }else{
-        	$confirm = $this->document->insertDocument($data);
-			if(!$confirm){
-				echo "Monitoring failed.";
-			}else{
-				echo "Monitoring started successfully.";
-				redirect('Users/adminDashboard');
-			}
-        // }
+		 if($this->session->userdata('logged_in')==null){
+ 			redirect('Users/index');
+ 		}else{
+ 			if($this->session->userdata('user_type')==2){
+ 				redirect('Users/courierDashboard');
+ 			}else{
+ 				$data = $this->input->post();
+ 		if ($this->form_validation->run() == FALSE){
+        	redirect('Users/complianceForm');
+        }else{
+	        	$confirm = $this->document->insertDocument($data);
+				if(!$confirm){
+					echo "Monitoring failed.";
+				}else{
+					echo "Monitoring started successfully.";
+					redirect('Users/adminDashboard');
+				}
+        }
+ 			}
+ 		}
 	}
 
 	public function editDocument($id){
-		$data = $this->input->post();
-		// var_dump($data);
- 		// if ($this->form_validation->run() == FALSE){
-   //      	redirect('Users/complianceForm');
-   //      }else{
-        	$confirm = $this->document->updateDocument($data, $id);
-			if(!$confirm){
-				echo "Monitoring update failed.";
-			}else{
-				echo "Monitoring updated successfully.";
-				redirect('Users/adminDashboard');
-			}
-        // }
+		 if($this->session->userdata('logged_in')==null){
+ 			redirect('Users/index');
+ 		}else{
+ 			if($this->session->userdata('user_type')==2){
+ 				redirect('Users/courierDashboard');
+ 			}else{
+ 				$data = $this->input->post();
+		 		if ($this->form_validation->run() == FALSE){
+		        	redirect('Users/complianceForm');
+		        }else{
+		        	$confirm = $this->document->updateDocument($data, $id);
+					if(!$confirm){
+						echo "Monitoring update failed.";
+					}else{
+						echo "Monitoring updated successfully.";
+						redirect('Users/adminDashboard');
+					}
+        		}
+ 			}
+ 		}
 	}
 
 	public function updateStatus($id){
-		$confirm = $this->document->updateStatus($id);
-			if(!$confirm){
-				echo "Status Update failed.";
-			}else{
-				echo "Status Updated successfully.";
-				redirect('Users/adminDashboard');
-			}
+		 if($this->session->userdata('logged_in')==null){
+ 			redirect('Users/index');
+ 		}else{
+ 			if($this->session->userdata('user_type')==2){
+ 				redirect('Users/courierDashboard');
+ 			}else{
+ 				$confirm = $this->document->updateStatus($id);
+				if(!$confirm){
+					echo "Status Update failed.";
+				}else{
+					echo "Status Updated successfully.";
+					redirect('Users/adminDashboard');
+				}
+ 			}
+ 		}
 	}
 
 }

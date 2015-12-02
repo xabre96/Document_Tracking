@@ -38,7 +38,7 @@
 		                'rules' => 'required|valid_email'
 		        )
 		     ),
-'Users/editCourier' => array(
+			'Users/editCourier' => array(
 		        array(
 		                'field' => 'lname',
 		                'label' => 'Last Name',
@@ -74,5 +74,49 @@
 		                'label' => 'Email',
 		                'rules' => 'required|valid_email'
 		        )
-		     )
+		     ), 
+			'Users/addDocument' => array(
+				array(
+		                'field' => 'subject',
+		                'label' => 'Subject',
+		                'rules' => 'required|alpha'
+		        ),
+		        array(
+		                'field' => 'sender',
+		                'label' => 'Sender',
+		                'rules' => 'required|alpha'
+		        ),
+		        array(
+		                'field' => 'instructions',
+		                'label' => 'Instructions',
+		                'rules' => 'required|alpha_numeric_spaces'
+		        ),
+		        array(
+		                'field' => 'others',
+		                'label' => 'Others',
+		                'rules' => 'required|alpha'
+		        )
+			),
+			'Users/editDocument' => array(
+				array(
+		                'field' => 'subject',
+		                'label' => 'Subject',
+		                'rules' => 'required|alpha'
+		        ),
+		        array(
+		                'field' => 'sender',
+		                'label' => 'Sender',
+		                'rules' => 'required|alpha'
+		        ),
+		        array(
+		                'field' => 'instructions',
+		                'label' => 'Instructions',
+		                'rules' => 'required|alpha_numeric_spaces'
+		        ),
+		        array(
+		                'field' => 'others',
+		                'label' => 'Others',
+		                'rules' => 'required|alpha'
+		        )
+			)
 		);

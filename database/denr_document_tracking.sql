@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 02, 2015 at 06:09 AM
+-- Generation Time: Dec 02, 2015 at 07:01 AM
 -- Server version: 10.1.8-MariaDB
 -- PHP Version: 5.6.14
 
@@ -164,18 +164,18 @@ CREATE TABLE `offices` (
 --
 
 INSERT INTO `offices` (`office_id`, `office`) VALUES
-(1, 'ARD-MS'),
-(2, 'ARD-TS'),
-(3, 'RPAO'),
-(4, 'INREMP'),
-(5, 'PMD'),
-(6, 'Legal Division'),
-(7, 'Finance Division'),
-(8, 'Administrative Division'),
-(9, 'CDD'),
-(10, 'Enforcement Division'),
-(11, 'LPDD'),
-(12, 'Surveys & Mapping Division');
+(1, 'ARD MS'),
+(2, 'PMD'),
+(3, 'Legal Division'),
+(4, 'Finance Division'),
+(5, 'Administrative Division'),
+(6, 'ARD TS'),
+(7, 'CDD'),
+(8, 'Enforcement Division'),
+(9, 'LPD'),
+(10, 'Surveys & Mapping Division'),
+(11, 'RPAO'),
+(12, 'INREMP');
 
 -- --------------------------------------------------------
 

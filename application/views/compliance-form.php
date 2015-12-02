@@ -19,29 +19,6 @@
 		<?php }	?>
 		<br/>
 
-		<!-- <div ng-if="office==true">
-		<?php foreach ($data3 as $key => $value) { 
-			if ($value->office_id==1) {
-		?>
-		<input type="checkbox" name="sub_office[]" value="<?php echo $value->sub_office_id;?>"><?php echo $value->sub_office;?><br/>
-		<?php
-			 } 
-			}
-		?>
-		</div>
-		<br/>
-
-		<div ng-if="off==true">
-		<?php foreach ($data3 as $key => $value) { 
-			if ($value->office_id==2) {
-		?>
-		<input type="checkbox" name="sub_office[]" value="<?php echo $value->sub_office_id;?>"><?php echo $value->sub_office;?><br/>
-		<?php 
-			}
-		 }
-		?>
-		</div> -->
-
 		<select name="compliance" ng-change="due()" ng-model="date">
 		<?php foreach ($data2 as $key => $value) { ?>
 			<option value="<?php echo $value->compliance_type_id; ?>"><?php echo $value->compliance_type; ?></option>
@@ -60,6 +37,7 @@
 	</form>
 
 	<p><?php echo validation_errors(); ?></p>
+
 	<script type="text/javascript" src="<?php echo base_url();?>assets/angular.min.js"></script>
 	<script type="text/javascript" src="<?php echo base_url();?>assets/app.js"></script>
 </body>

@@ -106,15 +106,8 @@ class Document_model extends CI_Model {
   		}
 		return $confirm;	
 	}else if(count($ix) > count($data["office"])){
-		var_dump($data["office"]);
 		$str = implode(', ', $data["office"]);
-		// $ids = $this->db->query("SELECT office_id FROM document_details WHERE document_id = ".$id)->result();
-		// var_dump($data);
-		// $str = implode(', ', array_map(function($c) {return $c->office;}, $data["office"]));
-  		// $where = "document_id=".$id." and office_id not in ($str)";
-    //     $this->db->where($where);
         $query = $this->db->query("DELETE FROM `document_details` WHERE document_id = $id and office_id not IN ($str)");
-
         return $query;
 	}else{
 		for ($i=0; $i < count($ix) ; $i++) { 
