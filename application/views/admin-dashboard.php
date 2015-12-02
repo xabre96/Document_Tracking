@@ -43,6 +43,7 @@
 			<th>Released Date</th>
 			<th>Compliance Type</th>
 			<th>Offices</th>
+			<th>Others</th>
 			<th>Status</th>
 			<th>Actions</th>
 		</tr>
@@ -87,6 +88,9 @@
 						}
 					}
 				?>
+			</td>
+			<td>
+				<?php echo $value->others; ?>
 			</td>
 			<td>
 				<?php if($value->status==1){ ?>

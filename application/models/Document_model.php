@@ -28,7 +28,7 @@ class Document_model extends CI_Model {
   	foreach ($limit->result() as $key => $value) {
   		$limit = $value->a;
   	}
-  	return $this->db->query("SELECT Distinct(a.document_id), a.subject, a.sender, a.instructions, a.status, b.date_received, b.followUp_date, b.due_date, b.released_date, c.time_received FROM document AS a, document_date AS b, document_time AS c WHERE a.document_id=b.document_id AND a.document_id=c.document_id")->result();
+  	return $this->db->query("SELECT Distinct(a.document_id), a.others, a.subject, a.sender, a.instructions, a.status, b.date_received, b.followUp_date, b.due_date, b.released_date, c.time_received FROM document AS a, document_date AS b, document_time AS c WHERE a.document_id=b.document_id AND a.document_id=c.document_id")->result();
   }
 
   public function getOffices(){
