@@ -716,7 +716,7 @@ class Users extends CI_Controller {
     public function viewAdminActed() {
 
         $other = $this->other->getOthers();
-        $documents = $this->document->getDocuments();
+        $document = $this->document->getDocumentActed();
         $details = $this->document->getDocumentDetails();
         $office = $this->document->getOffices();
         $date = date("Y-m-d");
@@ -745,12 +745,13 @@ class Users extends CI_Controller {
              }
         }
         $data = array(
+             'compliance' => $this->compliance->getCompliance(),
             'acted_num' => $acted_num,
             'due_num' => $due_num,
             'follow_num' => $follow_num,
              'other' => $other, 
              'office' => $office,
-              'documents' => $documents,
+              'document' => $document,
               'details' => $details
         );
         $this->load->view('adminView/viewActed', $data);
