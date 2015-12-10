@@ -13,9 +13,8 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="box">
-
-                                  <div class="box-header" style="background: #cfcdcc; color: black;">
-                                    <h3 class="box-title"><i class="glyphicon glyphicon-ok"></i><span>&nbsp;ACTED DOCUMENTS</span></h3>                                     
+                                <div class="box-header" style="background: #4b8355; color: #FFF;">
+                                    <h3 class="box-title"><i class="glyphicon glyphicon-search"></i><span>&nbsp;DOCUMENTS</span></h3>                                    
                                 </div><!-- /.box-header -->
                                 <div class="box-body table-responsive">
 
@@ -25,7 +24,10 @@
                                                 <th style="width: 50px;">#I.D</th>
                                                 <th>Subject</th>
                                                 <th>Sender</th>
+                                                <th>Follow Up Date</th>
+                                                <th>Due Date</th>
                                                 <th>Acted Date</th>
+                                                <th>Status</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
@@ -42,18 +44,27 @@
                                                 <td class=" sorting_1"><?php echo $str[0]."-".$str[1]."-".$str2[1]; ?></td>
                                                 <td class=" "><?php echo $value->subject; ?></td>
                                                 <td class=" "><?php echo $value->sender; ?></td>
+                                                <td class=" "><?php echo $value->followUp_date; ?></td>
+                                                <td class=" "><?php echo $value->due_date; ?></td>
                                                 <td class=" "><?php echo $value->released_date; ?></td>
-                                                <td class=" ">
-                                                    <a href="#" class="btn btn-default btn-sm" data-toggle="modal" data-target="#compose-modal<?php echo $value->document_id; ?>" title="View Document">View Document</a>
-                                                </td>
+                                                <?php 
+                                                if($value->status_id==1){
+                                                    $status = "Pending";
+                                                    }else{
+                                                    $status = "Acted";
+                                                }
+                                                ?>
+                                                <td class=" "><?php echo $status; ?></td>
+                                                  <td class=" ">
+                                                    <a href="#" class="btn btn-default btn-sm" data-toggle="modal" data-target="#compose-modal<?php echo $value->document_id; ?>" title="View Document">View Document
+                                                    </a>
                                             </tr>
                                         <?php } ?>
-
                                         </tbody>
                                     </table>
 
-                                </div><!-- /.box-body 
-                                -->                            </div>
+                                </div><!-- /.box-body -->
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -61,6 +72,7 @@
 
         </div>
 
+        
          <?php 
             foreach ($document as $doc) {
                 if($doc->document_id==0){
@@ -123,6 +135,7 @@
                                     $type = ""; 
                                     foreach ($details as $key => $value) { 
                                         if($value->document_id==$doc->document_id){
+                                            echo $doc->document_id;
                                             foreach ($compliance as $key => $val) {
                                                 if($val->compliance_type_id==$value->compliance_type_id){
                                                     $type = $val->compliance_type;
@@ -189,15 +202,33 @@
         <?php } ?>
 
 
+        <?php // include 'script.php'; ?>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+        <script src="<?php echo base_url('bootstrap/script/jquery.js'); ?>"></script>
+        <script src="<?php echo base_url('bootstrap/js/bootstrap.min.js" type="text/javascript'); ?>"></script>
 
+        <script src="<?php echo base_url('bootstrap/js/plugins/datatables/jquery.dataTables.js'); ?>" type="text/javascript"></script>
 
-
-        
-        
-        <?php include 'script.php'; ?>
+        <script src="<?php echo base_url('bootstrap/js/plugins/datatables/dataTables.bootstrap.js'); ?>" type="text/javascript"></script>
+        <script src="<?php echo base_url('bootstrap/js/AdminLTE/app.js'); ?>" type="text/javascript"></script>
+        <script type="text/javascript">
+            $(function () {
+                $("#example1").dataTable();
+                $('#example2').dataTable({
+                    "bPaginate": true,
+                    "bLengthChange": false,
+                    "bFilter": false,
+                    "bSort": true,
+                    "bInfo": true,
+                    "bAutoWidth": false
+                });
+            });
+        </script>
         <!--        <footer class="footer bg-black" style="padding: 0px; color:#ffffff; border-top: 3px ridge #cfcfcf;">
                     <p class="" style="padding: 2px; margin: 0px; text-align: center; background-color: #4b8355; font-size: 12px;">
-                        <img src="<?php // echo base_url('images/dc_logo.png');                                          ?>" style="height: 20px; width: 20px;">Document Monitoring System<br>
-                        Copyright <img src="<?php //echo base_url('images/DENR_Logo.svg_.png');                                          ?>" style="height: 20px; width: 20px; margin-bottom: 3px;"> 2015 Department of Environment and Natural Resources
+                        <img src="<?php // echo base_url('images/dc_logo.png');                                        ?>" style="height: 20px; width: 20px;">Document Monitoring System<br>
+                        Copyright <img src="<?php //echo base_url('images/DENR_Logo.svg_.png');                                        ?>" style="height: 20px; width: 20px; margin-bottom: 3px;"> 2015 Department of Environment and Natural Resources
                     </p>
                 </footer>-->
+    </body>
+</html>

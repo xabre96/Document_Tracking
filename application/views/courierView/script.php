@@ -1,5 +1,6 @@
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
- <script src="<?php echo base_url('bootstrap/script/jquery.js'); ?>"></script>
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script> -->
+<script src="<?php echo base_url('bootstrap/script/jquery.js'); ?>"></script>
+<script src="<?php echo base_url('assets/angular.min.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo base_url('bootstrap/js/plugins/datatables/jquery.dataTables.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo base_url('bootstrap/js/plugins/datatables/dataTables.bootstrap.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo base_url('bootstrap/js/jquery-ui-1.10.3.min.js'); ?>" type="text/javascript"></script>
@@ -7,39 +8,48 @@
 <script src="<?php echo base_url('bootstrap/js/plugins/input-mask/jquery.inputmask.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo base_url('bootstrap/js/plugins/input-mask/jquery.inputmask.date.extensions.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo base_url('bootstrap/js/plugins/input-mask/jquery.inputmask.extensions.js'); ?>" type="text/javascript"></script>
-<script src="<?php echo base_url('bootstrap/js/custom/serverDate.js'); ?>" type="text/javascript"></script>
-<link href="<?php echo base_url('bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet"    type="text/css"/>
-<link href="<?php echo base_url('bootstrap/css/font-awesome.min.css'); ?>" rel="stylesheet" type="text/css"/>
-<link href="<?php echo base_url('bootstrap/css/ionicons.min.css'); ?>" rel="stylesheet"     type="text/css"/>
-<link href="<?php echo base_url('bootstrap/css/AdminLTE.css'); ?>" rel="stylesheet"         type="text/css"/>
-<link href="<?php echo base_url('bootstrap/css/datatables/dataTables.bootstrap.css'); ?>" rel="stylesheet" type="text/css" />
-<link href="<?php echo base_url('bootstrap/css/fullcalendar/fullcalendar.print.css'); ?>" rel="stylesheet" type="text/css" media='print' />
-<link href="<?php echo base_url('bootstrap/css/bootstrap-datetimepicker.min.css'); ?>" rel="stylesheet" media="screen">
 <script src="<?php echo base_url('bootstrap/js/jquery.battatech.excelexport.js'); ?>"></script>
-<script src="<?php echo base_url('bootstrap/js/jquery.btechco.excelexport.js'); ?>"></script>
+<script src="<?php //echo base_url('bootstrap/js/jquery.btechco.excelexport.js'); ?>"></script>
 <script src="<?php echo base_url('bootstrap/js/jquery.battatech.excelexport.min.js'); ?>"></script>
-<script src="<?php echo base_url('bootstrap/js/jquery.base64.js'); ?>"></script>
-<script src="<?php echo base_url('bootstrap/ajax/salaryUpdate.js'); ?>"></script>
-<script src="<?php echo base_url('bootstrap/js/plugins/jQuery-Plugins-master/numeric/jquery.numeric.min.js'); ?>"></script>
+<script src="<?php //echo base_url('bootstrap/js/jquery.base64.js'); ?>"></script>
+<script src="<?php //echo base_url('bootstrap/ajax/salaryUpdate.js'); ?>"></script>
+<script src="<?php //echo base_url('bootstrap/js/plugins/jQuery-Plugins-master/numeric/jquery.numeric.min.js'); ?>"></script>
 <script src="<?php echo base_url('bootstrap/js/AdminLTE/app.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo base_url('bootstrap/js/bootstrap.min.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo base_url('assets/app.js'); ?>" type="text/javascript"></script>
+
+ <script type="text/javascript">
+            $(function () {
+                $("#example1").dataTable();
+                $('#example2').dataTable({
+                    "bPaginate": true,
+                    "bLengthChange": false,
+                    "bFilter": false,
+                    "bSort": true,
+                    "bInfo": true,
+                    "bAutoWidth": false
+                });
+            });
+        </script>
+
 <script>
-    $(document).ready(function () {
-        $(".numeric").numeric();
-    });
+    // $(document).ready(function () {
+    //     $(".numeric").numeric();
+    // });
 
-    function getUrl() {
-        var protocol, host, pathname, url;
+    // function getUrl() {
+    //     var protocol, host, pathname, url;
 
-        protocol = window.location.protocol;
-        host = window.location.host;
-        pathname = window.location.pathname;
+    //     protocol = window.location.protocol;
+    //     host = window.location.host;
+    //     pathname = window.location.pathname;
 
-        url = protocol + "//" + host + "/" + pathname[1] + "/";
+    //     url = protocol + "//" + host + "/" + pathname[1] + "/";
 
-        return url;
-    }
+    //     return url;
+    // }
 </script>
+
 <script type="text/javascript">
     $(document).ready(function () {
         var parent, children, counter = 0, text;
@@ -56,12 +66,14 @@
         //$("#compose-modal").modal("show");
     });
 </script>
+
 <script type="text/javascript">
     $("#btnExport").click(function (e) {
         window.open('data:application/vnd.ms-excel,' + $('#dvData').html());
         e.preventDefault();
     });
 </script>
+
 <script type="text/javascript">
     $(function () {
 
@@ -222,6 +234,7 @@
         });
     });
 </script>
+
 <script type="text/javascript">
     $(function () {
         //Datemask dd/mm/yyyy
@@ -284,3 +297,5 @@
 
 
 
+ </body>
+</html>

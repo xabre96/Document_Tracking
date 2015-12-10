@@ -1,13 +1,25 @@
-
-<link href="<?php echo base_url('bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet"    type="text/css"/>
-<link href="<?php echo base_url('bootstrap/css/font-awesome.min.css'); ?>" rel="stylesheet" type="text/css"/>
-<link href="<?php echo base_url('bootstrap/css/ionicons.min.css'); ?>" rel="stylesheet"     type="text/css"/>
-<link href="<?php echo base_url('bootstrap/css/AdminLTE.css'); ?>" rel="stylesheet"         type="text/css"/>
-<link href="<?php echo base_url('bootstrap/css/datatables/dataTables.bootstrap.css'); ?>" rel="stylesheet" type="text/css" />
-<link href="<?php echo base_url('bootstrap/css/fullcalendar/fullcalendar.print.css'); ?>" rel="stylesheet" type="text/css" media='print' />
-<link href="<?php echo base_url('bootstrap/css/bootstrap-datetimepicker.min.css'); ?>" rel="stylesheet" media="screen">
-
-
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Department of Environment and Natural Resources || Courier</title>
+        <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+        <link rel="shortcut icon" href="<?php echo base_url('images/denr_logo.png'); ?>" type="image/x-icon" /> 
+        <link href="<?php echo base_url('bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css">
+        <link href="<?php echo base_url('bootstrap/css/font-awesome.min.css') ?>" rel="stylesheet" type="text/css">
+        <link href="<?php echo base_url('bootstrap/css/ionicons.min.css'); ?>" rel="stylesheet" type="text/css">
+        <link href="<?php echo base_url('bootstrap/css/datatables/dataTables.bootstrap.css'); ?>" rel="stylesheet" type="text/css">
+        <link href="<?php echo base_url('bootstrap/css/AdminLTE.css'); ?>" rel="stylesheet" type="text/css">
+    
+        <link href="<?php echo base_url('bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet"    type="text/css"/>
+        <link href="<?php echo base_url('bootstrap/css/font-awesome.min.css'); ?>" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo base_url('bootstrap/css/ionicons.min.css'); ?>" rel="stylesheet"     type="text/css"/>
+        <link href="<?php echo base_url('bootstrap/css/AdminLTE.css'); ?>" rel="stylesheet"         type="text/css"/>
+        <link href="<?php echo base_url('bootstrap/css/datatables/dataTables.bootstrap.css'); ?>" rel="stylesheet" type="text/css" />
+        <link href="<?php echo base_url('bootstrap/css/fullcalendar/fullcalendar.print.css'); ?>" rel="stylesheet" type="text/css" media='print' />
+        <link href="<?php echo base_url('bootstrap/css/bootstrap-datetimepicker.min.css'); ?>" rel="stylesheet" media="screen">
+        </head>
+    <body class="skin-blue fixed" ng-app="myApp" ng-controller="myController">
 <header class="header">
 
     <a href="index.html" class="logo" style="background: #154466;">

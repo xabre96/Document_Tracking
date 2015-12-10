@@ -59,6 +59,7 @@ class Users extends CI_Controller {
                     $credentials = array(
                         'user_id' => $user_id,
                         'user_name' => $user,
+                        'name' => $name,
                         'logged_in' => TRUE,
                         'user_type' => $type
                     );
@@ -121,7 +122,46 @@ class Users extends CI_Controller {
             if ($this->session->userdata('user_type') == 1) {
                 redirect('Users/adminDashboard');
             } else {
-                $this->load->view('courierView/courier-dashboard');
+                $date = date("Y-m-d");
+                $due_num = $this->document->getDueNum($date);
+                $follow_num = $this->document->getFollowNum($date);
+                $num = $this->document->getDocumentNum();
+                $acted_num = $this->document->getActedNum();
+                if($acted_num==null){
+                    $acted_num = 0;
+                }else{
+                    foreach ($acted_num as $key => $value) {
+                        $acted_num = $value->count;
+                    }
+                }
+                if($num==null){
+                    $num = 0;
+                }else{
+                    foreach ($num as $key => $value) {
+                        $num = $value->count;
+                    }
+                }
+                if($due_num==null){
+                    $due_num = 0;
+                }else{
+                    foreach ($due_num as $key => $value) {
+                        $due_num = $value->count;
+                    }
+                }
+                if($follow_num==null){
+                    $follow_num = 0;
+                }else{
+                    foreach ($follow_num as $key => $value) {
+                        $follow_num = $value->count;
+                    }
+                }
+                $data = array(
+                    'acted_num' => $acted_num, 
+                    'num' => $num, 
+                    'due_num' => $due_num, 
+                    'follow_num' => $follow_num
+                    );
+                $this->load->view('courierView/courier-dashboard', $data);
             }
         }
     }
@@ -298,7 +338,11 @@ class Users extends CI_Controller {
                         'data' => $data, 
                         'data2' => $data2
                         );
-                    $this->load->view('adminView/addComplianceForm', $y);
+                    if ($this->session->userdata("user_type")==1) {
+                     $this->load->view('adminView/addComplianceForm', $y);
+                    } else{
+                    $this->load->view('courierView/addComplianceForm', $y);
+                 }
                 } 
                 else if($office == 13 && $data["others"]==""){
                     $doc_id = $this->document->maxId();
@@ -316,7 +360,11 @@ class Users extends CI_Controller {
                         'data2' => $data2,
                         'message' => "<p style='color: red;'>Others text field is required.</p>"
                         );
-                    $this->load->view('adminView/addComplianceForm', $y);
+                    if ($this->session->userdata("user_type")==1) {
+                        $this->load->view('adminView/addComplianceForm', $y);
+                    }else{
+                        $this->load->view('courierView/addComplianceForm', $y);
+                    }
                 }else if ($office == 0 && $data["others"]!="") {
                     $doc_id = $this->document->maxId();
                     foreach ($doc_id as $key => $value) {
@@ -333,14 +381,18 @@ class Users extends CI_Controller {
                         'data2' => $data2,
                         'message' => "<p style='color: red;'>Others is required to be checked.</p>"
                     );
-                    $this->load->view('adminView/addComplianceForm', $y); 
+                    if ($this->session->userdata("user_type")==1) {
+                      $this->load->view('adminView/addComplianceForm', $y); 
+                    }else{
+                      $this->load->view('courierView/addComplianceForm', $y);
+                    }
                 } else {
                     $confirm = $this->document->insertDocument($data);
                     if (!$confirm) {
                         echo "Monitoring failed.";
                     } else {
                         echo "Monitoring started successfully.";
-                        redirect('Users/adminDashboard');
+                        redirect('Users/courierDashboard');
                     }
                 }
             // }
@@ -415,7 +467,11 @@ class Users extends CI_Controller {
                 $doc_id = $str2[1];
                 $data = $this->offices->getOffices();
                 $data2 = $this->compliance->getCompliance();
-                $this->load->view('adminView/addComplianceForm', array('acted_num' => $acted_num, 'follow_num' => $follow_num, 'due_num' => $due_num, 'doc_id' => $doc_id, 'data' => $data, 'data2' => $data2));
+                if ($this->session->userdata("user_type")==1) {
+                    $this->load->view('adminView/addComplianceForm', array('acted_num' => $acted_num, 'follow_num' => $follow_num, 'due_num' => $due_num, 'doc_id' => $doc_id, 'data' => $data, 'data2' => $data2));
+                }else{
+                    $this->load->view('courierView/addComplianceForm', array('acted_num' => $acted_num, 'follow_num' => $follow_num, 'due_num' => $due_num, 'doc_id' => $doc_id, 'data' => $data, 'data2' => $data2));
+            }
     }
 
 
@@ -472,7 +528,11 @@ class Users extends CI_Controller {
                         'office' => $office,
                         'message' => "<p style='color: red;'>Others text field is required.</p>"
                         );
-                    $this->load->view('adminView/updateComplianceForm', $y);
+                    if ($this->session->userdata("user_type")==1) {
+                        $this->load->view('adminView/updateComplianceForm', $y);
+                    } else{
+                        $this->load->view('courierView/updateComplianceForm', $y);
+                    }
                 }else if ($office == 0 && $data["others"]!="") {
                     $date = date("Y-m-d");
                     $due_num = $this->document->getDueNum($date);
@@ -511,7 +571,11 @@ class Users extends CI_Controller {
                         'office' => $office,
                         'message' => "<p style='color: red;'>Others is required to be checked.</p>"
                         );
-                    $this->load->view('adminView/updateComplianceForm', $y);
+                    if ($this->session->userdata("user_type")==1) {
+                        $this->load->view('adminView/updateComplianceForm', $y);
+                    } else{
+                        $this->load->view('courierView/updateComplianceForm', $y);
+                    }
                 }
                 else{
                     $confirm = $this->document->updateDoc($data, $id);
@@ -608,7 +672,11 @@ class Users extends CI_Controller {
             'compliance' => $this->compliance->getCompliance(),
             'office' => $this->offices->getOffices()
         );
-        $this->load->view('adminView/viewSearchDocuments', $data);
+        if ($this->session->userdata("user_type")==1) {
+            $this->load->view('adminView/viewSearchDocuments', $data);
+         } else{
+            $this->load->view('courierView/viewSearchDocuments', $data);
+        }
     }
 
     public function viewUpdateDocuments() {
@@ -642,7 +710,21 @@ class Users extends CI_Controller {
         $document = $this->document->getDocuments();
         $compliance = $this->compliance->getCompliance();
         $office = $this->offices->getOffices();
-        $this->load->view('adminView/viewUpdateDocuments', array('acted_num' => $acted_num, 'details' => $details, 'other' => $other, 'office' => $office, 'document' => $document, 'compliance' => $compliance, 'follow_num' => $follow_num, 'due_num' => $due_num));
+        $data = array(
+            'acted_num' => $acted_num, 
+            'details' => $details, 
+            'other' => $other, 
+            'office' => $office, 
+            'document' => $document, 
+            'compliance' => $compliance, 
+            'follow_num' => $follow_num, 
+            'due_num' => $due_num
+            );
+        if ($this->session->userdata("user_type")==1) {
+            $this->load->view('adminView/viewUpdateDocuments', $data);
+        }else{
+            $this->load->view('courierView/viewUpdateDocuments', $data);
+        }
     }
 
     public function viewUpdateComplianceForm($id){
@@ -678,13 +760,28 @@ class Users extends CI_Controller {
         $time = $this->document->getDocumentTime($id);
         $data2 = $this->compliance->getCompliance();
         $office = $this->offices->getOffices();
-        $this->load->view('adminView/updateComplianceForm', array('acted_num'=>$acted_num,'follow_num' => $follow_num, 'due_num' => $due_num, 'time' => $time, 'date' => $date, 'other' => $other, 'id' => $id, 'data' => $data, 'data2' => $data2, 'detail' => $detail, 'office' => $office));
-        
+        $dat = array(
+            'acted_num'=>$acted_num,
+            'follow_num' => $follow_num, 
+            'due_num' => $due_num, 
+            'time' => $time, 
+            'date' => $date, 
+            'other' => $other, 
+            'id' => $id, 
+            'data' => $data, 
+            'data2' => $data2, 
+            'detail' => $detail, 
+            'office' => $office
+            );
+        if ($this->session->userdata("user_type")==1) {
+            $this->load->view('adminView/updateComplianceForm', $dat);
+        }else{
+            $this->load->view('courierView/updateComplianceForm', $dat);
+        }
     }
     
     public function viewAdminDueDate() {
          $date = date("Y-m-d");
-        // $date = "2015-12-08";
         $due_num = $this->document->getDueNum($date);
         $follow_num = $this->document->getFollowNum($date);
         $acted_num = $this->document->getActedNum();
@@ -714,7 +811,21 @@ class Users extends CI_Controller {
         $compliance = $this->compliance->getCompliance();
         $office = $this->offices->getOffices();
         $other = $this->other->getOthers();
-        $this->load->view('adminView/viewDueDate', array('acted_num'=>$acted_num, 'follow_num' => $follow_num, 'due_num' => $due_num, 'other' => $other, 'office'=>$office, 'compliance' => $compliance, 'document' => $document, 'details' => $details));
+        $y = array(
+            'acted_num'=>$acted_num, 
+            'follow_num' => $follow_num, 
+            'due_num' => $due_num, 
+            'other' => $other, 
+            'office'=>$office, 
+            'compliance' => $compliance, 
+            'document' => $document, '
+            details' => $details
+            );
+        if ($this->session->userdata("user_type")==1) {
+            $this->load->view('adminView/viewDueDate', $y);
+        } else{
+             $this->load->view('courierView/viewDueDate', $y);
+        }
     }
 
     public function viewAdminFollowUp() {
@@ -753,7 +864,11 @@ class Users extends CI_Controller {
             'office' => $this->offices->getOffices(),
             'other' => $this->other->getOthers()
         );
-        $this->load->view('adminView/viewFollowUp', $data);
+        if ($this->session->userdata("user_type")==1) {
+            $this->load->view('adminView/viewFollowUp', $data);
+        } else{
+            $this->load->view('courierView/viewFollowUp', $data);
+        }
     }
 
     public function viewAdminActed() {
@@ -797,7 +912,11 @@ class Users extends CI_Controller {
             'office' => $this->offices->getOffices(),
             'other' => $this->other->getOthers()
         );
-        $this->load->view('adminView/viewActed', $data);
+        if ($this->session->userdata("user_type")==1) {
+            $this->load->view('adminView/viewActed', $data);
+        }else{
+            $this->load->view('courierView/viewActed', $data);
+        }
     }
 
 //-----------------------End of the Views--------------------------------------- //
@@ -836,6 +955,25 @@ class Users extends CI_Controller {
                 }
         //     }
         // }
+    }
+
+
+    public function deleteComplianceForm($id){
+        if($this->session->userdata('logged_in')==null){
+            redirect('Users/index');
+        }else{
+            if($this->session->userdata('user_type')==2){
+                redirect('Users/courierDashboard');
+            }else{
+                $confirm = $this->document->deleteDocument($id);
+                if(!$confirm){
+                    echo "Document deletion failed.";
+                }else{
+                    echo "Document successfully deleted.";
+                    redirect('Users/adminDashboard');
+                }
+            }
+        }   
     }
 
 //-----------------------End of the Views--------------------------------------- //

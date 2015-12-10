@@ -42,34 +42,34 @@ $config = array(
         array(
             'field' => 'subject',
             'label' => 'Subject',
-            'rules' => 'required|alpha'
+            'rules' => 'required'
         ),
         array(
             'field' => 'sender',
             'label' => 'Sender',
-            'rules' => 'required|alpha'
+            'rules' => 'required'
         ),
         array(
             'field' => 'instructions',
             'label' => 'Instructions',
-            'rules' => 'required|alpha_numeric_spaces'
+            'rules' => 'required'
         )
     ),
     'Users/editDocument' => array(
         array(
             'field' => 'subject',
             'label' => 'Subject',
-            'rules' => 'required|alpha'
+            'rules' => 'required'
         ),
         array(
             'field' => 'sender',
             'label' => 'Sender',
-            'rules' => 'required|alpha'
+            'rules' => 'required'
         ),
         array(
             'field' => 'instructions',
             'label' => 'Instructions',
-            'rules' => 'required|alpha_numeric_spaces'
+            'rules' => 'required'
         )
     )
 );
