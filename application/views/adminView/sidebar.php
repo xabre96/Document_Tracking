@@ -4,9 +4,10 @@
 
         <div class="pull-left info" style="color: #FFF;">
             <p>Hello, <?php echo $this->session->userdata('name'); ?></p>
-
+           
             <!-- <a href="#" style="color: #FFF;"><i class="fa fa-circle" style="color: red;"></i> Online</a> -->
-            <a href="#" style="color: #FFF;">Admin</a>
+            <p style="color: #FFF;">Admin</p>
+            <a href="#" style="color: yellow;">Edit my Profile</a>
         </div>
     </div>
     <ul class="sidebar-menu">

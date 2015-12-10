@@ -100,7 +100,7 @@
                                                             <?php if($value->status_id==1){?>
                                                             <a href="<?php echo base_url('Users/updateStatus/'.$value->document_id); ?>" class="btn btn-success btn-flat form-control">Release Document</a>
                                                             <?php }else{ ?>
-                                                            <a href="<?php echo base_url('Users/updateStatus/'.$value->document_id); ?>" class="btn bg-gray btn-flat form-control" disabled="">Document Acted</a>
+                                                            <a href="#" class="btn bg-gray btn-flat form-control" disabled="">Document Acted</a>
                                                             <?php } ?>
                                                         </div>
                                                     <?php } ?>
