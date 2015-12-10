@@ -44,17 +44,21 @@
                                             <hr>
                                             <div class="box-body">
 
-                                                <div class="row">
+                                                <div class="row" style="margin-left: 10px;">
                                                     <div class="col-md-4">
                                                         <input type="text" name="document_id" hidden="" value="{{year}}{{month}}<?php echo $doc_id; ?>" />
                                                         <p><?php echo validation_errors(); ?></p>
                                                         <div class="form-group">
                                                             <label for="exampleInputSubject">Subject</label>
-                                                            <input type="text" class="form-control" id="exampleInputSubject" name="subject" required="" placeholder="Ex. Document RBTS" >
+                                                            <textarea class="form-control" rows="3" id="exampleInputSubject" required="" name="subject" placeholder="Ex. Document RBTS"></textarea>
                                                         </div>                      
                                                         <div class="form-group">
                                                             <label for="exampleInputSender">Sender</label>
                                                             <input type="text" class="form-control" id="exampleInputSender" name="sender" required="" placeholder="Ex. Shun Cale">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Sender Address/Office</label>
+                                                            <textarea class="form-control" rows="3" required="" name="senderAddress" placeholder="Enter ..."></textarea>
                                                         </div>                      
                                                         <div class="form-group">
                                                             <label>Instructions</label>
@@ -77,7 +81,7 @@
                                                     <div class="col-md-1">
                                                     </div>
                                                     <div class="col-md-5">
-                                                        <div class="form-group" style="margin-left: 50px;">
+                                                        <div class="form-group">
                                                             <label>Referred to</label>
                                                             <br/>
                                                             <?php foreach ($data as $key => $value) { ?>
@@ -95,8 +99,9 @@
                                                             ?>
                                         
                                                         </div>
-                                                        <div class="form-group" style="margin-left: 50px; margin-top: 25px;">
-                                                            <input type="text" class="form-control" name="others">
+                                                        <div class="form-group" style="margin-top: 10px;">
+                                                             <label for="exampleSelectDate">Action Man</label>
+                                                             <textarea class="form-control" rows="5" id="exampleInputSubject" required="" name="others" placeholder="Enter ..."></textarea>
                                                         </div>
                                                         <?php echo @$message; ?>
                                                     </div>
