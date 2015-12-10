@@ -7,7 +7,7 @@
            
             <!-- <a href="#" style="color: #FFF;"><i class="fa fa-circle" style="color: red;"></i> Online</a> -->
             <p style="color: #FFF;">Admin</p>
-            <a href="#" style="color: yellow;">Edit my Profile</a>
+            <a href="<?php echo base_url('Users/editProfile/'.$this->session->userdata('user_id')); ?>" style="color: yellow;">Edit my Profile</a>
         </div>
     </div>
     <ul class="sidebar-menu">
@@ -45,7 +45,7 @@
                 <li>
                     <a href="<?php echo base_url('Users/viewAdminFollowUp'); ?>" style="margin-left: 10px;">
                         <i class="glyphicon glyphicon-edit"></i> <span>Follow up</span>
-                        <small class="badge pull-right" style="background: #4b8355;"><?php echo $follow_num; ?></small>
+                        <small class="badge pull-right" style="background: yellow;"><?php echo $follow_num; ?></small>
                     </a>
                 </li>
                 <li>

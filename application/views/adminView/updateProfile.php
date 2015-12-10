@@ -49,8 +49,18 @@
                                             <label for="exampleInputEmail1">Email address</label>
                                             <input type="email" class="form-control" id="exampleInputEmail1" name="email" required="" placeholder="Enter email">
                                         </div>
-
-
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword">Old Password</label>
+                                            <input type="password" class="form-control" id="exampleInputPassword" name="old_pass" required="" placeholder="Old password">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword1">Password</label>
+                                            <input type="password" class="form-control" id="exampleInputPassword1" name="new_pass" required="" placeholder="Enter New password">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword2">Confirm Password</label>
+                                            <input type="password" class="form-control" id="exampleInputPassword2" name="new_pass2" required="" placeholder="Confirm New password">
+                                        </div>
                                     </div><!-- /.box-body -->
 
                                     <div class="box-footer">

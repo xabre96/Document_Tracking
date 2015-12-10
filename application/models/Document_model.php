@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Document_model extends CI_Model {
 
 	public function getDocumentDue($date){
-		return $this->db->query("SELECT DISTINCT(a.document_id), a.subject, a.sender, a.instructions, a.status_id, b.date_received, b.followUp_date, b.due_date, b.released_date, d.document_time_id, d.time_received FROM document as a, document_date as b, document_time as d WHERE a.document_id = b.document_id and a.document_id = d.document_id and b.due_date = '".$date."'")->result();
+		return $this->db->query("SELECT DISTINCT(a.document_id), a.subject, a.sender, a.instructions, a.status_id, b.date_received, b.followUp_date, b.due_date, b.released_date, d.document_time_id, d.time_received FROM document as a, document_date as b, document_time as d WHERE a.document_id = b.document_id and a.document_id = d.document_id and a.status_id != 0 and b.due_date = '".$date."'")->result();
 	}
 
 	public function getDocumentNum(){
@@ -15,12 +15,16 @@ class Document_model extends CI_Model {
 			return $this->db->query("SELECT DISTINCT(a.document_id), a.subject, a.sender, a.instructions, a.status_id, b.date_received, b.followUp_date, b.due_date, b.released_date, d.document_time_id, d.time_received FROM document as a, document_date as b, document_time as d WHERE a.document_id = b.document_id and a.document_id = d.document_id and a.status_id = 0")->result();
 	}
 
+	public function getDocumentDetailsActed(){
+		return $this->db->query("SELECT a.document_id, c.compliance_type_id, c.office_id FROM document as a, document_date as b, document_details as c WHERE a.document_id = b.document_id and a.document_id = c.document_id and a.status_id=0")->result();
+	}
+
 	public function getDocumentDetailsDue($date){
-		return $this->db->query("SELECT a.document_id, c.compliance_type_id, c.office_id FROM document as a, document_date as b, document_details as c WHERE a.document_id = b.document_id and a.document_id = c.document_id and b.due_date = '".$date."'")->result();
+		return $this->db->query("SELECT a.document_id, c.compliance_type_id, c.office_id FROM document as a, document_date as b, document_details as c WHERE a.document_id = b.document_id and a.document_id = c.document_id and a.status_id != 0 and b.due_date = '".$date."'")->result();
 	}
 
 	public function getDueNum($date){
-		return $this->db->query("SELECT COUNT(document_date_id) as count from document_date where due_date='".$date."'")->result();
+		return $this->db->query("SELECT COUNT(b.document_date_id) as count from document as a, document_date as b WHERE a.document_id = b.document_id and a.status_id != 0 and b.due_date = '".$date."'")->result();
 	}
 
 	public function getActedNum(){
@@ -28,15 +32,15 @@ class Document_model extends CI_Model {
 	}
 
 	public function getFollowNum($date){
-		return $this->db->query("SELECT COUNT(document_date_id) as count from document_date where followUp_date='".$date."'")->result();
+		return $this->db->query("SELECT COUNT(b.document_date_id) as count from document as a, document_date as b where a.document_id = b.document_id and a.status_id != 0 and b.followUp_date='".$date."'")->result();
 	}
 
 	public function getDocumentFollow($date){
-		return $this->db->query("SELECT DISTINCT(a.document_id), a.subject, a.sender, a.instructions, a.status_id, b.date_received, b.followUp_date, b.due_date, b.released_date, d.document_time_id, d.time_received FROM document as a, document_date as b, document_time as d WHERE a.document_id = b.document_id and a.document_id = d.document_id and b.followUp_date = '".$date."'")->result();
+		return $this->db->query("SELECT DISTINCT(a.document_id), a.subject, a.sender, a.instructions, a.status_id, b.date_received, b.followUp_date, b.due_date, b.released_date, d.document_time_id, d.time_received FROM document as a, document_date as b, document_time as d WHERE a.document_id = b.document_id and a.document_id = d.document_id and a.status_id != 0 and b.followUp_date = '".$date."'")->result();
 	}
 
 	public function getDocumentDetailsFollow($date){
-		return $this->db->query("SELECT a.document_id, c.compliance_type_id, c.office_id FROM document as a, document_date as b, document_details as c WHERE a.document_id = b.document_id and a.document_id = c.document_id and b.followUp_date = '".$date."'")->result();
+		return $this->db->query("SELECT a.document_id, c.compliance_type_id, c.office_id FROM document as a, document_date as b, document_details as c WHERE a.document_id = b.document_id and a.document_id = c.document_id and a.status_id != 0 and  b.followUp_date = '".$date."'")->result();
 	}
 
 	public function maxId(){

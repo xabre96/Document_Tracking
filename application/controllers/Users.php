@@ -182,6 +182,49 @@ class Users extends CI_Controller {
         }
     }
 
+    public function editProfile($id) {
+        if ($this->session->userdata('logged_in') == null) {
+            redirect('Users/index');
+        } else {
+            if ($this->session->userdata('user_type') == 2) {
+                redirect('Users/courierDashboard');
+            } else {
+                $date = date("Y-m-d");
+                $due_num = $this->document->getDueNum($date);
+                $follow_num = $this->document->getFollowNum($date);
+                $acted_num = $this->document->getActedNum();
+                if($acted_num==null){
+                    $acted_num = 0;
+                }else{
+                    foreach ($acted_num as $key => $value) {
+                        $acted_num = $value->count;
+                    }
+                }
+                if($due_num==null){
+                    $due_num = 0;
+                }else{
+                    foreach ($due_num as $key => $value) {
+                        $due_num = $value->count;
+                    }
+                }
+                if($follow_num==null){
+                    $follow_num = 0;
+                }else{
+                    foreach ($follow_num as $key => $value) {
+                        $follow_num = $value->count;
+                     }
+                }
+                $data = array(
+                    'due_num' => $due_num,
+                    // 'user' => 
+                    'follow_num' => $follow_num,
+                    'acted_num' => $acted_num
+                );
+                $this->load->view('adminView/updateProfile', $data);
+            }
+        }
+    }
+
     public function editCourierForm($id) {
         if ($this->session->userdata('logged_in') == null) {
             redirect('Users/index');
@@ -429,7 +472,7 @@ class Users extends CI_Controller {
                         'office' => $office,
                         'message' => "<p style='color: red;'>Others text field is required.</p>"
                         );
-                    // $this->load->view('adminView/updateComplianceForm', $y);
+                    $this->load->view('adminView/updateComplianceForm', $y);
                 }else if ($office == 0 && $data["others"]!="") {
                     $date = date("Y-m-d");
                     $due_num = $this->document->getDueNum($date);
@@ -475,7 +518,7 @@ class Users extends CI_Controller {
                     if(!$confirm){
                         echo "Monitoring update failed.";
                     }else{
-                        redirect('Users/adminDashboard');
+                        redirect('Users/viewUpdateDocuments');
                     }
                 }
                 
@@ -715,10 +758,10 @@ class Users extends CI_Controller {
 
     public function viewAdminActed() {
 
-        $other = $this->other->getOthers();
-        $document = $this->document->getDocumentActed();
-        $details = $this->document->getDocumentDetails();
-        $office = $this->document->getOffices();
+        // $other = $this->other->getOthers();
+        // $document = $this->document->getDocumentActed();
+        // $details = $this->document->getDocumentDetails();
+        // $office = $this->document->getOffices();
         $date = date("Y-m-d");
         $due_num = $this->document->getDueNum($date);
         $follow_num = $this->document->getFollowNum($date);
@@ -745,14 +788,14 @@ class Users extends CI_Controller {
              }
         }
         $data = array(
-             'compliance' => $this->compliance->getCompliance(),
             'acted_num' => $acted_num,
             'due_num' => $due_num,
             'follow_num' => $follow_num,
-             'other' => $other, 
-             'office' => $office,
-              'document' => $document,
-              'details' => $details
+            'document' => $this->document->getDocumentActed(),
+            'details' => $this->document->getDocumentDetailsActed(),
+            'compliance' => $this->compliance->getCompliance(),
+            'office' => $this->offices->getOffices(),
+            'other' => $this->other->getOthers()
         );
         $this->load->view('adminView/viewActed', $data);
     }

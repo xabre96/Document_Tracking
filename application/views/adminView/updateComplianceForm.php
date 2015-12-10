@@ -93,13 +93,17 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <br>
+                                                            <?php if($value->status_id==1){?>
                                                             <button type="submit" value="Start Monitoring" class="btn btn-primary btn-flat form-control">Submit</button>
                                                             <br><br>
                                                             <a href="<?php echo base_url('Users/adminDashboard'); ?>" class="btn btn-default btn-flat form-control">Cancel</a>
                                                             <br><br>
-                                                            <?php if($value->status_id==1){?>
                                                             <a href="<?php echo base_url('Users/updateStatus/'.$value->document_id); ?>" class="btn btn-success btn-flat form-control">Release Document</a>
                                                             <?php }else{ ?>
+                                                            <a href="#" disabled="" class="btn btn-primary btn-flat form-control">Submit</a>
+                                                            <br><br>
+                                                            <a href="<?php echo base_url('Users/adminDashboard'); ?>" class="btn btn-default btn-flat form-control">Cancel</a>
+                                                            <br><br>
                                                             <a href="#" class="btn bg-gray btn-flat form-control" disabled="">Document Acted</a>
                                                             <?php } ?>
                                                         </div>
@@ -125,12 +129,39 @@
         if($ids!=null){
             sort($ids);    
         }
-        
-        foreach ($office as $key => $vale) {
+
+        if($value->status_id==0){
+            foreach ($office as $key => $vale) {
+
             if($vale->office_id==$ids[$y]){
         ?>
             <input type="checkbox" disabled="" checked="" />
-            <input type="checkbox" checked="checked" name="office[]" hidden="" value="<?php echo $vale->office_id?>"/>
+            <!-- <input type="checkbox" checked="checked" name="office[]" style="display: none;" value="<?php echo $vale->office_id?>"/> -->
+            <input type="text" name="office[]" style="display: none;" value="<?php echo $vale->office_id?>">
+            <?php echo $vale->office;?><br>
+        <?php   
+                $y++; 
+                if($y==count($ids)){
+                    $y=0;
+                }     
+                
+            }else{
+        ?>
+            <input type="checkbox" name="office[]" disabled="" value="<?php echo $vale->office_id?>"/>
+            <?php echo $vale->office;?><br>
+        <?php
+            }
+            echo "<br/>";
+        }    
+        }
+        else{
+        foreach ($office as $key => $vale) {
+
+            if($vale->office_id==$ids[$y]){
+        ?>
+            <input type="checkbox" disabled="" checked="" />
+            <!-- <input type="checkbox" checked="checked" name="office[]" style="display: none;" value="<?php echo $vale->office_id?>"/> -->
+            <input type="text" name="office[]" style="display: none;" value="<?php echo $vale->office_id?>">
             <?php echo $vale->office;?><br>
         <?php   
                 $y++; 
@@ -146,6 +177,7 @@
             }
             echo "<br/>";
         }
+        }
         $others = "";
         foreach ($other as $key => $ot) {
             $others = $ot->other;
@@ -157,12 +189,11 @@
                  <input type="text" class="form-control" name="others" value="<?php echo $others; ?>">
             <?php } else{ ?>
                 <input type="text" class="form-control" disabled="" value="<?php echo $others; ?>">
-                <input type="text" hidden="" class="form-control" name="others" value="<?php echo $others; ?>">
+                <input type="text" style="display: none" class="form-control" name="others" value="<?php echo $others; ?>">
                                                 
             <?php } ?>
             </div>
             <?php echo @$message; ?>
-
              </div>
 
             </div>
