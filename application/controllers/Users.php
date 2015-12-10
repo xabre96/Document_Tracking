@@ -589,7 +589,42 @@ class Users extends CI_Controller {
     }
 
     public function exportActedDocuments() {
-        $this->load->view('adminView/exportActedDocuments');
+           $date = date("Y-m-d");
+        $due_num = $this->document->getDueNum($date);
+        $follow_num = $this->document->getFollowNum($date);
+        $acted_num = $this->document->getActedNum();
+                if($acted_num==null){
+                    $acted_num = 0;
+                }else{
+                    foreach ($acted_num as $key => $value) {
+                        $acted_num = $value->count;
+                    }
+                }
+        if($due_num==null){
+            $due_num = 0;
+        }else{
+            foreach ($due_num as $key => $value) {
+                $due_num = $value->count;
+            }
+        }
+        if($follow_num==null){
+            $follow_num = 0;
+        }else{
+            foreach ($follow_num as $key => $value) {
+                $follow_num = $value->count;
+             }
+        }
+        $data = array(
+            'acted_num' => $acted_num,
+            'due_num' => $due_num,
+            'follow_num' => $follow_num,
+            'document' => $this->document->getDocumentActed(),
+            'details' => $this->document->getDocumentDetailsActed(),
+            'compliance' => $this->compliance->getCompliance(),
+            'office' => $this->offices->getOffices(),
+            'other' => $this->other->getOthers()
+        );
+        $this->load->view('adminView/exportActedDocuments' , $data);
     }
 
 // ----------------End of the functionalities----------------------------------- //

@@ -45,63 +45,107 @@
 
     </head>
     <body class="skin-black fixed">
-        <div class="container">
-            <div class="row">
+        <div class="box box-success" style="margin-top:10px;">
+            <div id="dvData">
+                <div class="box-header bg-green">
 
-                <div class="col-md-12">
-                    <hr>
+                    <center>
+                        <i class="fa fa-download fa-fw" style="font-size: 50px; margin-top: 10px;"></i>
+                        <br>
+                        <button href="#" id="btnExport" class="btn-success btn-sm btn-flat" style="width: 200px;">Download Reports</button>
+                    </center>
                 </div>
-                <div class="col-md-12">
-                    <div class="box box-success box-solid" >
-                        <div id="dvData">
-                            <div class="box-header bg-green">
-                                <h3 class="box-title" style="width: 100%;"><i class="fa fa-file-excel-o fa-fw"></i><strong>Acted Reports</strong> ( <?php echo date("F j, Y"); ?> )</h3>
-                            </div>
-                            <div class="box-header bg-green" style="display: none;">
-                                <h5 style="display: none; text-align: center;">Department&nbsp; of&nbsp; Environment&nbsp; and&nbsp; Natural&nbsp; Resources<br>
-                                    Region&nbsp; 10,&nbsp; Macabalan,&nbsp; Cagayan &nbsp;de&nbsp; Oro &nbsp;City<br>
-                                    Copy &nbsp;Right&nbsp; &copy &nbsp;ICT &nbsp;Planning &nbsp;Division</h5>
-                            </div>
-                            <div class="box-body ">
-                                <center class="table-responsive" style="margin-top: 20px;">
-                                    <table>
-                                        <thead>
+                <div class="box-header bg-green" style="display: none;">
+                    <h5 style="display: none; text-align: center;">Department&nbsp; of&nbsp; Environment&nbsp; and&nbsp; Natural&nbsp; Resources<br>
+                        Region&nbsp; 10,&nbsp; Macabalan,&nbsp; Cagayan &nbsp;de&nbsp; Oro &nbsp;City<br>
+                        Copy &nbsp;Right&nbsp; &copy &nbsp;ICT &nbsp;Planning &nbsp;Division</h5>
+                </div>
+                <div class="box-body ">
+                    <center class="table-responsive" style="margin-top: 20px;">
+                        <table>
+                            <thead style="font-size: 13px;">
+                                <tr>
+                                    <th>#I.D</th>
+                                    <th>Subject</th>
+                                    <th>Sender</th>
+                                    <th>Document Type</th>
+                                    <th>Referred To</th>
+                                    <th>Other Offices</th>
+                                    <th>Instructions</th>
+                                    <th>Released Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody style="font-size: 13px;"> 
+                             <?php foreach ($document as $key => $value) {
+                                            $str = chunk_split($value->document_id, 2, "-");
+                                            $str2 = chunk_split($value->document_id, 4, "-");
+                                            $str = explode("-",$str);
+                                            $str2 = explode("-",$str2);
+                                         ?>
+                                    
                                             <tr>
-                                                <th>#I.D</th>
-                                                <th>Subject</th>
-                                                <th>Sender</th>
-                                                <th>Time Receive</th>
-                                                <th>Date Receive</th>
-                                                <th>Due Date</th>
-                                                <th>Released Date</th>
-                                                <th>Document Type</th>
-                                                <th>Referred To</th>
-                                                <th>Others</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>   
-                                            <tr>
-                                                <td>1502001</td>
-                                                <td>A</td>
-                                                <td>A</td>
-                                                <td>A</td>
-                                                <td>A</td>
-                                                <td>A</td>
-                                                <td>A</td>
-                                                <td>A</td>
-                                                <td>A</td>
-                                                <td>A</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </center>
+                                                <td><?php echo $str[0]."-".$str[1]."-".$str2[1]; ?></td>
+                                                <td><?php echo $value->subject; ?></td>
+                                                <td><?php echo $value->sender; ?></td>
+                                                <?php
+                                                    $type = ""; 
+                                                    foreach ($details as $key => $valu) { 
+                                                        if($valu->document_id==$value->document_id){
+                                                            foreach ($compliance as $key => $val) {
+                                                                if($val->compliance_type_id==$valu->compliance_type_id){
+                                                                    $type = $val->compliance_type;
+                                                                    break;
+                                                                }
+                                                            }
+                                                            break;
+                                                        }else{} 
+                                                    }
+                                                    $off = "";
+                                                    $x = 0;
+                                                    $bool = false;
+                                                    foreach ($details as $key => $valu) { 
+                                                            if($value->document_id==$valu->document_id){
+                                                                foreach ($office as $key => $val) {
+                                                                    if($val->office_id==$valu->office_id){
+                                                                        if($val->office_id==13){
+                                                                            $bool = true;
+                                                                        }else{
 
-                            </div>
-                        </div>
-                        <div class="box-footer">
-                            <button id="btnExport" class="btn-success btn-flat btn-sm btn-flat"><i class="fa fa-download fa-fw"> </i> Download Report</button>
-                        </div>
-                    </div>
+                                                                            $off = $off." ".$val->office."<br/>";
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }else{} 
+                                                        }
+                                                    $oth = "";
+                                                    if($bool==true){
+                                                        foreach ($other as $key => $valu) {
+                                                            if($value->document_id==$valu->document_id){
+                                                                $oth = $valu->other;
+                                                            }
+                                                        }
+                                                    }else{}
+                                                ?>
+                                                <td><?php echo $type; ?></td>
+                                                <td><?php echo $off; ?></td>
+                                                <td><?php echo $oth; ?></td>
+                                                <td><?php echo $value->instructions; ?></td>
+                                                <td><?php echo $value->released_date; ?></td>
+                                                <?php 
+                                                if($value->status_id==1){
+                                                    $status = "Pending";
+                                                    }else{
+                                                    $status = "Acted";
+                                                }
+                                                ?>
+
+                                                <td><?php echo $status; ?></td>
+                                            </tr>
+                                              <?php } ?>
+                            </tbody>
+                        </table>
+                    </center>
                 </div>
             </div>
         </div>

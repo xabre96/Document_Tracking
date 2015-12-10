@@ -77,7 +77,7 @@
         <div class="modal fade" id="compose-modal<?php echo $doc->document_id; ?>" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog">
 
-                <div class="box box-solid" style="background: #4b8355;">
+                <div class="box box-solid" style="background: gray;">
                     <div class="box-header">
                         <h4 class="box-title" style="color: #FFF;"><i class="glyphicon glyphicon-file" style="margin-right: 10px; color: #FFF;"></i>Document Details</h4>
                         <div class="box-tools pull-right">
@@ -85,44 +85,29 @@
                         </div>
                     </div>
                     <div class="box-body">
+
                         <div class="col-md-12"> 
                             <br>
-                            <div class="form-group">
-                                <label for="exampleDocumentID">Document I.D :</label>
-                                <input type="text" class="form-control" id="exampleDocumentID" name="documentID" value="<?php echo $str[0]."-".$str[1]."-".$str2[1]; ?>" disabled="">
+                            
+                            <div class="col-md-3">
+                            <p><b>Document #I.D</b><b style="color: green;">&nbsp; <?php echo $str[0]."-".$str[1]."-".$str2[1]; ?></b></p>
                             </div>
-                            <div class="form-group">
-                                <label for="exampleSubject">Subject :</label>
-                                <input type="text" class="form-control" id="exampleSubject" name="subject" value="<?php echo $doc->subject; ?>" disabled="">
+                            <div class="col-md-3">
+                             <p><b>Date Received</b>&nbsp; <?php echo $doc->date_received; ?></p>   
                             </div>
-                            <div class="form-group">
-                                <label for="exampleSender">Sender :</label>
-                                <input type="text" class="form-control" id="exampleSender" name="sender" value="<?php echo $doc->sender; ?>" disabled="">
+                            <div class="col-md-3">
+                             <p><b>Time Received</b>&nbsp; <?php echo $doc->time_received; ?></p>
                             </div>
-                            <div class="form-group">
-                                <label>Instructions :</label>
-                                <textarea class="form-control" rows="3" required="" name="instructions" value="" disabled=""><?php echo $doc->instructions; ?></textarea>
+                            <div class="col-md-3">
+                             <p><b>Due Date</b><br><b style="color: red;"><?php echo $doc->due_date; ?></b></p>
                             </div>
-                            <div class="form-group">
-                                <label for="exampleTimeReceived">Time Received :</label>
-                                <input type="text" class="form-control" id="exampleTimeReceived" name="timeReceive" value="<?php echo $doc->time_received; ?>" disabled="">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleDateReceived">Date Received :</label>
-                                <input type="text" class="form-control" id="exampleDateReceived" name="dateReceive" value="<?php echo $doc->date_received; ?>" disabled="">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleDueDate">Due Date :</label>
-                                <input type="text" class="form-control" id="exampleDueDate" name="dueDate" value="<?php echo $doc->due_date; ?>" disabled="">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleReveive">Released Date :</label>
-                                <input type="text" class="form-control" id="exampleReleased1Date" name="dueDate" value="<?php echo $doc->released_date; ?>" disabled="">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="exampleDocumentType">Document Type :</label>
-                                <?php
+                        </div>
+                        <div class="col-md-12" >
+                                <hr>
+                        <div class="col-md-6">
+                             <p><b>Subject :</b> <?php echo $doc->subject; ?></p>
+                            <p><b>Sender :</b> <?php echo $doc->subject; ?></p>
+                             <?php
                                     $type = ""; 
                                     foreach ($details as $key => $value) { 
                                         if($value->document_id==$doc->document_id){
@@ -136,10 +121,12 @@
                                         }else{} 
                                     }
                                 ?>
-                                <input type="text" class="form-control" id="exampleDocumentType" name="documentType" value="<?php echo $type;?>" disabled="">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleOffice">Referred To :</label>
+                            <p><b>Document Type :</b> <?php echo $type;?></p>
+                            <p><b>Released Date :</b><b style="color: blue;"> <?php echo $doc->released_date; ?></b></p>
+                      
+                        </div>
+                        
+                            <div class="col-md-6">
                                 <?php
                                 $off = "";
                                 $x = 0;
@@ -151,12 +138,13 @@
                                                     if($val->office_id==13){
                                                         $bool = true;
                                                     }else{
-                                                        $off = $off." ".$val->office;
+                                                        $off = $off." ".$val->office.", ";
                                                     }
                                                 }
                                             }
                                         }else{} 
                                     }
+                                    
                                 $oth = "";
                                 if($bool==true){
                                     foreach ($other as $key => $value) {
@@ -166,20 +154,24 @@
                                     }
                                 }else{}
                                 ?>
-                                <input type="text" class="form-control" id="exampleOffice" name="office" value="<?php echo $off; ?>" disabled="">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleOthers">Others :</label>
-                                <input type="text" class="form-control" id="exampleOthers" name="others" value="<?php echo $oth; ?>" disabled="">
-                            </div>
-                            <div>
-                                <hr>
-                            </div>
+                                
+                                <p><b>Referred To :</b> <?php echo chop($off,", "); ?></p>
+                                <p><b>Others :</b> <?php echo $oth; ?></p>
+
+                             </div>
+                            
                         </div>
+
+                        <div class="col-md-12">
+                        <p style=" padding: 10px; margin-left: 5px;"><b>Instructions :</b> <?php echo $doc->instructions; ?></p>
+                       
+                        </div>
+
+                        
                     </div>
 
-                    <div class="box-footer">
-                        <p class="" style="padding: 10px; margin: 0px; text-align: center;">
+                     <div class="box-footer">
+                        <p class="" style="padding: 10px; margin-top: 350px; text-align: center;">
                             Document Monitoring System<br>
                             Region 10, Department of Environment and Natural Resources<br>
                             Copyright &copy 2015, ICT Planning Division
@@ -192,4 +184,30 @@
         <?php } ?>
 
 
+
+
+
+
+       
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+        <script src="<?php echo base_url('bootstrap/script/jquery.js'); ?>"></script>
+        <script src="<?php echo base_url('bootstrap/js/bootstrap.min.js" type="text/javascript'); ?>"></script>
+
+        <script src="<?php echo base_url('bootstrap/js/plugins/datatables/jquery.dataTables.js'); ?>" type="text/javascript"></script>
+
+        <script src="<?php echo base_url('bootstrap/js/plugins/datatables/dataTables.bootstrap.js'); ?>" type="text/javascript"></script>
+        <script src="<?php echo base_url('bootstrap/js/AdminLTE/app.js'); ?>" type="text/javascript"></script>
+        <script type="text/javascript">
+            $(function () {
+                $("#example1").dataTable();
+                $('#example2').dataTable({
+                    "bPaginate": true,
+                    "bLengthChange": false,
+                    "bFilter": false,
+                    "bSort": true,
+                    "bInfo": true,
+                    "bAutoWidth": false
+                });
+            });
+        </script>
  <?php  include 'script.php'; ?>

@@ -23,7 +23,7 @@
                                     <form method="POST" action="<?php echo base_url('Users/editDocument/'.$value->document_id); ?>">
                                         <div class="col-md-12"> 
                                             <section class="content-header">
-                                                
+                                                <br>
                                                 <div class="col-md-3">
                                                     
                                                     <b>DOCUMENT #I.D </b> <b style="color: red;">
@@ -58,7 +58,6 @@
                                             <br>
                                             <hr>
                                             <div class="box-body">
-
                                                 <div class="row">
                                                     <div class="col-md-4">
                                                         <p><?php echo validation_errors(); ?></p>
@@ -72,7 +71,7 @@
                                                         </div>                      
                                                         <div class="form-group">
                                                             <label>Instructions</label>
-                                                            <textarea disabled="" class="form-control" rows="6" required="" name="instructions" placeholder="Enter ..."><?php echo $value->instructions; ?></textarea>
+                                                            <textarea disabled="" class="form-control" rows="3" required="" name="instructions" placeholder="Enter ..."><?php echo $value->instructions; ?></textarea>
                                                         </div>                    
                                                         <div class="form-group">
                                                             <label for="exampleSelectDate">Document Type</label>
@@ -92,19 +91,14 @@
                                                             </select>
                                                         </div>
                                                         <div class="form-group">
-                                                            <br>
                                                             <?php if($value->status_id==1){?>
-                                                            <button type="submit" value="Start Monitoring" class="btn btn-primary btn-flat form-control">Submit</button>
-                                                            <br><br>
-                                                            <a href="<?php echo base_url('Users/adminDashboard'); ?>" class="btn btn-default btn-flat form-control">Cancel</a>
-                                                            <br><br>
-                                                            <a href="<?php echo base_url('Users/updateStatus/'.$value->document_id); ?>" class="btn btn-success btn-flat form-control">Release Document</a>
+                                                            <button type="submit" value="Start Monitoring" class="btn btn-primary btn-flat" style="width: 100px;">Submit</button>
+                                                            <a href="<?php echo base_url('Users/adminDashboard'); ?>" class="btn btn-default btn-flat" style="width: 100px;">Cancel</a>
+                                                            <a href="<?php echo base_url('Users/updateStatus/'.$value->document_id); ?>" class="btn btn-success btn-flat" style="width: 133px;">Release Document</a>
                                                             <?php }else{ ?>
-                                                            <a href="#" disabled="" class="btn btn-primary btn-flat form-control">Submit</a>
-                                                            <br><br>
-                                                            <a href="<?php echo base_url('Users/adminDashboard'); ?>" class="btn btn-default btn-flat form-control">Cancel</a>
-                                                            <br><br>
-                                                            <a href="#" class="btn bg-gray btn-flat form-control" disabled="">Document Acted</a>
+                                                            <a href="#" disabled="" class="btn btn-primary btn-flat" style="width: 100px;">Submit</a>
+                                                            <a href="<?php echo base_url('Users/adminDashboard'); ?>" class="btn btn-default btn-flat" style="width: 100px;">Cancel</a>
+                                                            <a href="#" class="btn bg-gray btn-flat " disabled="" style="width: 133px;">Document Acted</a>
                                                             <?php } ?>
                                                         </div>
                                                     <?php } ?>
@@ -138,7 +132,7 @@
             <input type="checkbox" disabled="" checked="" />
             <!-- <input type="checkbox" checked="checked" name="office[]" style="display: none;" value="<?php echo $vale->office_id?>"/> -->
             <input type="text" name="office[]" style="display: none;" value="<?php echo $vale->office_id?>">
-            <?php echo $vale->office;?><br>
+            <?php echo $vale->office;?>
         <?php   
                 $y++; 
                 if($y==count($ids)){
@@ -148,10 +142,10 @@
             }else{
         ?>
             <input type="checkbox" name="office[]" disabled="" value="<?php echo $vale->office_id?>"/>
-            <?php echo $vale->office;?><br>
+            <?php echo $vale->office;?>
         <?php
             }
-            // echo "<br/>";
+            echo "<br/>";
         }    
         }
         else{

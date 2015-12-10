@@ -45,7 +45,7 @@
                 <li>
                     <a href="<?php echo base_url('Users/viewAdminFollowUp'); ?>" style="margin-left: 10px;">
                         <i class="glyphicon glyphicon-edit"></i> <span>Follow up</span>
-                        <small class="badge pull-right" style="background: yellow;"><?php echo $follow_num; ?></small>
+                        <small class="badge pull-right" style="background: yellow; color: black;"><?php echo $follow_num; ?></small>
                     </a>
                 </li>
                 <li>

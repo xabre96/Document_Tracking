@@ -15,7 +15,7 @@
                                     <form method="POST" action="<?php echo base_url('Users/addDocument'); ?>">
                                         <div class="col-md-12"> 
                                             <section class="content-header">
-                                                
+                                                    <br>
                                                 <div class="col-md-3">
                                                     <b>DOCUMENT #I.D </b> <b style="color: red;"><h3>{{year}}-{{month}}-<?php echo $doc_id; ?></h3></b>
 
@@ -58,7 +58,7 @@
                                                         </div>                      
                                                         <div class="form-group">
                                                             <label>Instructions</label>
-                                                            <textarea class="form-control" rows="6" required="" name="instructions" placeholder="Enter ..."></textarea>
+                                                            <textarea class="form-control" rows="3" required="" name="instructions" placeholder="Enter ..."></textarea>
                                                         </div>                       
                                                         <div class="form-group">
                                                             <label for="exampleSelectDate">Document Type</label>
@@ -68,13 +68,9 @@
                                                                 <?php } ?>
                                                             </select>
                                                         </div>                        
-                                                   
-             
                                                         <div class="form-group">
-                                                            <br>
-                                                            <button type="submit" value="Start Monitoring" class="btn btn-primary btn-flat form-control">Submit</button>
-                                                            <br><br>
-                                                            <a href="<?php echo base_url('Users/adminDashboard'); ?>" class="btn btn-default btn-flat form-control">Cancel</a>
+                                                            <button type="submit" value="Start Monitoring" class="btn btn-primary btn-flat" style="width: 100px;">Submit</button>
+                                                            <a href="<?php echo base_url('Users/adminDashboard'); ?>" class="btn btn-default btn-flat" style="width: 100px; margin-left: 5px;">Cancel</a>
                                                         </div>
 
                                                     </div>
@@ -91,13 +87,13 @@
                                                                     <input type="text" ng-if="sp == true" name="others" placeholder="Others" required="" />
                                                                 <?php } else { ?>
                                                                     <input type="checkbox" name="office[]" value="<?php echo $value->office_id; ?>"/><?php echo $value->office; ?>
-                                                                    
                                                                     <br>
+
                                                                     <?php
                                                                 }
                                                             }
                                                             ?>
-                                                            <br/>
+                                        
                                                         </div>
                                                         <div class="form-group" style="margin-left: 50px; margin-top: 25px;">
                                                             <input type="text" class="form-control" name="others">
