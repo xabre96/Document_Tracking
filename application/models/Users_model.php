@@ -40,6 +40,24 @@ class Users_model extends CI_Model {
         return $query->result();
     }
 
+    public function getPassword($id){
+        return $this->db->get_where('user_account', array('user_id' => $id))->result();
+    }
+
+    public function updatePassword($data, $id) {
+        $dat = array(
+            "password" => hash('sha512', $data['new_pass'])
+        );
+        return $this->db->update('user_account', $dat, array('user_id' => $id));
+    }
+
+    public function resetPass($id) {
+        $dat = array(
+            "password" => hash('sha512', 123)
+        );
+        return $this->db->update('user_account', $dat, array('user_id' => $id));
+    }
+
     public function insertUser($data) {
 
         $pass = hash('sha512', 123);
@@ -47,7 +65,7 @@ class Users_model extends CI_Model {
         $dat = array(
             "user_name" => $data['uname'],
             "password" => $pass,
-            "user_type_id" => 2
+            "user_type_id" => $data['type']
         );
 
         $this->db->insert('user_account', $dat);
@@ -80,94 +98,3 @@ class Users_model extends CI_Model {
 
 }
 
-//  public function get_user($id){
-	// 	return $this->db->where('user_id',$id)->get('user_details')->result();
-	// }
-
- //  public function login($data){
- //    $query = $this->db->get_where("user_account", array("username" => $data['userName'], "password" => $data['passWord']));
- //  //  if(!$query->result()){
- //  //    return false;
- //  //  }else{
- //  //    return true;
- //  //  }
- //  return $query->result();
- //  }
-
- //  public function insert_users($data){
- //    // $this->load->library('encrypt');
- //    // $pass = 123;
- //    // $pass = $this->encrypt->encode($data['passWord']);
-
- //    $data1=array(
- //      "username"=>$data['userName'],
- //      "password"=>$data['passWord'],
- //      "user_type"=>$data['userType']
- //    );
-
- //    $this->db->insert('user_account',$data1);
-
- //    $data2=array(
- //      "user_id" => $this->db->insert_id(),
- //      "firstname"=>$data['firstName'],
- //      "lastName"=>$data['lastName'],
- //      "email"=>$data['email'],
- //      "address"=>$data['address'],
- //      "birthday"=>$data['birthday']
- //    );
-
- //   $confirm = $this->db->insert('user_profile',$data2);
- //     if(!$confirm){
- //       return false;
- //     }else{
- //      return true;
- //     }
- //  }
- //  public function activate_user($data, $id){
- //    $data['type'] = (int) $data['type'];
- //    $data = array("status"=>$data['type']);
- //    $confirm = $this->db->where('user_id',$id)->update('user_account',$data);
- //    if(!$confirm){
- //      return false;
- //    }else{
- //      return true;
- //    }
- //  }
- //  public function update_user($data, $id){
- //    $data1=array(
- //      "username"=>$data['userName']
- //      // "password"=>$pass,
- //      // "user_type"=>$data['userType']
- //    );
- //    $this->db->where('user_id',$id)->update('user_account',$data1);
- //    $data2=array(
- //      "firstname"=>$data['firstName'],
- //      "lastName"=>$data['lastName'],
- //      "email"=>$data['email'],
- //      "address"=>$data['address'],
- //      // "birthday"=>$data['birthday']
- //    );
-	// 	$confirm = $this->db->where('user_id',$id)->update('user_profile',$data2);
- //    if(!$confirm){
- //      return false;
- //    }else{
- //     return true;
- //    }
-	// }
-
- //  public function changePass($data, $id){
- //    $data1 = array("password"=>$data['new2']);
-	// 	$confirm = $this->db->where('user_id',$id)->update('user_account',$data1);
- //    return $confirm;
-	// }
-
- //  public function delete_user($id){
- //    $this->db->where('user_id',$id)->delete('user_profile');
-	// 	$confirm = $this->db->where('user_id',$id)->delete('user_account');
- //    if(!$confirm){
- //      return false;
- //    }else{
- //     return true;
- //    }
-	// }
-// }

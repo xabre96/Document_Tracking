@@ -75,7 +75,7 @@
                                                         </div>                    
                                                         <div class="form-group">
                                                             <label for="exampleSelectDate">Document Type</label>
-                                                            <select name="compliance" class="form-control" disabled="">
+                                                            <select class="form-control" disabled="">
                                                                 <?php foreach ($detail as $key => $ve) { 
                                                                         $type_id = $ve->compliance_type_id;
                                                                         break;
@@ -87,17 +87,18 @@
                                                                         }
                                                                     }
                                                                 ?>
-                                                                <option><?php echo $type; ?></option>
+                                                                <option selected=""><?php echo $type; ?></option>
                                                             </select>
+                                                            <input type="text" name="compliance" style="display:none;" value="<?php echo $type_id; ?>">
                                                         </div>
                                                         <div class="form-group">
                                                             <?php if($value->status_id==1){?>
                                                             <button type="submit" value="Start Monitoring" class="btn btn-primary btn-flat" style="width: 100px;">Submit</button>
-                                                            <a href="<?php echo base_url('Users/adminDashboard'); ?>" class="btn btn-default btn-flat" style="width: 100px;">Cancel</a>
+                                                            <a href="<?php echo base_url('Users/viewUpdateDocuments'); ?>" class="btn btn-default btn-flat" style="width: 100px;">Cancel</a>
                                                             <a href="<?php echo base_url('Users/updateStatus/'.$value->document_id); ?>" class="btn btn-success btn-flat" style="width: 133px;">Release Document</a>
                                                             <?php }else{ ?>
                                                             <a href="#" disabled="" class="btn btn-primary btn-flat" style="width: 100px;">Submit</a>
-                                                            <a href="<?php echo base_url('Users/adminDashboard'); ?>" class="btn btn-default btn-flat" style="width: 100px;">Cancel</a>
+                                                            <a href="<?php echo base_url('Users/viewUpdateDocuments'); ?>" class="btn btn-default btn-flat" style="width: 100px;">Cancel</a>
                                                             <a href="#" class="btn bg-gray btn-flat " disabled="" style="width: 133px;">Document Acted</a>
                                                             <?php } ?>
                                                         </div>
@@ -179,14 +180,25 @@
         ?>
         </div>
             <div class="form-group" style="margin-left: 50px; margin-top: 25px;">
+                <label for="exampleSelectDate">Action Man</label>
+            <?php if($others==""){?>
+                <textarea class="form-control" rows="5" id="exampleInputSubject" name="others" placeholder="Enter ..."></textarea>
+                                                                             
+            <?php } else{ ?>
+                <textarea class="form-control" rows="5" id="exampleInputSubject" name="others" placeholder="Enter ..."><?php echo $others; ?></textarea>
+                <!-- <textarea class="form-control" rows="5" style="display: none;" id="exampleInputSubject" required="" name="others" placeholder="Enter ..."> <?php echo $others; ?></textarea> -->
+                                                                                                            
+            <?php } ?>
+            </div>
+            <!-- <div class="form-group" style="margin-left: 50px; margin-top: 25px;">
             <?php if($others==""){?>
                  <input type="text" class="form-control" name="others" value="<?php echo $others; ?>">
             <?php } else{ ?>
                 <input type="text" class="form-control" disabled="" value="<?php echo $others; ?>">
-                <input type="text" style="display: none" class="form-control" name="others" value="<?php echo $others; ?>">
+                <input type="text" class="form-control" name="others" value="<?php echo $others; ?>">
                                                 
             <?php } ?>
-            </div>
+            </div> -->
             <?php echo @$message; ?>
              </div>
 

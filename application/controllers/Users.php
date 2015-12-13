@@ -17,7 +17,9 @@ class Users extends CI_Controller {
         if ($this->session->userdata('logged_in') == TRUE) {
             if ($this->session->userdata('user_type') == 1) {
                 redirect('Users/adminDashboard');
-            } else {
+            } else if ($this->session->userdata('user_type') == 3) {
+                redirect('Users/guestDashboard');
+            }else {
                 redirect('Users/courierDashboard');
             }
         } else {
@@ -25,15 +27,35 @@ class Users extends CI_Controller {
         }
     }
 
-    public function user_login() {
+    public function resetPass($id){
+        if ($this->session->userdata('logged_in') == null) {
+            redirect('Users/index');
+        } else {
+            if ($this->session->userdata('user_type') == 2) {
+                redirect('Users/courierDashboard');
+            } else if ($this->session->userdata('user_type') == 3) {
+                redirect('Users/guestDashboard');
+            }else {
+                $confirm = $this->users->resetPass($id);
+                if (!$confirm) {
+                    echo "Password reset failed.";
+                } else {
+                    $this->session->set_flashdata('message', "<div class='alert alert-success'><i class='fa fa-check fa-fw'></i> User password was change to default successfully!</div>");
+                    redirect(base_url('Users/viewAdminUsers'), 'refresh');
+                }   
+            }
+         }
+    }
+
+    public function userLogin() {
         $data = $this->input->post();
         if ($data['username'] == null || $data['password'] == null) {
-            echo 'please enter the required fields.';
+            $this->load->view('index', array('message' => '<br/><br/><p style="color: red;">Please enter the required fields.</p>'));
         } else {
             $data['password'] = hash('sha512', $data['password']);
             $data2 = $this->users->getUser($data['username'], $data['password']);
             if (!$data2) {
-                echo "Username and Password are incorrect.";
+                $this->load->view('index', array('message' => '<br/><br/><p style="color: red;">Username and Password are incorrect.</p>'));
             } else {
                 foreach ($data2 as $key => $value) {
                     $user_id = $value->user_id;
@@ -49,17 +71,30 @@ class Users extends CI_Controller {
                     $credentials = array(
                         'user_id' => $user_id,
                         'user_name' => $user,
+                        'user_pass' => $pass,
                         'name' => $name,
                         'logged_in' => TRUE,
                         'user_type' => $type
                     );
                     $this->session->set_userdata($credentials);
                     redirect('Users/adminDashboard');
+                } else if($type == 3){
+                    $credentials = array(
+                        'user_id' => $user_id,
+                        'user_pass' => $pass,
+                        'user_name' => $user,
+                        'name' => $name,
+                        'logged_in' => TRUE,
+                        'user_type' => $type
+                    );
+                    $this->session->set_userdata($credentials);
+                    redirect('Users/guestDashboard');
                 } else {
                     $credentials = array(
                         'user_id' => $user_id,
                         'user_name' => $user,
                         'name' => $name,
+                        'user_pass' => $pass,
                         'logged_in' => TRUE,
                         'user_type' => $type
                     );
@@ -70,12 +105,62 @@ class Users extends CI_Controller {
         }
     }
 
+    public function guestDashboard() {
+      if ($this->session->userdata('logged_in') == null) {
+            redirect('Users/index');
+        } else {
+            if ($this->session->userdata('user_type') == 2) {
+                redirect('Users/courierDashboard');
+            } else if($this->session->userdata('user_type') == 1){
+                redirect('Users/adminDashboard');
+            }
+            else {
+                $date = date("Y-m-d");
+                $due_num = $this->document->getDueNum($date);
+                $follow_num = $this->document->getFollowNum($date);
+                $num = $this->document->getDocumentNum();
+                $acted_num = $this->document->getActedNum();
+                if($acted_num==null){
+                    $acted_num = 0;
+                }else{
+                    foreach ($acted_num as $key => $value) {
+                        $acted_num = $value->count;
+                    }
+                }
+                if($num==null){
+                    $num = 0;
+                }else{
+                    foreach ($num as $key => $value) {
+                        $num = $value->count;
+                    }
+                }
+                if($due_num==null){
+                    $due_num = 0;
+                }else{
+                    foreach ($due_num as $key => $value) {
+                        $due_num = $value->count;
+                    }
+                }
+                if($follow_num==null){
+                    $follow_num = 0;
+                }else{
+                    foreach ($follow_num as $key => $value) {
+                        $follow_num = $value->count;
+                    }
+                }
+                $this->load->view('guestView/guest-dashboard', array('acted_num' => $acted_num, 'num' => $num, 'due_num' => $due_num, 'follow_num' => $follow_num));
+            }
+        }
+    }
+
     public function adminDashboard() {
       if ($this->session->userdata('logged_in') == null) {
             redirect('Users/index');
         } else {
             if ($this->session->userdata('user_type') == 2) {
                 redirect('Users/courierDashboard');
+            } else if ($this->session->userdata('user_type') == 3) {
+                redirect('Users/guestDashboard');
             } else {
                 $date = date("Y-m-d");
                 $due_num = $this->document->getDueNum($date);
@@ -121,6 +206,8 @@ class Users extends CI_Controller {
         } else {
             if ($this->session->userdata('user_type') == 1) {
                 redirect('Users/adminDashboard');
+            } else if ($this->session->userdata('user_type') == 3) {
+                redirect('Users/guestDashboard');
             } else {
                 $date = date("Y-m-d");
                 $due_num = $this->document->getDueNum($date);
@@ -186,7 +273,9 @@ class Users extends CI_Controller {
         } else {
             if ($this->session->userdata('user_type') == 2) {
                 redirect('Users/courierDashboard');
-            } else {
+            } else if ($this->session->userdata('user_type') == 3) {
+                redirect('Users/guestDashboard');
+            }else {
                 $date = date("Y-m-d");
                 $due_num = $this->document->getDueNum($date);
                 $follow_num = $this->document->getFollowNum($date);
@@ -222,13 +311,10 @@ class Users extends CI_Controller {
         }
     }
 
-    public function editProfile($id) {
+    public function editPassword($id) {
         if ($this->session->userdata('logged_in') == null) {
             redirect('Users/index');
         } else {
-            if ($this->session->userdata('user_type') == 2) {
-                redirect('Users/courierDashboard');
-            } else {
                 $date = date("Y-m-d");
                 $due_num = $this->document->getDueNum($date);
                 $follow_num = $this->document->getFollowNum($date);
@@ -256,11 +342,186 @@ class Users extends CI_Controller {
                 }
                 $data = array(
                     'due_num' => $due_num,
-                    // 'user' => 
                     'follow_num' => $follow_num,
                     'acted_num' => $acted_num
                 );
-                $this->load->view('adminView/updateProfile', $data);
+                if ($this->session->userdata('user_type') == 1) {
+                    $this->load->view('adminView/updatePassword', $data);
+                } else if($this->session->userdata('user_type') == 2){
+                    $this->load->view('courierView/updatePassword', $data);
+                } else{
+                    $this->load->view('guestView/updatePassword', $data);
+                }
+        }
+    }
+
+    public function changePass(){
+        $data = $this->input->post();
+        $id = $this->session->userdata('user_id');
+        $old_pass = hash('sha512', $data["old_pass"]);
+        $lod = $this->users->getPassword($id);
+        foreach ($lod as $key => $value) {
+            $old = $value->password;
+        }
+        if ($old!=$old_pass){
+            $date = date("Y-m-d");
+                    $due_num = $this->document->getDueNum($date);
+                    $follow_num = $this->document->getFollowNum($date);
+                    $acted_num = $this->document->getActedNum();
+                    if($acted_num==null){
+                        $acted_num = 0;
+                    }else{
+                        foreach ($acted_num as $key => $value) {
+                            $acted_num = $value->count;
+                        }
+                    }
+                    if($due_num==null){
+                        $due_num = 0;
+                    }else{
+                        foreach ($due_num as $key => $value) {
+                            $due_num = $value->count;
+                        }
+                    }
+                    if($follow_num==null){
+                        $follow_num = 0;
+                    }else{
+                        foreach ($follow_num as $key => $value) {
+                            $follow_num = $value->count;
+                         }
+                    }
+                    $data = array(
+                        'due_num' => $due_num,
+                        'message' => "Entered password does not matched to your Old Password.",
+                        'follow_num' => $follow_num,
+                        'acted_num' => $acted_num
+                    );
+                    if ($this->session->userdata('user_type') == 1) {
+                        $this->load->view('adminView/updatePassword', $data);
+                    } else if($this->session->userdata('user_type') == 2){
+                        $this->load->view('courierView/updatePassword', $data);
+                    } else{
+                        $this->load->view('guestView/updatePassword', $data);
+                    }
+        }else{
+            if ($this->form_validation->run() == FALSE) {
+                    $date = date("Y-m-d");
+                    $due_num = $this->document->getDueNum($date);
+                    $follow_num = $this->document->getFollowNum($date);
+                    $acted_num = $this->document->getActedNum();
+                    if($acted_num==null){
+                        $acted_num = 0;
+                    }else{
+                        foreach ($acted_num as $key => $value) {
+                            $acted_num = $value->count;
+                        }
+                    }
+                    if($due_num==null){
+                        $due_num = 0;
+                    }else{
+                        foreach ($due_num as $key => $value) {
+                            $due_num = $value->count;
+                        }
+                    }
+                    if($follow_num==null){
+                        $follow_num = 0;
+                    }else{
+                        foreach ($follow_num as $key => $value) {
+                            $follow_num = $value->count;
+                         }
+                    }
+                    $data = array(
+                        'due_num' => $due_num,
+                        'follow_num' => $follow_num,
+                        'acted_num' => $acted_num
+                    );
+                    if ($this->session->userdata('user_type') == 1) {
+                        $this->load->view('adminView/updatePassword', $data);
+                    } else if($this->session->userdata('user_type') == 2){
+                        $this->load->view('courierView/updatePassword', $data);
+                    } else{
+                        $this->load->view('guestView/updatePassword', $data);
+                    }
+            } else {
+                $confirm = $this->users->updatePassword($data, $id);
+                if (!$confirm) {
+                    $date = date("Y-m-d");
+                    $due_num = $this->document->getDueNum($date);
+                    $follow_num = $this->document->getFollowNum($date);
+                    $acted_num = $this->document->getActedNum();
+                    if($acted_num==null){
+                        $acted_num = 0;
+                    }else{
+                        foreach ($acted_num as $key => $value) {
+                            $acted_num = $value->count;
+                        }
+                    }
+                    if($due_num==null){
+                        $due_num = 0;
+                    }else{
+                        foreach ($due_num as $key => $value) {
+                            $due_num = $value->count;
+                        }
+                    }
+                    if($follow_num==null){
+                        $follow_num = 0;
+                    }else{
+                        foreach ($follow_num as $key => $value) {
+                            $follow_num = $value->count;
+                         }
+                    }
+                    $data = array(
+                        'due_num' => $due_num,
+                        'mess' => "Password update failed!",
+                        'follow_num' => $follow_num,
+                        'acted_num' => $acted_num
+                    );
+                    if ($this->session->userdata('user_type') == 1) {
+                        $this->load->view('adminView/updatePassword', $data);
+                    } else if($this->session->userdata('user_type') == 2){
+                        $this->load->view('courierView/updatePassword', $data);
+                    } else{
+                        $this->load->view('guestView/updatePassword', $data);
+                    }   
+                }else{
+                    $date = date("Y-m-d");
+                    $due_num = $this->document->getDueNum($date);
+                    $follow_num = $this->document->getFollowNum($date);
+                    $acted_num = $this->document->getActedNum();
+                    if($acted_num==null){
+                        $acted_num = 0;
+                    }else{
+                        foreach ($acted_num as $key => $value) {
+                            $acted_num = $value->count;
+                        }
+                    }
+                    if($due_num==null){
+                        $due_num = 0;
+                    }else{
+                        foreach ($due_num as $key => $value) {
+                            $due_num = $value->count;
+                        }
+                    }
+                    if($follow_num==null){
+                        $follow_num = 0;
+                    }else{
+                        foreach ($follow_num as $key => $value) {
+                            $follow_num = $value->count;
+                         }
+                    }
+                    $data = array(
+                        'due_num' => $due_num,
+                        'mess' => "Password successfully changed!",
+                        'follow_num' => $follow_num,
+                        'acted_num' => $acted_num
+                    );
+                    if ($this->session->userdata('user_type') == 1) {
+                        $this->load->view('adminView/updatePassword', $data);
+                    } else if($this->session->userdata('user_type') == 2){
+                        $this->load->view('courierView/updatePassword', $data);
+                    } else{
+                        $this->load->view('guestView/updatePassword', $data);
+                    }
+                }
             }
         }
     }
@@ -280,16 +541,14 @@ class Users extends CI_Controller {
 
     public function addCourier() {
 
-        $data = array(
-            'message' => $this->session->flashdata('message')
-        );
-
         if ($this->session->userdata('logged_in') == null) {
             redirect('Users/index');
         } else {
             if ($this->session->userdata('user_type') == 2) {
                 redirect('Users/courierDashboard');
-            } else {
+            } else if ($this->session->userdata('user_type') == 3) {
+                redirect('Users/guestDashboard');
+            }else {
                 $data = $this->input->post();
 
                 if ($this->form_validation->run() == FALSE) {
@@ -309,12 +568,14 @@ class Users extends CI_Controller {
     }
 
     public function addDocument() {
-        // if ($this->session->userdata('logged_in') == null) {
-        //     redirect('Users/index');
-        // } else {
-        //     if ($this->session->userdata('user_type') == 2) {
-        //         redirect('Users/courierDashboard');
-        //     } else {
+        if ($this->session->userdata('logged_in') == null) {
+            redirect('Users/index');
+        } else {
+            if ($this->session->userdata('user_type') == 2) {
+                redirect('Users/courierDashboard');
+            } elseif($this->session->userdata('user_type') == 3){
+                redirect('Users/guestDashboard');
+            } else {
                 $data = $this->input->post();
                 $office = 0;
                 for($x=0; $x<count($data["office"]);$x++) {
@@ -392,43 +653,66 @@ class Users extends CI_Controller {
                         echo "Monitoring failed.";
                     } else {
                         echo "Monitoring started successfully.";
-                        redirect('Users/courierDashboard');
+                        if ($this->session->userdata("user_type")==1) {
+                          redirect('Users/adminDashboard');
+                        }else{
+                          redirect('Users/courierDashboard');
+                        }
                     }
                 }
-            // }
-        // }
+            }
+        }
     }
 
     public function editCourier($id) {
-
-        $result = $this->input->post();
-
-        $confirm = $this->users->updateUser($result, $id);
-        if (!$confirm) {
-            echo "Courier credentials update failed.";
+        if ($this->session->userdata('logged_in') == null) {
+            redirect('Users/index');
         } else {
-            redirect(base_url('Users/viewAdminUsers'), 'refresh');
-        }
+            if ($this->session->userdata('user_type') == 2) {
+                redirect('Users/courierDashboard');
+            } else if ($this->session->userdata('user_type') == 3) {
+                redirect('Users/guestDashboard');
+            }else {
+                $result = $this->input->post();
+
+                $confirm = $this->users->updateUser($result, $id);
+                if (!$confirm) {
+                    echo "Courier credentials update failed.";
+                } else {
+                    redirect(base_url('Users/viewAdminUsers'), 'refresh');
+                }   
+            }
+         }
     }
 
     public function deleteCourier($id) {
-        $confirm = $this->users->deleteUser($id);
-        if (!$confirm) {
-            $this->session->set_flashdata('message', "<div class='alert alert-dismissable'><i class='fa fa-times-circle fa-fw'></i>User deletion failed.</div>");
-            redirect(base_url('Users/viewAdminUsers'), 'refresh');
+        if ($this->session->userdata('logged_in') == null) {
+            redirect('Users/index');
         } else {
-            $this->session->set_flashdata('message', "<div class='alert alert-success'><i class='fa fa-check fa-fw'></i> User successfully deleted.</div>");
-            redirect(base_url('Users/viewAdminUsers'), 'refresh');
-        }
+            if ($this->session->userdata('user_type') == 2) {
+                redirect('Users/courierDashboard');
+            } else if ($this->session->userdata('user_type') == 3) {
+                redirect('Users/guestDashboard');
+            }else {
+                $confirm = $this->users->deleteUser($id);
+                if (!$confirm) {
+                    $this->session->set_flashdata('message', "<div class='alert alert-dismissable'><i class='fa fa-times-circle fa-fw'></i>User deletion failed.</div>");
+                    redirect(base_url('Users/viewAdminUsers'), 'refresh');
+                } else {
+                    $this->session->set_flashdata('message', "<div class='alert alert-success'><i class='fa fa-check fa-fw'></i> User successfully deleted.</div>");
+                    redirect(base_url('Users/viewAdminUsers'), 'refresh');
+                }  
+            }
+         }
     }
 
     public function complianceForm() {
-        // if ($this->session->userdata('logged_in') == null) {
-        //     redirect('Users/index');
-        // } else {
-        //     if ($this->session->userdata('user_type') == 2) {
-        //         redirect('Users/courierDashboard');
-        //     } else {
+        if ($this->session->userdata('logged_in') == null) {
+            redirect('Users/index');
+        } else {
+            if ($this->session->userdata('user_type') == 3) {
+                redirect('Users/guestDashboard');
+            } else {
                 $date = date("Y-m-d");
                 $due_num = $this->document->getDueNum($date);
                 $follow_num = $this->document->getFollowNum($date);
@@ -455,11 +739,11 @@ class Users extends CI_Controller {
                      }
                 }
                 $doc_id = $this->document->maxId();
-                if($doc_id==null){
-                    $doc_id += 1;
-                }else{
-                    foreach ($doc_id as $key => $value) {
-                        $doc_id = $value->document_id + 1;
+                foreach ($doc_id as $key => $value) {
+                    if($value->document_id==null){
+                        $doc_id = "00000001";
+                    }else{
+                            $doc_id = $value->document_id + 1;
                     }
                 }
                 $str2 = chunk_split($doc_id, 4, "-");
@@ -471,7 +755,9 @@ class Users extends CI_Controller {
                     $this->load->view('adminView/addComplianceForm', array('acted_num' => $acted_num, 'follow_num' => $follow_num, 'due_num' => $due_num, 'doc_id' => $doc_id, 'data' => $data, 'data2' => $data2));
                 }else{
                     $this->load->view('courierView/addComplianceForm', array('acted_num' => $acted_num, 'follow_num' => $follow_num, 'due_num' => $due_num, 'doc_id' => $doc_id, 'data' => $data, 'data2' => $data2));
+                }
             }
+         }
     }
 
 
@@ -488,8 +774,9 @@ class Users extends CI_Controller {
                     if($data["office"][$x]==13){
                         $office = 13;
                         break;
-                    }    
+                    }   
                 }
+                
                 if($office == 13 && $data["others"]==""){
                     $date = date("Y-m-d");
                     $due_num = $this->document->getDueNum($date);
@@ -526,7 +813,7 @@ class Users extends CI_Controller {
                         'data2' => $data2, 
                         'detail' => $detail, 
                         'office' => $office,
-                        'message' => "<p style='color: red;'>Others text field is required.</p>"
+                        'message' => "<p style='color: red;'>Action Man field is required.</p>"
                         );
                     if ($this->session->userdata("user_type")==1) {
                         $this->load->view('adminView/updateComplianceForm', $y);
@@ -578,18 +865,21 @@ class Users extends CI_Controller {
                     }
                 }
                 else{
-                    $confirm = $this->document->updateDoc($data, $id);
+                    if ($this->session->userdata("user_type")==1) {
+                        $confirm = $this->document->updateDocAdmin($data, $id);
+                    }else{
+                        $confirm = $this->document->updateDoc($data, $id);
+                    }
                     if(!$confirm){
                         echo "Monitoring update failed.";
                     }else{
                         redirect('Users/viewUpdateDocuments');
                     }
                 }
-                
-    }
+            }
 
     public function exportActedDocuments() {
-           $date = date("Y-m-d");
+        $date = date("Y-m-d");
         $due_num = $this->document->getDueNum($date);
         $follow_num = $this->document->getFollowNum($date);
         $acted_num = $this->document->getActedNum();
@@ -637,38 +927,48 @@ class Users extends CI_Controller {
 
 
     public function viewAdminUsers() {
-        $date = date("Y-m-d");
-        $due_num = $this->document->getDueNum($date);
-        $follow_num = $this->document->getFollowNum($date);
-        $acted_num = $this->document->getActedNum();
-                if($acted_num==null){
-                    $acted_num = 0;
+        if ($this->session->userdata('logged_in') == null) {
+            redirect('Users/index');
+        } else {
+            if ($this->session->userdata('user_type') == 2) {
+                redirect('Users/courierDashboard');
+            } else if ($this->session->userdata('user_type') == 3) {
+                redirect('Users/guestDashboard');
+            }else {
+                $date = date("Y-m-d");
+                $due_num = $this->document->getDueNum($date);
+                $follow_num = $this->document->getFollowNum($date);
+                $acted_num = $this->document->getActedNum();
+                        if($acted_num==null){
+                            $acted_num = 0;
+                        }else{
+                            foreach ($acted_num as $key => $value) {
+                                $acted_num = $value->count;
+                            }
+                        }
+                if($due_num==null){
+                    $due_num = 0;
                 }else{
-                    foreach ($acted_num as $key => $value) {
-                        $acted_num = $value->count;
+                    foreach ($due_num as $key => $value) {
+                        $due_num = $value->count;
                     }
                 }
-        if($due_num==null){
-            $due_num = 0;
-        }else{
-            foreach ($due_num as $key => $value) {
-                $due_num = $value->count;
-            }
+                if($follow_num==null){
+                    $follow_num = 0;
+                }else{
+                    foreach ($follow_num as $key => $value) {
+                        $follow_num = $value->count;
+                     }
+                }
+                $data = array(
+                    'users' => $this->users->getUserDetails(),
+                    'due_num' => $due_num,
+                    'follow_num' => $follow_num,
+                    'acted_num' => $acted_num
+                );
+                $this->load->view('adminView/viewUsers', $data);
         }
-        if($follow_num==null){
-            $follow_num = 0;
-        }else{
-            foreach ($follow_num as $key => $value) {
-                $follow_num = $value->count;
-             }
-        }
-        $data = array(
-            'users' => $this->users->getUserDetails(),
-            'due_num' => $due_num,
-            'follow_num' => $follow_num,
-            'acted_num' => $acted_num
-        );
-        $this->load->view('adminView/viewUsers', $data);
+      }  
     }
 
     public function viewSearchDocuments() {
@@ -709,7 +1009,9 @@ class Users extends CI_Controller {
         );
         if ($this->session->userdata("user_type")==1) {
             $this->load->view('adminView/viewSearchDocuments', $data);
-         } else{
+         } else if($this->session->userdata("user_type")==3){ 
+            $this->load->view('guestView/viewSearchDocuments', $data);
+         }else{
             $this->load->view('courierView/viewSearchDocuments', $data);
         }
     }
@@ -757,61 +1059,71 @@ class Users extends CI_Controller {
             );
         if ($this->session->userdata("user_type")==1) {
             $this->load->view('adminView/viewUpdateDocuments', $data);
-        }else{
+        }else if ($this->session->userdata('user_type') == 3) {
+                redirect('Users/guestDashboard');
+        } else{
             $this->load->view('courierView/viewUpdateDocuments', $data);
         }
     }
 
     public function viewUpdateComplianceForm($id){
-        $date = date("Y-m-d");
-        $due_num = $this->document->getDueNum($date);
-        $follow_num = $this->document->getFollowNum($date);
-        $acted_num = $this->document->getActedNum();
-                if($acted_num==null){
-                    $acted_num = 0;
+        if ($this->session->userdata('logged_in') == null) {
+            redirect('Users/index');
+        } else {
+            if ($this->session->userdata('user_type') == 3) {
+                redirect('Users/guestDashboard');
+            }else{
+                $date = date("Y-m-d");
+                $due_num = $this->document->getDueNum($date);
+                $follow_num = $this->document->getFollowNum($date);
+                $acted_num = $this->document->getActedNum();
+                        if($acted_num==null){
+                            $acted_num = 0;
+                        }else{
+                            foreach ($acted_num as $key => $value) {
+                                $acted_num = $value->count;
+                            }
+                        }
+                if($due_num==null){
+                    $due_num = 0;
                 }else{
-                    foreach ($acted_num as $key => $value) {
-                        $acted_num = $value->count;
+                    foreach ($due_num as $key => $value) {
+                        $due_num = $value->count;
                     }
                 }
-        if($due_num==null){
-            $due_num = 0;
-        }else{
-            foreach ($due_num as $key => $value) {
-                $due_num = $value->count;
+                if($follow_num==null){
+                    $follow_num = 0;
+                }else{
+                    foreach ($follow_num as $key => $value) {
+                        $follow_num = $value->count;
+                     }
+                }
+                $other = $this->other->getOther($id);
+                $data = $this->document->getDocument($id);
+                $detail = $this->document->getDocumentDetail($id);
+                $date = $this->document->getDocumentDate($id);
+                $time = $this->document->getDocumentTime($id);
+                $data2 = $this->compliance->getCompliance();
+                $office = $this->offices->getOffices();
+                $dat = array(
+                    'acted_num'=>$acted_num,
+                    'follow_num' => $follow_num, 
+                    'due_num' => $due_num, 
+                    'time' => $time, 
+                    'date' => $date, 
+                    'other' => $other, 
+                    'id' => $id, 
+                    'data' => $data, 
+                    'data2' => $data2, 
+                    'detail' => $detail, 
+                    'office' => $office
+                    );
+                if ($this->session->userdata("user_type")==1) {
+                    $this->load->view('adminView/updateComplianceForm', $dat);
+                }else{
+                    $this->load->view('courierView/updateComplianceForm', $dat);
+                }
             }
-        }
-        if($follow_num==null){
-            $follow_num = 0;
-        }else{
-            foreach ($follow_num as $key => $value) {
-                $follow_num = $value->count;
-             }
-        }
-        $other = $this->other->getOther($id);
-        $data = $this->document->getDocument($id);
-        $detail = $this->document->getDocumentDetail($id);
-        $date = $this->document->getDocumentDate($id);
-        $time = $this->document->getDocumentTime($id);
-        $data2 = $this->compliance->getCompliance();
-        $office = $this->offices->getOffices();
-        $dat = array(
-            'acted_num'=>$acted_num,
-            'follow_num' => $follow_num, 
-            'due_num' => $due_num, 
-            'time' => $time, 
-            'date' => $date, 
-            'other' => $other, 
-            'id' => $id, 
-            'data' => $data, 
-            'data2' => $data2, 
-            'detail' => $detail, 
-            'office' => $office
-            );
-        if ($this->session->userdata("user_type")==1) {
-            $this->load->view('adminView/updateComplianceForm', $dat);
-        }else{
-            $this->load->view('courierView/updateComplianceForm', $dat);
         }
     }
     
@@ -853,12 +1165,14 @@ class Users extends CI_Controller {
             'other' => $other, 
             'office'=>$office, 
             'compliance' => $compliance, 
-            'document' => $document, '
-            details' => $details
+            'document' => $document, 
+            'details' => $details
             );
         if ($this->session->userdata("user_type")==1) {
             $this->load->view('adminView/viewDueDate', $y);
-        } else{
+        } else if($this->session->userdata("user_type")==3){ 
+            $this->load->view('guestView/viewDueDate', $y);
+         }else{
              $this->load->view('courierView/viewDueDate', $y);
         }
     }
@@ -901,7 +1215,9 @@ class Users extends CI_Controller {
         );
         if ($this->session->userdata("user_type")==1) {
             $this->load->view('adminView/viewFollowUp', $data);
-        } else{
+        } else if($this->session->userdata("user_type")==3){ 
+            $this->load->view('guestView/viewFollowUp', $data);
+         }else{
             $this->load->view('courierView/viewFollowUp', $data);
         }
     }
@@ -949,7 +1265,9 @@ class Users extends CI_Controller {
         );
         if ($this->session->userdata("user_type")==1) {
             $this->load->view('adminView/viewActed', $data);
-        }else{
+        }else if($this->session->userdata("user_type")==3){ 
+            $this->load->view('guestView/viewActed', $data);
+         }else{
             $this->load->view('courierView/viewActed', $data);
         }
     }
@@ -962,25 +1280,15 @@ class Users extends CI_Controller {
 //    >
 //-----------------------Courier Views------------------------------------------ //
 
-    public function viewCourierDueDate() {
-        $this->load->view('courierView/viewDueDate');
-    }
-
-    public function viewCourierFollowUp() {
-        $this->load->view('courierView/viewFollowUp');
-    }
-
-    public function viewCourierActed() {
-        $this->load->view('courierView/viewActed');
-    }
-
     public function updateStatus($id){
-        //  if($this->session->userdata('logged_in')==null){
-        //     redirect('Users/index');
-        // }else{
-        //     if($this->session->userdata('user_type')==2){
-        //         redirect('Users/courierDashboard');
-        //     }else{
+         if($this->session->userdata('logged_in')==null){
+            redirect('Users/index');
+        }else{
+            if($this->session->userdata('user_type')==2){
+                redirect('Users/courierDashboard');
+            } else if ($this->session->userdata('user_type') == 3) {
+                redirect('Users/guestDashboard');
+            } else{
                 $confirm = $this->document->updateStatus($id);
                 if(!$confirm){
                     echo "Status Update failed.";
@@ -988,28 +1296,28 @@ class Users extends CI_Controller {
                     echo "Status Updated successfully.";
                     redirect('Users/adminDashboard');
                 }
-        //     }
-        // }
-    }
-
-
-    public function deleteComplianceForm($id){
-        if($this->session->userdata('logged_in')==null){
-            redirect('Users/index');
-        }else{
-            if($this->session->userdata('user_type')==2){
-                redirect('Users/courierDashboard');
-            }else{
-                $confirm = $this->document->deleteDocument($id);
-                if(!$confirm){
-                    echo "Document deletion failed.";
-                }else{
-                    echo "Document successfully deleted.";
-                    redirect('Users/adminDashboard');
-                }
             }
-        }   
+        }
     }
+
+
+    // public function deleteComplianceForm($id){
+    //     if($this->session->userdata('logged_in')==null){
+    //         redirect('Users/index');
+    //     }else{
+    //         if($this->session->userdata('user_type')==2){
+    //             redirect('Users/courierDashboard');
+    //         }else{
+    //             $confirm = $this->document->deleteDocument($id);
+    //             if(!$confirm){
+    //                 echo "Document deletion failed.";
+    //             }else{
+    //                 echo "Document successfully deleted.";
+    //                 redirect('Users/adminDashboard');
+    //             }
+    //         }
+    //     }   
+    // }
 
 //-----------------------End of the Views--------------------------------------- //
 }

@@ -7,7 +7,7 @@
            
             <!-- <a href="#" style="color: #FFF;"><i class="fa fa-circle" style="color: red;"></i> Online</a> -->
             <p style="color: #FFF;">User</p>
-            <a href="<?php echo base_url('Users/editProfile/'.$this->session->userdata('user_id')); ?>" style="color: yellow;">Edit my Profile</a>
+            <a href="<?php echo base_url('Users/editPassword/'.$this->session->userdata('user_id')); ?>" style="color: yellow;">Change Password</a>
         </div>
     </div>
     <ul class="sidebar-menu">

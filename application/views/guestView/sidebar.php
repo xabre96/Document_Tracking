@@ -6,13 +6,13 @@
             <p>Hello, <?php echo $this->session->userdata('name'); ?></p>
            
             <!-- <a href="#" style="color: #FFF;"><i class="fa fa-circle" style="color: red;"></i> Online</a> -->
-            <p style="color: #FFF;">Admin</p>
+            <p style="color: #FFF;">Guest</p>
             <a href="<?php echo base_url('Users/editPassword/'.$this->session->userdata('user_id')); ?>" style="color: yellow;">Change Password</a>
         </div>
     </div>
     <ul class="sidebar-menu">
         <li class="active">
-            <a href="<?php echo base_url('Users/adminDashboard');?>">
+            <a href="<?php echo base_url('Users/guestDashboard');?>">
                 <i class="fa fa-exclamation"></i> <span>Notifications</span>
             </a>
         </li>
@@ -28,14 +28,6 @@
                 <i class="fa fa-angle-left pull-right"></i>
             </a>
             <ul class="treeview-menu">
-                <li><a href="<?php echo base_url('Users/complianceForm'); ?>" style="margin-left: 10px;"><i class="fa fa-plus"></i>Add Compliance</a></li>
-
-                <li>
-                    <a href="<?php echo base_url('Users/viewUpdateDocuments'); ?>" style="margin-left: 10px;">
-                        <i class="glyphicon glyphicon-pencil"></i> <span>Update</span>
-                    </a>
-                </li>
-
                 <li>
                     <a href="<?php echo base_url('Users/viewAdminDueDate'); ?>" style="margin-left: 10px;">
                         <i class="glyphicon glyphicon-th-list"></i> <span>Due Date</span>
@@ -54,18 +46,6 @@
                         <small class="badge pull-right" style="background: #cfcdcc;"><?php echo $acted_num; ?></small>
                     </a>
                 </li>
-            </ul>
-        </li>
-
-        <li class="treeview" style="background: #f9f9f9;">
-            <a href="#">
-                <i class="fa fa-users"></i>
-                <span>Users</span>
-                <i class="fa fa-angle-left pull-right"></i>
-            </a>
-            <ul class="treeview-menu">
-                <li><a href="<?php echo base_url('Users/addCourierForm'); ?>" style="margin-left: 10px;"><i class="fa fa-plus"></i> Add User</a></li>
-                <li><a href="<?php echo base_url('Users/viewAdminUsers'); ?>" style="margin-left: 10px;"><i class="glyphicon glyphicon-eye-open"></i>Users</a></li>
             </ul>
         </li>
 

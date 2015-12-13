@@ -155,7 +155,7 @@
                                 ?>
                                 
                                 <p><b>Referred To :</b> <?php echo chop($off,", "); ?></p>
-                                <p><b>Others :</b> <?php echo $oth; ?></p>
+                                <p><b>Action Man :</b> <?php echo $oth; ?></p>
 
                              </div>
                             

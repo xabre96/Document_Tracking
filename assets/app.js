@@ -26,8 +26,6 @@ app.controller('myController', function($scope) {
   }
 
   $scope.due = function(){
-    // if($scope.count==10){
-    //    $scope.count=0;
         if($scope.choice==1){
           //2 Days
           var tt = $scope.date_received;
@@ -38,12 +36,15 @@ app.controller('myController', function($scope) {
 
           newdate.setDate(newdate.getDate() + 2);
           newdate2.setDate(newdate.getDate() - 2);
-          // if(newdate.getDay() == 6){
+          if(newdate.getDay() == 6){
+            newdate.setDate(newdate.getDate() + 2);
+            newdate2.setDate(newdate.getDate() - 4);
+          }
+          if(newdate.getDay() == 0){
+            newdate.setDate(newdate.getDate() + 2);
+            newdate2.setDate(newdate.getDate() - 4); 
+          }
 
-          // }
-          // if(newdate.getDay() == 0){
-            
-          // }
           var dd = newdate.getDate();
           var mm = newdate.getMonth() + 1;
           var y = newdate.getFullYear();
@@ -69,6 +70,7 @@ app.controller('myController', function($scope) {
           } 
           today2 = y+'-'+mm+'-'+dd;
           $scope.follow = today2;
+          console.log($scope.slow);
         }
         else if($scope.choice==2){
         //3 Days
@@ -80,6 +82,26 @@ app.controller('myController', function($scope) {
 
         newdate.setDate(newdate.getDate() + 3);
         newdate2.setDate(newdate.getDate() - 2);
+        if(date.getDay() == 5){
+            newdate = new Date(date);
+            newdate2 = new Date(date);
+            newdate.setDate(newdate.getDate() + 5);
+            newdate2.setDate(newdate.getDate() - 2);
+          }
+        if(newdate.getDay() == 6){
+            newdate.setDate(newdate.getDate() + 2);
+            newdate2.setDate(newdate.getDate() - 4);
+          }
+        if(newdate.getDay() == 0){
+            newdate.setDate(newdate.getDate() + 2);
+            newdate2.setDate(newdate.getDate() - 4);
+            if(newdate2.getDay()==6){
+              newdate2.setDate(newdate.getDate() - 1);
+            } 
+            if(newdate2.getDay()==0){
+              newdate2.setDate(newdate.getDate() - 1);
+            }
+        }
           
         var dd = newdate.getDate();
         var mm = newdate.getMonth() + 1;
@@ -121,7 +143,24 @@ app.controller('myController', function($scope) {
 
         newdate.setDate(newdate.getDate() + 5);
         newdate2.setDate(newdate.getDate() - 2);
-          
+
+        if(newdate.getDay() == 6){
+            newdate.setDate(newdate.getDate() + 2);
+            newdate2.setDate(newdate.getDate() - 4);
+          }
+          if(newdate.getDay() == 0){
+            newdate.setDate(newdate.getDate() + 2);
+            newdate2.setDate(newdate.getDate() - 4); 
+          }
+          if(date.getDay() == 3 || date.getDay() == 4 || date.getDay() == 5){
+            newdate = new Date(date);
+            newdate2 = new Date(date);
+            newdate.setDate(newdate.getDate() + 7);
+            newdate2.setDate(newdate.getDate() - 2);
+          }
+          // console.log("Due Date: "+newdate.getDate());
+          // console.log("Follow Up: "+newdate2.getDate());
+
         var dd = newdate.getDate();
         var mm = newdate.getMonth() + 1;
         var y = newdate.getFullYear();

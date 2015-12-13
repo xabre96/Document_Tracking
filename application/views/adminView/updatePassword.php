@@ -13,53 +13,29 @@
                             <!-- general form elements -->
                             <div class="box">
                                 <div class="box-header" style="background: #4b8355; color: #FFF;">
-                                    <h3 class="box-title"><i class="glyphicon glyphicon-plus"></i><span>&nbsp;Courier</span></h3>
+                                    <h3 class="box-title"><i class="glyphicon glyphicon-edit"></i><span>&nbsp;Change Password</span></h3>
                                 </div><!-- /.box-header -->
 
                                 <!-- form start -->
-                                <form method="POST" action="<?php echo base_url('Users/addCourier'); ?>">
+                                <?php //foreach ($user as $key => $value) { ?>
+                                <form method="POST" action="<?php echo base_url('Users/changePass'); ?>">
+                                <?php echo @$mess; ?>
                                     <div class="box-body">
-
-                                        <div class="form-group">
-                                            <label for="exampleInputLastName">Last Name</label>
-                                            <input type="text" class="form-control" id="exampleInputPassword1" name="lname" required="" placeholder="Ex. Cale" >
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputFirstName">First Name</label>
-                                            <input type="text" class="form-control" id="exampleInputPassword1" name="fname" required="" placeholder="Ex. Shun Daryl">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputMiddleName">Middle Name</label>
-                                            <input type="text" class="form-control" id="exampleInputPassword1" name="mname" required="" placeholder="Ex. Cuaresma">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputUserName">User Name</label>
-                                            <input type="text" class="form-control" id="exampleInputPassword1" name="uname" required="" placeholder="Ex. Shun2015">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="exampleInputPhoneNumber">Contact Number</label>
-                                            <input type="text" class="form-control" id="exampleInputPassword1" name="contact" required="" placeholder="Ex. 09359000499">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Address</label>
-                                            <textarea class="form-control" rows="3" required="" name="address" placeholder="Enter ..."></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Email address</label>
-                                            <input type="email" class="form-control" id="exampleInputEmail1" name="email" required="" placeholder="Enter email">
-                                        </div>
                                         <div class="form-group">
                                             <label for="exampleInputPassword">Old Password</label>
                                             <input type="password" class="form-control" id="exampleInputPassword" name="old_pass" required="" placeholder="Old password">
+                                            <?php echo form_error('old_pass'); ?>
+                                            <?php echo @$message; ?>
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputPassword1">Password</label>
                                             <input type="password" class="form-control" id="exampleInputPassword1" name="new_pass" required="" placeholder="Enter New password">
+                                            <?php echo form_error('new_pass'); ?>
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputPassword2">Confirm Password</label>
                                             <input type="password" class="form-control" id="exampleInputPassword2" name="new_pass2" required="" placeholder="Confirm New password">
+                                            <?php echo form_error('new_pass2'); ?>
                                         </div>
                                     </div><!-- /.box-body -->
 
@@ -69,9 +45,8 @@
                                         <a href="<?php echo base_url('Users/adminDashboard'); ?>" style="margin-left: 10px;" class="btn btn-default">Cancel</a>
                                     </div>
                                 </form>
+                             <?php //} ?>
                             </div><!-- /.box -->
-
-                            <p><?php echo validation_errors(); ?></p>
 
                         </div>
 

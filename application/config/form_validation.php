@@ -71,5 +71,22 @@ $config = array(
             'label' => 'Instructions',
             'rules' => 'required'
         )
+    ),
+    'Users/changePass' => array(
+      array(
+            'field' => 'old_pass',
+            'label' => 'Old Password',
+            'rules' => 'required'
+        ),
+        array(
+            'field' => 'new_pass',
+            'label' => 'New Password',
+            'rules' => 'required'
+        ),
+        array(
+            'field' => 'new_pass2',
+            'label' => 'Confirm Password',
+            'rules' => 'required|matches[new_pass]'
+        )  
     )
 );

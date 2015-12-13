@@ -26,7 +26,7 @@
                                             <tr role="row">
                                                 <th>#User I.D</th>
                                                 <th>User Account</th>
-                                                <th>User Name</th>
+                                                <th>Name</th>
                                                 <th>Contact No.</th>
                                                 <th>Address</th>
                                                 <th>Email</th>
@@ -44,12 +44,13 @@
 
                                                 <td>' . $user->user_id . '</td>
                                                 <td>' . $user->user_name . '</td>
-                                                <td>' . $user->first_name . ' ' . $user->middle_name . ' ' . $user->last_name . '</td>
+                                                <td>' . $user->first_name . ' ' . $user->last_name . '</td>
                                                 <td>' . $user->contact_number . '</td>
                                                 <td>' . $user->address . '</td>
                                                 <td>' . $user->email . '</td>
                                                 <td>' . '<a href="#" class="btn btn-default btn-flat btn-sm" data-toggle="modal" data-target="#compose-modal' . $user->user_id . '" title="Update User" ><i class="fa fa-edit"></i>Update</a>' . '
                                                ' . ' ' . '<a href="#" class="btn btn-danger btn-flat btn-sm" data-toggle="modal" data-target="#coompose-modal' . $user->user_id . '" title="Delete User" ><i class="fa fa-trash-o"></i>Delete</a>' . '
+                                               ' . ' ' . '<a href="'.base_url('Users/resetPass/'.$user->user_id).'" class="btn btn-success btn-flat btn-sm">Reset Password</a>' . '
                                                  </td>
 
 
@@ -150,15 +151,12 @@
                     </div>
 
                     <div class="modal-body">
-                        <h4>Are you sure you want to delete this record?</h4>
+                        <h4>Are you sure you want to delete this user?</h4>
                     </div>
                     <div class="modal-footer clearfix">
-
-
                         <a href="<?php echo base_url('Users/deleteCourier/' . $user->user_id); ?>" class="btn btn-primary pull-left" style="width: 70px;">Ok</a>
                         <button type="submit" class="btn btn-default pull-right" style="width: 70px;">Cancel</button>
                     </div>
-
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div>

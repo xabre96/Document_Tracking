@@ -49,7 +49,15 @@
                                             <label for="exampleInputEmail1">Email address</label>
                                             <input type="email" class="form-control" id="exampleInputEmail1" name="email" required="" placeholder="Enter email">
                                         </div>
-
+                                        <div class="form-group">
+                                            <label for="exampleInputType">User Type:</label>
+                                            <!-- <input type="email" class="form-control" id="exampleInputType" name="email" required="" placeholder="Enter email"> -->
+                                            <select class="form-control" id="exampleInputType" name="type">
+                                                <option value="1">Admin</option>
+                                                <option value="2">User</option>
+                                                <option value="3">Guest</option>
+                                            </select>
+                                        </div>
 
                                     </div><!-- /.box-body -->
 

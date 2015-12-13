@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" href="<?php echo base_url('images/denr_logo.png'); ?>" type="image/x-icon" /> 
         <link rel='stylesheet' href="<?php echo base_url('mars_tf_export/html/assets/css/app.css'); ?>">
         <link rel='stylesheet' href="<?php echo base_url('mars_tf_export/html/assets/css/animate.min.css'); ?>">
         <link href='http://fonts.googleapis.com/css?family=Raleway:200,300,400,500,700' rel='stylesheet' type='text/css'>
@@ -41,15 +42,15 @@
                             <div class="content-inner">
                                 <div class="main-content" style="background: #FFF;">
                                     <div class="main-content-inner">
-                                        <form method="POST" action="<?php echo base_url('Users/user_login'); ?>">
+                                        <form method="POST" action="<?php echo base_url('Users/userLogin'); ?>">
                                             <h3 class="form-title form-title-first"><i class="icon-lock"></i> Login</h3>
                                             <div class="form-group">
                                                 <label>Username</label>
-                                                <input type="text" class="form-control" placeholder="Username" name="username">
+                                                <input type="text" class="form-control" placeholder="Username" name="username" required="">
                                             </div>
                                             <div class="form-group">
                                                 <label>Password</label>
-                                                <input type="password" class="form-control" placeholder="Password" name="password">
+                                                <input type="password" class="form-control" placeholder="Password" name="password" required="">
                                             </div>
                                             <div class="form-group">
                                                 <div class="checkbox">
@@ -58,10 +59,8 @@
                                                     </label>
                                                 </div>
                                             </div>
-
                                             <input type="submit" value="Login" class="btn btn-default"/>
-
-                                            <a href="index.html" class="btn btn-link">Cancel</a>
+                                            <?php echo @$message; ?>
                                         </form>
                                     </div>
                                 </div>

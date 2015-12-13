@@ -103,7 +103,8 @@
                                 <hr>
                         <div class="col-md-6">
                              <p><b>Subject :</b> <?php echo $doc->subject; ?></p>
-                            <p><b>Sender :</b> <?php echo $doc->subject; ?></p>
+                            <p><b>Sender :</b> <?php echo $doc->sender; ?></p>
+                            <p><b>Sender's Address/Office:</b><br/><?php echo $doc->address; ?></p>
                              <?php
                                     $type = ""; 
                                     foreach ($details as $key => $value) { 
@@ -152,7 +153,7 @@
                                 ?>
                                 
                                 <p><b>Referred To :</b> <?php echo chop($off,", "); ?></p>
-                                <p><b>Others :</b> <?php echo $oth; ?></p>
+                                <p><b>Action Man :</b> <?php echo $oth; ?></p>
 
                              </div>
                             

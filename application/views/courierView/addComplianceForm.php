@@ -101,7 +101,7 @@
                                                         </div>
                                                         <div class="form-group" style="margin-top: 10px;">
                                                              <label for="exampleSelectDate">Action Man</label>
-                                                             <textarea class="form-control" rows="5" id="exampleInputSubject" required="" name="others" placeholder="Enter ..."></textarea>
+                                                             <textarea class="form-control" rows="5" id="exampleInputSubject" name="others" placeholder="Enter ..."></textarea>
                                                         </div>
                                                         <?php echo @$message; ?>
                                                     </div>

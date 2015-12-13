@@ -34,22 +34,33 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label for="exampleInputDate">Date Received </label>
-                                                    <input type="text" value="<?php echo $value->date_received; ?>" class="form-control" id="exampleInputDate" name="date_received" required="" placeholder="YYYY-MM-DD">
+                                                    <input type="text" class="form-control" id="exampleInputDate" value="<?php echo $value->date_received; ?>" disabled="">
+                                                    <input type="text" class="form-control" id="exampleInputDate" value="<?php echo $value->date_received; ?>" style="display:none;" name="date_received">
+                                                    <!-- <input type="date" class="form-control" id="exampleInputDate" ng-change="due()" ng-model="date_received"> -->
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label>Time Received</label>
                                                     <?php foreach ($time as $key => $time) { ?>
-                                                    <input type="text" value="<?php echo $time->time_received; ?>" class="form-control" name="time_received" required="" placeholder="hh:mm AM/PM">
+                                                    <input type="text" value="<?php echo $time->time_received; ?>" style="display: none;" class="form-control" name="time_received">
+                                                    <input type="text" value="<?php echo $time->time_received; ?>" class="form-control"  disabled="">
                                                 </div>
-                                                <?php } 
+                                                <?php 
+                                                    break;
+                                                    } 
                                                     foreach ($date as $key => $date) {
                                                         $due = $date->due_date; 
+                                                        $follow = $date->followUp_date;
                                                 ?>
                                                 <div class="col-md-3">
                                                     <label>DUE DATE RESULT</label>
-                                                    <!-- <input type="text"  name="due" disabled="" ng-model="date" hidden="" style="display: none;"/>
-                                                    <input type="text"  name="due_date" ng-model="slow" hidden="" style="display: none;"/> -->
-                                                    <input type="text" class="form-control" value="<?php echo $due; ?>" name="dummy" disabled=""  style="width: 150px; border: none;"/>
+                                                    <!-- <input type="text" name="follow_up" ng-model="follow" hidden="" value="<?php echo $due; ?>"/>
+                                                    <input type="text"  name="due" disabled="" ng-model="date" hidden="" style="display: none;"/>
+                                                    <input type="text"  name="due_date" value="<?php echo $due; ?>" ng-model="slow" hidden="" style="display: none;"/>
+                                                    <input type="text" class="form-control" value="<?php echo $due; ?>" name="dummy" disabled="" ng-model="slow" style="width: 150px; border: none;"/> -->
+                                                    <input type="text" name="follow_up" value="<?php echo $follow; ?>" hidden=""/>
+                                                    <!-- <input type="text"  name="due" disabled="" ng-model="date" hidden="" style="display: none;"/> -->
+                                                    <input type="text"  name="due_date" value="<?php echo $due; ?>" style="display: none;"/>
+                                                    <input type="text" class="form-control" value="<?php echo $due; ?>" disabled=""  style="width: 150px; border: none;"/>
                                                 </div>
                                                 <?php } ?>
                                                 <br>
@@ -71,15 +82,21 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Sender Address/Office</label>
-                                                            <textarea class="form-control" rows="3" required="" name="senderAddress" placeholder="Enter ..."></textarea>
+                                                            <textarea class="form-control" rows="3" required="" name="senderAddress" placeholder="Enter ..."><?php echo $value->address; ?></textarea>
                                                         </div>                        
                                                         <div class="form-group">
                                                             <label>Instructions</label>
                                                             <textarea class="form-control" rows="3" required="" name="instructions" placeholder="Enter ..."><?php echo $value->instructions; ?></textarea>
-                                                        </div>                    
+                                                        </div>
+                                                        <?php 
+                                                            foreach ($detail as $key => $ve) { 
+                                                                $type_id = $ve->compliance_type_id;
+                                                                break;
+                                                            }
+                                                        ?>
                                                         <div class="form-group">
                                                             <label for="exampleSelectDate">Document Type</label>
-                                                            <select name="compliance" class="form-control">
+                                                            <select class="form-control" disabled="">
                                                                 <?php foreach ($detail as $key => $ve) { 
                                                                         $type_id = $ve->compliance_type_id;
                                                                         break;
@@ -91,18 +108,19 @@
                                                                         }
                                                                     }
                                                                 ?>
-                                                                <option><?php echo $type; ?></option>
+                                                                <option selected=""><?php echo $type; ?></option>
                                                             </select>
+                                                            <input name="compliance" type="text" hidden="" value="<?php echo $type_id; ?>">
                                                         </div>
                                                         <div class="form-group">
                                                             <?php if($value->status_id==1){?>
                                                             <button type="submit" value="Start Monitoring" class="btn btn-primary btn-flat" style="width: 100px;">Submit</button>
-                                                            <a href="<?php echo base_url('Users/adminDashboard'); ?>" class="btn btn-default btn-flat" style="width: 100px;">Cancel</a>
-                                                            <a href="<?php echo base_url('Users/updateStatus/'.$value->document_id); ?>" class="btn btn-success btn-flat" style="width: 120px;">Release Document</a>
+                                                            <a href="<?php echo base_url('Users/viewUpdateDocuments'); ?>" class="btn btn-default btn-flat" style="width: 100px;">Cancel</a>
+                                                            <a href="<?php echo base_url('Users/updateStatus/'.$value->document_id); ?>" class="btn btn-success btn-flat" style="width: 125px;">ReleaseDocument</a>
                                                             <?php }else{ ?>
                                                             <a href="#" disabled="" class="btn btn-primary btn-flat" style="width: 100px;">Submit</a>
-                                                            <a href="<?php echo base_url('Users/adminDashboard'); ?>" class="btn btn-default btn-flat" style="width: 100px;">Cancel</a>
-                                                            <a href="#" class="btn bg-gray btn-flat " disabled="" style="width: 120px;">Document Acted</a>
+                                                            <a href="<?php echo base_url('Users/viewUpdateDocuments'); ?>" class="btn btn-default btn-flat" style="width: 100px;">Cancel</a>
+                                                            <a href="#" class="btn bg-gray btn-flat " disabled="" style="width: 120px;">DocumentActed</a>
                                                             <?php } ?>
                                                         </div>
                                                     <?php } ?>
@@ -157,9 +175,9 @@
 
                                                                             if($vale->office_id==$ids[$y]){
                                                                         ?>
-                                                                            <input type="checkbox" checked="" />
-                                                                            <!-- <input type="checkbox" checked="checked" name="office[]" style="display: none;" value="<?php echo $vale->office_id?>"/> -->
-                                                                            <input type="text" name="office[]" style="display: none;" value="<?php echo $vale->office_id?>">
+                                                                            <!-- <input type="checkbox" checked="" /> -->
+                                                                            <input type="checkbox" checked="checked" name="office[]" style="display: none;" value="<?php echo $vale->office_id?>"/>
+                                                                            <!-- <input type="text" name="office[]" style="display: none;" value="<?php echo $vale->office_id?>"> -->
                                                                             <?php echo $vale->office;?>
                                                                         <?php   
                                                                                 $y++; 
@@ -185,11 +203,11 @@
                                                                         <div class="form-group" style="margin-left: 50px; margin-top: 25px;">
                                                                         <label for="exampleSelectDate">Action Man</label>
                                                                         <?php if($others==""){?>
-                                                                        <textarea class="form-control" rows="5" id="exampleInputSubject" required="" name="others" placeholder="Enter ..."> <?php echo $others; ?></textarea>
+                                                                        <textarea class="form-control" rows="5" id="exampleInputSubject" name="others" placeholder="Enter ..."></textarea>
                                                                              
                                                                         <?php } else{ ?>
-                                                                            <textarea class="form-control" rows="5" id="exampleInputSubject" required="" name="others" placeholder="Enter ..."> <?php echo $others; ?></textarea>
-                                                                            <textarea class="form-control" rows="5" style="display: none;" id="exampleInputSubject" required="" name="others" placeholder="Enter ..."> <?php echo $others; ?></textarea>
+                                                                            <textarea class="form-control" rows="5" id="exampleInputSubject" name="others" placeholder="Enter ..."><?php echo $others; ?></textarea>
+                                                                            <!-- <textarea class="form-control" rows="5" style="display: none;" id="exampleInputSubject" required="" name="others" placeholder="Enter ..."> <?php echo $others; ?></textarea> -->
                                                                                                             
                                                                         <?php } ?>
                                                                         </div>
@@ -213,5 +231,5 @@
 
 
 
-        <?php include 'scriptC.php'; ?>
+        <?php include 'script.php'; ?>
    
