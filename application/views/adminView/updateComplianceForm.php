@@ -89,10 +89,10 @@
                                                             <textarea class="form-control" rows="3" required="" name="instructions" placeholder="Enter ..."><?php echo $value->instructions; ?></textarea>
                                                         </div>
                                                         <?php 
-                                                            foreach ($detail as $key => $ve) { 
-                                                                $type_id = $ve->compliance_type_id;
-                                                                break;
-                                                            }
+                                                            // foreach ($detail as $key => $ve) { 
+                                                            //     $type_id = $ve->compliance_type_id;
+                                                            //     break;
+                                                            // }
                                                         ?>
                                                         <div class="form-group">
                                                             <label for="exampleSelectDate">Document Type</label>

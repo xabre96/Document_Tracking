@@ -24,12 +24,8 @@
                                     <table id="example1" class="table table-bordered table-striped dataTable" aria-describedby="example1_info">
                                         <thead>
                                             <tr role="row">
-                                                <th>#User I.D</th>
-                                                <th>User Account</th>
-                                                <th>Name</th>
-                                                <th>Contact No.</th>
-                                                <th>Address</th>
-                                                <th>Email</th>
+                                                <th>User Name</th>
+                                                <th>Office Phone #</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
@@ -38,35 +34,25 @@
                                         <tbody role="alert" aria-live="polite" aria-relevant="all">
 
                                             <?php
-                                            foreach ($users as $user) {
-                                                echo '
-                                            <tr>
-
-                                                <td>' . $user->user_id . '</td>
-                                                <td>' . $user->user_name . '</td>
-                                                <td>' . $user->first_name . ' ' . $user->last_name . '</td>
-                                                <td>' . $user->contact_number . '</td>
-                                                <td>' . $user->address . '</td>
-                                                <td>' . $user->email . '</td>
-                                                <td>' . '<a href="#" class="btn btn-default btn-flat btn-sm" data-toggle="modal" data-target="#compose-modal' . $user->user_id . '" title="Update User" ><i class="fa fa-edit"></i>Update</a>' . '
-                                               ' . ' ' . '<a href="#" class="btn btn-danger btn-flat btn-sm" data-toggle="modal" data-target="#coompose-modal' . $user->user_id . '" title="Delete User" ><i class="fa fa-trash-o"></i>Delete</a>' . '
-                                               ' . ' ' . '<a href="'.base_url('Users/resetPass/'.$user->user_id).'" class="btn btn-success btn-flat btn-sm">Reset Password</a>' . '
-                                                 </td>
-
-
-                                            </tr>';
-                                            }
+                                                foreach ($users as $user) {
+                                                    echo '<tr>
+                                                            <td>' . $user->user_name . '</td>
+                                                            <td>' . $user->contact_number . '</td>
+                                                            <td>' . '<a href="#" class="btn btn-default btn-flat btn-sm" data-toggle="modal" data-target="#compose-modal' . $user->user_id . '" title="Update User" ><i class="fa fa-edit"></i>Update</a>' . '
+                                                           ' . ' ' . '<a href="#" class="btn btn-danger btn-flat btn-sm" data-toggle="modal" data-target="#coompose-modal' . $user->user_id . '" title="Delete User" ><i class="fa fa-trash-o"></i>Delete</a>' . '
+                                                           ' . ' ' . '<a href="'.base_url('Users/resetPass/'.$user->user_id).'" class="btn btn-success btn-flat btn-sm">Reset Password</a>' . '
+                                                             </td>
+                                                        </tr>';
+                                                }
                                             ?>
                                         </tbody>
                                     </table>
-
-                                </div><!-- /.box-body -->
+                                </div>
                             </div>
                         </div>
                     </div>
                 </section>
             </aside>
-
         </div>
         <?php
         foreach ($users as $user) {
@@ -186,11 +172,5 @@
                 });
             });
         </script>
-        <!--        <footer class="footer bg-black" style="padding: 0px; color:#ffffff; border-top: 3px ridge #cfcfcf;">
-                    <p class="" style="padding: 2px; margin: 0px; text-align: center; background-color: #4b8355; font-size: 12px;">
-                        <img src="<?php // echo base_url('images/dc_logo.png');                                  ?>" style="height: 20px; width: 20px;">Document Monitoring System<br>
-                        Copyright <img src="<?php //echo base_url('images/DENR_Logo.svg_.png');                                  ?>" style="height: 20px; width: 20px; margin-bottom: 3px;"> 2015 Department of Environment and Natural Resources
-                    </p>
-                </footer>-->
     </body>
 </html>

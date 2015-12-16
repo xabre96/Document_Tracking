@@ -51,6 +51,7 @@
                                                 <td class=" "><?php echo $value->released_date; ?></td>
                                                 <td class=" ">
                                                     <a href="#" class="btn btn-default btn-sm" data-toggle="modal" data-target="#compose-modal<?php echo $value->document_id; ?>" title="View Document">View Document</a>
+                                                    <a href="<?php echo base_url('Users/viewPrint/'.$value->document_id); ?>" class="btn btn-default btn-sm" title="View Print">View Print</a>
                                                 </td>
                                             </tr>
                                         <?php } ?>
@@ -109,7 +110,8 @@
                                 <hr>
                         <div class="col-md-6">
                              <p><b>Subject :</b> <?php echo $doc->subject; ?></p>
-                            <p><b>Sender :</b> <?php echo $doc->subject; ?></p>
+                            <p><b>Sender :</b> <?php echo $doc->sender; ?></p>
+                            <p><b>Sender's Address/Office:</b><br/><?php echo $doc->address; ?></p>
                              <?php
                                     $type = ""; 
                                     foreach ($details as $key => $value) { 

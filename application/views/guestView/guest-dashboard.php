@@ -32,7 +32,7 @@
                                 </div>
 
                                 <div class="icon">
-                                    <i class="glyphicon glyphicon-th-list"></i>
+                                    <i class="glyphicon glyphicon-warning-sign"></i>
                                 </div>
 
                             </div>

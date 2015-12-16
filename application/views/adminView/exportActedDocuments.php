@@ -53,6 +53,8 @@
                         <i class="fa fa-download fa-fw" style="font-size: 50px; margin-top: 10px;"></i>
                         <br>
                         <button href="#" id="btnExport" class="btn-success btn-sm btn-flat" style="width: 200px;">Download Reports</button>
+                        <br/>
+                        <button class="btn btn-default" onclick="window.print();"><i class="fa fa-print"></i> Print</button>
                     </center>
                 </div>
                 <div class="box-header bg-green" style="display: none;">
@@ -70,7 +72,7 @@
                                     <th>Sender</th>
                                     <th>Document Type</th>
                                     <th>Referred To</th>
-                                    <th>Other Offices</th>
+                                    <th>Action Man</th>
                                     <th>Instructions</th>
                                     <th>Released Date</th>
                                     <th>Status</th>
