@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 02, 2015 at 07:01 AM
+-- Generation Time: Dec 21, 2015 at 01:59 AM
 -- Server version: 10.1.8-MariaDB
 -- PHP Version: 5.6.14
 
@@ -66,20 +66,12 @@ CREATE TABLE `courier_credentials` (
 
 CREATE TABLE `document` (
   `document_id` int(11) NOT NULL,
-  `subject` varchar(45) NOT NULL,
+  `subject` text NOT NULL,
   `sender` varchar(45) NOT NULL,
-  `instructions` varchar(45) NOT NULL,
-  `status` tinyint(4) NOT NULL,
-  `others` varchar(45) NOT NULL
+  `instructions` text NOT NULL,
+  `status_id` tinyint(4) NOT NULL,
+  `address` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `document`
---
-
-INSERT INTO `document` (`document_id`, `subject`, `sender`, `instructions`, `status`, `others`) VALUES
-(40, 'asdX', 'asdX', 'asdX', 1, 'PENRO'),
-(41, 'asd', 'asd', 'asd', 1, 'CENRO');
 
 -- --------------------------------------------------------
 
@@ -91,18 +83,10 @@ CREATE TABLE `document_date` (
   `document_date_id` int(11) NOT NULL,
   `date_received` date NOT NULL,
   `followUp_date` date NOT NULL,
-  `due_date` date NOT NULL,
+  `due_date` varchar(11) NOT NULL,
   `released_date` date NOT NULL,
   `document_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `document_date`
---
-
-INSERT INTO `document_date` (`document_date_id`, `date_received`, `followUp_date`, `due_date`, `released_date`, `document_id`) VALUES
-(39, '2015-12-02', '0000-00-00', '2015-12-04', '2015-12-02', 40),
-(40, '2015-12-02', '0000-00-00', '2015-12-04', '0000-00-00', 41);
 
 -- --------------------------------------------------------
 
@@ -117,17 +101,6 @@ CREATE TABLE `document_details` (
   `document_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `document_details`
---
-
-INSERT INTO `document_details` (`document_details_id`, `compliance_type_id`, `office_id`, `document_id`) VALUES
-(254, 1, 1, 40),
-(255, 1, 2, 40),
-(256, 1, 3, 40),
-(264, 1, 1, 41),
-(265, 1, 7, 41);
-
 -- --------------------------------------------------------
 
 --
@@ -136,17 +109,9 @@ INSERT INTO `document_details` (`document_details_id`, `compliance_type_id`, `of
 
 CREATE TABLE `document_time` (
   `document_time_id` int(11) NOT NULL,
-  `time_received` time NOT NULL,
+  `time_received` varchar(20) NOT NULL,
   `document_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `document_time`
---
-
-INSERT INTO `document_time` (`document_time_id`, `time_received`, `document_id`) VALUES
-(39, '11:28:05', 40),
-(40, '12:56:10', 41);
 
 -- --------------------------------------------------------
 
@@ -175,7 +140,41 @@ INSERT INTO `offices` (`office_id`, `office`) VALUES
 (9, 'LPD'),
 (10, 'Surveys & Mapping Division'),
 (11, 'RPAO'),
-(12, 'INREMP');
+(12, 'INREMP'),
+(13, 'Others');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `other`
+--
+
+CREATE TABLE `other` (
+  `other_id` int(11) NOT NULL,
+  `other` text NOT NULL,
+  `document_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `status`
+--
+
+CREATE TABLE `status` (
+  `status_id` tinyint(4) NOT NULL,
+  `status` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `status`
+--
+
+INSERT INTO `status` (`status_id`, `status`) VALUES
+(1, 'pending'),
+(2, 'follow up'),
+(3, 'due'),
+(4, 'acted');
 
 -- --------------------------------------------------------
 
@@ -195,9 +194,24 @@ CREATE TABLE `user_account` (
 --
 
 INSERT INTO `user_account` (`user_id`, `user_name`, `password`, `user_type_id`) VALUES
-(1, 'admin', '3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2', 1),
-(2, 'shun', '3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2', 2),
-(7, 'xan', '3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2', 2);
+(1, 'ORD', '1788e2f9f6528276c4127611e144cd6ef3fae94417a8f03d0bc6f337bbe848c74f908f912f3773e191d2103e5d99ea04ab2de4d21158260fb158f836db3f073b', 1),
+(2, 'HEA', '7fbf94298c2bdcf633de487a9e5352adbbc9ba998c974964794bc1739fa23f696a2d5e76760e477861977f8353a0a817ab73eee76f22df231d352a75c2e3d342', 1),
+(3, 'ICT', '6a6a10989844d8d10afbd71d5660ade5d0357fa9c528232e6cba49dda6b375203212b57d85a768094d5302fa08abc6fda11d031e92caa33e7feed108133869f9', 1),
+(4, 'ARD_MS', 'd84897ff0e23285f53d17bf4df15c60273a0e8bf6caaa9c9e5a9a223274690dec51f1746729f9c5b82ae735d81a4b6bb0a8a80ed5c03a29c2209d11d1a6daf41', 3),
+(5, 'ARD_TS', '7620e8d53ed6a3ece3a7afe0c866278223b9a360cd6e8dbad63f7fe47021a4f04c7281c1ed39945088f8b0e403220fd4dd85e6b8f48078074ca76ec4ced31601', 3),
+(6, 'RD', '992c8a0c6d5ea6bd4f00d60d6d61b58d840986c2b08d0e8fa24483762c8af0af874962ac3f7319932347d8956e927b97f9a921bc222e9c26a9230edec19045c1', 3),
+(7, 'MSHEA', '4488b218715f035f5a9c665987feebd11b086902ef117c0c81735ccc22cc5d470e632c6c075c94bf84b5f84269d7af63d2561e4b80c2a27e241d54e75bacebc6', 3),
+(8, 'TSHEA', '8f77a9571b3c367936645e3a805bb7862d2407112bd0d8f5fd67cb099ab54a8589fafe1d2ea1a0ce1c41fef601d843b0e7ba5a7d91c6abcc0875826912dc405f', 3),
+(9, 'ADMIN', '52ae409b0d7abe1d1d39a5095fd5739e4a2666c670e8105e3f2c7a24f902467a4c18bb8c10e16deb2835f47dc19ed5704fcaa5639d2737ca313386b84c14995d', 2),
+(10, 'LEGAL', '52ae409b0d7abe1d1d39a5095fd5739e4a2666c670e8105e3f2c7a24f902467a4c18bb8c10e16deb2835f47dc19ed5704fcaa5639d2737ca313386b84c14995d', 2),
+(11, 'PMD', '52ae409b0d7abe1d1d39a5095fd5739e4a2666c670e8105e3f2c7a24f902467a4c18bb8c10e16deb2835f47dc19ed5704fcaa5639d2737ca313386b84c14995d', 2),
+(12, 'FINANCE', '52ae409b0d7abe1d1d39a5095fd5739e4a2666c670e8105e3f2c7a24f902467a4c18bb8c10e16deb2835f47dc19ed5704fcaa5639d2737ca313386b84c14995d', 2),
+(13, 'CDD', '52ae409b0d7abe1d1d39a5095fd5739e4a2666c670e8105e3f2c7a24f902467a4c18bb8c10e16deb2835f47dc19ed5704fcaa5639d2737ca313386b84c14995d', 2),
+(14, 'LPDD', '52ae409b0d7abe1d1d39a5095fd5739e4a2666c670e8105e3f2c7a24f902467a4c18bb8c10e16deb2835f47dc19ed5704fcaa5639d2737ca313386b84c14995d', 2),
+(15, 'SMD', '52ae409b0d7abe1d1d39a5095fd5739e4a2666c670e8105e3f2c7a24f902467a4c18bb8c10e16deb2835f47dc19ed5704fcaa5639d2737ca313386b84c14995d', 2),
+(16, 'ED', '52ae409b0d7abe1d1d39a5095fd5739e4a2666c670e8105e3f2c7a24f902467a4c18bb8c10e16deb2835f47dc19ed5704fcaa5639d2737ca313386b84c14995d', 2),
+(17, 'INREMP', '52ae409b0d7abe1d1d39a5095fd5739e4a2666c670e8105e3f2c7a24f902467a4c18bb8c10e16deb2835f47dc19ed5704fcaa5639d2737ca313386b84c14995d', 2),
+(18, 'RPAO', '52ae409b0d7abe1d1d39a5095fd5739e4a2666c670e8105e3f2c7a24f902467a4c18bb8c10e16deb2835f47dc19ed5704fcaa5639d2737ca313386b84c14995d', 2);
 
 -- --------------------------------------------------------
 
@@ -220,9 +234,24 @@ CREATE TABLE `user_profile` (
 --
 
 INSERT INTO `user_profile` (`user_id`, `first_name`, `last_name`, `middle_name`, `contact_number`, `address`, `email`) VALUES
-(1, 'admin', 'admin', 'admin', '09352030067', 'admin', 'admin@admin.com'),
-(2, 'Daryl', 'Cale', 'Cuaresma', '09090909090', 'Campo', 'shun@gmail.com'),
-(7, 'Xan', 'Gutierrez', 'Fabre', '09352030067', 'cdo', 'xan@gmail.com');
+(1, 'none', 'none', 'none', 'none', 'none', 'none@none.com'),
+(2, 'HEA', 'HEA', 'HEA', 'HEA', 'HEA', 'HEA@HEA.com'),
+(3, 'ICT', 'ICT', 'ICT', 'ICT', 'ICT', 'ICT@ICT.com'),
+(4, 'ARD MS', 'ARD MS', 'ARD MS', 'ARDMS', 'ARDMS', 'ARD_MS@ARDMS.com'),
+(5, 'ARDTS', 'ARDTS', 'ARDTS', 'ARDTS', 'ARDTS', 'ARDTS@ARDTS.com'),
+(6, 'RD', 'RD', 'RD', 'RD', 'RD', 'RD@RD.com'),
+(7, 'MSHEA', 'MSHEA', 'MSHEA', 'MSHEA', 'MSHEA', 'MSHEA@MSHEA.COM'),
+(8, 'TSHEA', 'TSHEA', 'TSHEA', 'TSHEA', 'TSHEA', 'TSHEA@TSHEA.com'),
+(9, 'ADMIN', 'ADMIN', 'ADMIN', 'ADMIN', 'ADMIN', 'ADMIN@ADMIN.com'),
+(10, 'LEGAL', 'LEGAL', 'LEGAL', 'LEGAL', 'LEGAL', 'LEGAL@LEGAL.com'),
+(11, 'PMD', 'PMD', 'PMD', 'PMD', 'PMD', 'PMD@PMD.com'),
+(12, 'FINANCE', 'FINANCE', 'FINANCE', 'FINANCE', 'FINANCE', 'FINANCE@FINANCE.com'),
+(13, 'CDD', 'CDD', 'CDD', 'CDD', 'CDD', 'CDD@CDD.com'),
+(14, 'LPDD', 'LPDD', 'LPDD', 'LPDD', 'LPDD', 'LPDD@LPDD.com'),
+(15, 'SMD', 'SMD', 'SMD', 'SMD', 'SMD', 'SMD@SMD.com'),
+(16, 'ED', 'ED', 'ED', 'ED', 'ED', 'ED@ED.com'),
+(17, 'INREMP', 'INREMP', 'INREMP', 'INREMP', 'INREMP', 'INREMP@INREMP.com'),
+(18, 'RPAO', 'RPAO', 'RPAO', 'RPAO', 'RPAO', 'RPAO@RPAO.com');
 
 -- --------------------------------------------------------
 
@@ -231,7 +260,7 @@ INSERT INTO `user_profile` (`user_id`, `first_name`, `last_name`, `middle_name`,
 --
 
 CREATE TABLE `user_type` (
-  `user_type_id` int(11) NOT NULL,
+  `user_type_id` tinyint(11) NOT NULL,
   `user_type` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -241,7 +270,8 @@ CREATE TABLE `user_type` (
 
 INSERT INTO `user_type` (`user_type_id`, `user_type`) VALUES
 (1, 'admin'),
-(2, 'courier');
+(2, 'user'),
+(3, 'guest');
 
 -- --------------------------------------------------------
 
@@ -293,6 +323,18 @@ ALTER TABLE `offices`
   ADD PRIMARY KEY (`office_id`);
 
 --
+-- Indexes for table `other`
+--
+ALTER TABLE `other`
+  ADD PRIMARY KEY (`other_id`);
+
+--
+-- Indexes for table `status`
+--
+ALTER TABLE `status`
+  ADD PRIMARY KEY (`status_id`);
+
+--
 -- Indexes for table `user_account`
 --
 ALTER TABLE `user_account`
@@ -323,42 +365,52 @@ ALTER TABLE `compliance_type`
 -- AUTO_INCREMENT for table `document`
 --
 ALTER TABLE `document`
-  MODIFY `document_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `document_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `document_date`
 --
 ALTER TABLE `document_date`
-  MODIFY `document_date_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `document_date_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `document_details`
 --
 ALTER TABLE `document_details`
-  MODIFY `document_details_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=266;
+  MODIFY `document_details_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `document_time`
 --
 ALTER TABLE `document_time`
-  MODIFY `document_time_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `document_time_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `offices`
 --
 ALTER TABLE `offices`
-  MODIFY `office_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `office_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+--
+-- AUTO_INCREMENT for table `other`
+--
+ALTER TABLE `other`
+  MODIFY `other_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `status`
+--
+ALTER TABLE `status`
+  MODIFY `status_id` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `user_account`
 --
 ALTER TABLE `user_account`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT for table `user_profile`
 --
 ALTER TABLE `user_profile`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT for table `user_type`
 --
 ALTER TABLE `user_type`
-  MODIFY `user_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `user_type_id` tinyint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
