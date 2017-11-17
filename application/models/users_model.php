@@ -2,7 +2,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Users_model extends CI_Model {
+class users_model extends CI_Model {
 
     public function deleteUser($id) {
         $this->db->delete('user_account', array('user_id' => $id));

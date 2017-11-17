@@ -2,33 +2,28 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Users extends CI_Controller {
+class users_controller extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->model('Users_model', 'users');
-        $this->load->model('Document_model', 'document');
-        $this->load->model('Other_model', 'other');
-        $this->load->model('Offices_model', 'offices');
-        $this->load->model('Compliance_model', 'compliance');
+        $this->load->model('users_model', 'users');
+        $this->load->model('document_model', 'document');
+        $this->load->model('other_model', 'other');
+        $this->load->model('offices_model', 'offices');
+        $this->load->model('compliance_model', 'compliance');
     }
 
     public function index() {
-        $date = date("Y-m-d");
-        if($date >= '2016-04-01'){
-            $this->load->view('warning');
-        }else{
-            if ($this->session->userdata('logged_in') == TRUE) {
-                if ($this->session->userdata('user_type') == 1) {
-                    redirect('Users/adminDashboard');
-                } else if ($this->session->userdata('user_type') == 3) {
-                    redirect('Users/guestDashboard');
-                }else {
-                    redirect('Users/courierDashboard');
-                }
-            } else {
-                $this->load->view('index');
+        if ($this->session->userdata('logged_in') == TRUE) {
+            if ($this->session->userdata('user_type') == 1) {
+                redirect('Users/adminDashboard');
+            } else if ($this->session->userdata('user_type') == 3) {
+                redirect('Users/guestDashboard');
+            }else {
+                redirect('Users/courierDashboard');
             }
+        } else {
+            $this->load->view('index');
         }
     }
 

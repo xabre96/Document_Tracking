@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Other_model extends CI_Model {
+class other_model extends CI_Model {
 
   public function getOthers(){
     return $this->db->get('other')->result();

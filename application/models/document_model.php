@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Document_model extends CI_Model {
+class document_model extends CI_Model {
 
 	public function getDocumentDue($date){
 		return $this->db->query("SELECT DISTINCT(a.document_id), a.subject, a.sender, a.address, a.instructions, a.status_id, b.date_received, b.followUp_date, b.due_date, b.released_date, d.document_time_id, d.time_received FROM document as a, document_date as b, document_time as d WHERE a.document_id = b.document_id and a.document_id = d.document_id and a.status_id != 0 and b.due_date = '".$date."'")->result();
