@@ -17,7 +17,7 @@
                                 </div><!-- /.box-header -->
 
                                 <!-- form start -->
-                                <form method="POST" action="<?php echo base_url('Users/addCourier'); ?>">
+                                <form method="POST" action="<?php echo base_url('users_controller/addCourier'); ?>">
                                     <div class="box-body">
 
                                         <div class="form-group">
@@ -64,7 +64,7 @@
                                     <div class="box-footer">
 
                                         <button type="submit" value="Add" class="btn btn-primary">Submit</button>
-                                        <a href="<?php echo base_url('Users/adminDashboard'); ?>" style="margin-left: 10px;" class="btn btn-default">Cancel</a>
+                                        <a href="<?php echo base_url('users_controller/adminDashboard'); ?>" style="margin-left: 10px;" class="btn btn-default">Cancel</a>
                                     </div>
                                 </form>
                             </div><!-- /.box -->
