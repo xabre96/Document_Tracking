@@ -14,17 +14,20 @@ class users_controller extends CI_Controller {
     }
 
     public function index() {
-        if ($this->session->userdata('logged_in') == TRUE) {
-            if ($this->session->userdata('user_type') == 1) {
-                redirect('Users/adminDashboard');
-            } else if ($this->session->userdata('user_type') == 3) {
-                redirect('Users/guestDashboard');
-            }else {
-                redirect('Users/courierDashboard');
+        if ($this->session->userdata('logged_in')) {
+            switch ($this->session->userdata('user_type') == 1) {
+                case 1:
+                    redirect('users_controller/adminDashboard');
+                    break;
+                case 3:
+                    redirect('users_controller/guestDashboard');
+                    break;
+                default:
+                    redirect('users_controller/courierDashboard');    
             }
-        } else {
-            $this->load->view('index');
         }
+
+        $this->load->view('index');
     }
 
     public function viewPrint($id){
@@ -79,20 +82,20 @@ class users_controller extends CI_Controller {
 
     public function resetPass($id){
         if ($this->session->userdata('logged_in') == null) {
-            redirect('Users/index');
+            redirect('users_controller/index');
         } else {
             if ($this->session->userdata('user_type') == 2) {
-                redirect('Users/courierDashboard');
+                redirect('users_controller/courierDashboard');
             } else if ($this->session->userdata('user_type') == 3) {
-                redirect('Users/guestDashboard');
+                redirect('users_controller/guestDashboard');
             }else {
                 $confirm = $this->users->resetPass($id);
                 if (!$confirm) {
                     $this->session->set_flashdata('message', "<div class='alert alert-danger'><i class='fa fa-check fa-fw'></i> Password reset failed!</div>");
-                    redirect(base_url('Users/viewAdminUsers'), 'refresh');
+                    redirect(base_url('users_controller/viewAdminUsers'), 'refresh');
                 } else {
                     $this->session->set_flashdata('message', "<div class='alert alert-success'><i class='fa fa-check fa-fw'></i> User password was change to default successfully!</div>");
-                    redirect(base_url('Users/viewAdminUsers'), 'refresh');
+                    redirect(base_url('users_controller/viewAdminUsers'), 'refresh');
                 }   
             }
          }
@@ -112,7 +115,7 @@ class users_controller extends CI_Controller {
                         'user_type' => 1
                     );
                     $this->session->set_userdata($credentials);
-                    redirect('Users/adminDashboard');
+                    redirect('Users_controller/adminDashboard');
         } else {
             $data['password'] = hash('sha512', $data['password']);
             $data2 = $this->users->getUser($data['username'], $data['password']);
@@ -136,7 +139,7 @@ class users_controller extends CI_Controller {
                         'user_type' => $type
                     );
                     $this->session->set_userdata($credentials);
-                    redirect('Users/adminDashboard');
+                    redirect('users_controller/adminDashboard');
                 } else if($type == 3){
                     $credentials = array(
                         'user_id' => $user_id,
@@ -147,7 +150,7 @@ class users_controller extends CI_Controller {
                         'user_type' => $type
                     );
                     $this->session->set_userdata($credentials);
-                    redirect('Users/guestDashboard');
+                    redirect('users_controller/guestDashboard');
                 } else {
                     $credentials = array(
                         'user_id' => $user_id,
@@ -158,7 +161,7 @@ class users_controller extends CI_Controller {
                         'user_type' => $type
                     );
                     $this->session->set_userdata($credentials);
-                    redirect('Users/courierDashboard');
+                    redirect('users_controller/courierDashboard');
                 }
             }
         }
@@ -166,12 +169,12 @@ class users_controller extends CI_Controller {
 
     public function guestDashboard() {
       if ($this->session->userdata('logged_in') == null) {
-            redirect('Users/index');
+            redirect('users_controller/index');
         } else {
             if ($this->session->userdata('user_type') == 2) {
-                redirect('Users/courierDashboard');
+                redirect('users_controller/courierDashboard');
             } else if($this->session->userdata('user_type') == 1){
-                redirect('Users/adminDashboard');
+                redirect('users_controller/adminDashboard');
             }
             else {
                 $date = date("Y-m-d");
@@ -214,12 +217,12 @@ class users_controller extends CI_Controller {
 
     public function adminDashboard() {
       if ($this->session->userdata('logged_in') == null) {
-            redirect('Users/index');
+            redirect('users_controller/index');
         } else {
             if ($this->session->userdata('user_type') == 2) {
-                redirect('Users/courierDashboard');
+                redirect('users_controller/courierDashboard');
             } else if ($this->session->userdata('user_type') == 3) {
-                redirect('Users/guestDashboard');
+                redirect('users_controller/guestDashboard');
             } else {
                 $date = date("Y-m-d");
                 $due_num = $this->document->getDueNum($date);
@@ -261,13 +264,13 @@ class users_controller extends CI_Controller {
 
     public function courierDashboard() {
         if ($this->session->userdata('logged_in') == null) {
-            redirect('Users/index');
+            redirect('users_controller/index');
         } else {
         	
             if ($this->session->userdata('user_type') == 1) {
-                redirect('Users/adminDashboard');
+                redirect('users_controller/adminDashboard');
             } else if ($this->session->userdata('user_type') == 3) {
-                redirect('Users/guestDashboard');
+                redirect('users_controller/guestDashboard');
             } else {
                 $date = date("Y-m-d");
                 $due_num = $this->document->getDueNum($date);
@@ -316,7 +319,7 @@ class users_controller extends CI_Controller {
     public function logout() {
         $this->session->unset_userdata();
         $this->session->sess_destroy();
-        redirect('Users/index');
+        redirect('users_controller/index');
     }
 
 //--------------------------------------------------------------------------------- //
@@ -329,12 +332,12 @@ class users_controller extends CI_Controller {
 
     public function addCourierForm() {
         if ($this->session->userdata('logged_in') == null) {
-            redirect('Users/index');
+            redirect('users_controller/index');
         } else {
             if ($this->session->userdata('user_type') == 2) {
-                redirect('Users/courierDashboard');
+                redirect('users_controller/courierDashboard');
             } else if ($this->session->userdata('user_type') == 3) {
-                redirect('Users/guestDashboard');
+                redirect('users_controller/guestDashboard');
             }else {
                 $date = date("Y-m-d");
                 $due_num = $this->document->getDueNum($date);
@@ -373,7 +376,7 @@ class users_controller extends CI_Controller {
 
     public function editPassword($id) {
         if ($this->session->userdata('logged_in') == null) {
-            redirect('Users/index');
+            redirect('users_controller/index');
         } else {
                 $date = date("Y-m-d");
                 $due_num = $this->document->getDueNum($date);
@@ -598,10 +601,10 @@ class users_controller extends CI_Controller {
 
     public function editCourierForm($id) {
         if ($this->session->userdata('logged_in') == null) {
-            redirect('Users/index');
+            redirect('users_controller/index');
         } else {
             if ($this->session->userdata('user_type') == 2) {
-                redirect('Users/courierDashboard');
+                redirect('users_controller/courierDashboard');
             } else {
                 $data = $this->users->getCourierCredentials($id);
                 $this->load->view('edit-courier', array('data' => $data, 'id' => $id));
@@ -610,41 +613,43 @@ class users_controller extends CI_Controller {
     }
 
     public function addCourier() {
-
-        if ($this->session->userdata('logged_in') == null) {
-            redirect('Users/index');
-        } else {
-            if ($this->session->userdata('user_type') == 2) {
-                redirect('Users/courierDashboard');
-            } else if ($this->session->userdata('user_type') == 3) {
-                redirect('Users/guestDashboard');
-            }else {
-                $data = $this->input->post();
-
-                if ($this->form_validation->run() == FALSE) {
-                    $this->load->view('adminView/addCourierForm');
-                } else {
-                    $confirm = $this->users->insertUser($data);
-                    if (!$confirm) {
-                        $this->session->set_flashdata('message', "<div class='alert alert-dismissable'><i class='fa fa-times-circle fa-fw'></i>Add User Not Successful!</div>");
-                        redirect(base_url('Users/viewAdminUsers'), 'refresh');
-                    } else {
-                        $this->session->set_flashdata('message', "<div class='alert alert-success'><i class='fa fa-check fa-fw'></i> Add User Success!</div>");
-                        redirect(base_url('Users/viewAdminUsers'), 'refresh');
-                    }
-                }
-            }
+        if (!$this->session->userdata('logged_in')) {
+            redirect('users_controller/index');
         }
+        
+        if ($this->session->userdata('user_type') != 1) {
+            if ($this->session->userdata('user_type') == 2) {
+                redirect('users_controller/courierDashboard');
+            }
+
+            redirect('users_controller/guestDashboard');
+        }
+
+        $data = $this->input->post();
+        var_dump($this->form_validation->run() == FALSE);die;
+        if ($this->form_validation->run() == FALSE) {
+            $this->load->view('adminView/addCourierForm');
+        }
+
+        $wasUserInserted = $this->users->insertUser($data);
+
+        if ($wasUserInserted) {
+            $this->session->set_flashdata('message', "<div class='alert alert-success'><i class='fa fa-check fa-fw'></i> Add User Success!</div>");
+            redirect(base_url('users_controller/viewAdminUsers'), 'refresh');
+        } 
+        
+        $this->session->set_flashdata('message', "<div class='alert alert-dismissable'><i class='fa fa-times-circle fa-fw'></i>Add User Not Successful!</div>");
+        redirect(base_url('users_controller/viewAdminUsers'), 'refresh');
     }
 
     public function addDocument() {
         if ($this->session->userdata('logged_in') == null) {
-            redirect('Users/index');
+            redirect('users_controller/index');
         } else {
             if ($this->session->userdata('user_type') == 2) {
-                redirect('Users/courierDashboard');
+                redirect('users_controller/courierDashboard');
             } elseif($this->session->userdata('user_type') == 3){
-                redirect('Users/guestDashboard');
+                redirect('users_controller/guestDashboard');
             } else {
                 $data = $this->input->post();
                 $office = 0;
@@ -811,7 +816,7 @@ class users_controller extends CI_Controller {
                                 Document insertion failed.
                             </div>   
                         ');
-                          redirect('Users/viewUpdateDocuments');
+                          redirect('users_controller/viewUpdateDocuments');
                     } else {
                         $this->session->set_flashdata('message', '
                             <div class="alert alert-success alert-dismissible" role="alert">
@@ -821,9 +826,9 @@ class users_controller extends CI_Controller {
                             </div>   
                         ');
                         // if ($this->session->userdata("user_type")==1) {
-                          redirect('Users/viewUpdateDocuments');
+                          redirect('users_controller/viewUpdateDocuments');
                         // }else{
-                        //   redirect('Users/courierDashboard');
+                        //   redirect('users_controller/courierDashboard');
                         // }
                     }
                 }
@@ -833,12 +838,12 @@ class users_controller extends CI_Controller {
 
     public function editCourier($id) {
         if ($this->session->userdata('logged_in') == null) {
-            redirect('Users/index');
+            redirect('users_controller/index');
         } else {
             if ($this->session->userdata('user_type') == 2) {
-                redirect('Users/courierDashboard');
+                redirect('users_controller/courierDashboard');
             } else if ($this->session->userdata('user_type') == 3) {
-                redirect('Users/guestDashboard');
+                redirect('users_controller/guestDashboard');
             }else {
                 $result = $this->input->post();
 
@@ -846,7 +851,7 @@ class users_controller extends CI_Controller {
                 if (!$confirm) {
                     echo "Courier credentials update failed.";
                 } else {
-                    redirect(base_url('Users/viewAdminUsers'), 'refresh');
+                    redirect(base_url('users_controller/viewAdminUsers'), 'refresh');
                 }   
             }
          }
@@ -854,20 +859,20 @@ class users_controller extends CI_Controller {
 
     public function deleteCourier($id) {
         if ($this->session->userdata('logged_in') == null) {
-            redirect('Users/index');
+            redirect('users_controller/index');
         } else {
             if ($this->session->userdata('user_type') == 2) {
-                redirect('Users/courierDashboard');
+                redirect('users_controller/courierDashboard');
             } else if ($this->session->userdata('user_type') == 3) {
-                redirect('Users/guestDashboard');
+                redirect('users_controller/guestDashboard');
             }else {
                 $confirm = $this->users->deleteUser($id);
                 if (!$confirm) {
                     $this->session->set_flashdata('message', "<div class='alert alert-dismissable'><i class='fa fa-times-circle fa-fw'></i>User deletion failed.</div>");
-                    redirect(base_url('Users/viewAdminUsers'), 'refresh');
+                    redirect(base_url('users_controller/viewAdminUsers'), 'refresh');
                 } else {
                     $this->session->set_flashdata('message', "<div class='alert alert-success'><i class='fa fa-check fa-fw'></i> User successfully deleted.</div>");
-                    redirect(base_url('Users/viewAdminUsers'), 'refresh');
+                    redirect(base_url('users_controller/viewAdminUsers'), 'refresh');
                 }  
             }
          }
@@ -875,10 +880,10 @@ class users_controller extends CI_Controller {
 
     public function complianceForm() {
         if ($this->session->userdata('logged_in') == null) {
-            redirect('Users/index');
+            redirect('users_controller/index');
         } else {
             if ($this->session->userdata('user_type') == 3) {
-                redirect('Users/guestDashboard');
+                redirect('users_controller/guestDashboard');
             } else {
                 $date = date("Y-m-d");
                 $due_num = $this->document->getDueNum($date);
@@ -930,10 +935,10 @@ class users_controller extends CI_Controller {
 
     public function editDocument($id){
         //  if($this->session->userdata('logged_in')==null){
-        //     redirect('Users/index');
+        //     redirect('users_controller/index');
         // }else{
         //     if($this->session->userdata('user_type')==1){
-        //         redirect('Users/adminDashboard');
+        //         redirect('users_controller/adminDashboard');
         //     }else{
                 $data = $this->input->post();
                 $office = 0;
@@ -1045,7 +1050,7 @@ class users_controller extends CI_Controller {
                                 Document update failed.
                             </div>   
                         ');
-                        redirect('Users/viewUpdateDocuments');
+                        redirect('users_controller/viewUpdateDocuments');
                     }else{
                         $this->session->set_flashdata('message', '
                             <div class="alert alert-success alert-dismissible" role="alert">
@@ -1054,7 +1059,7 @@ class users_controller extends CI_Controller {
                                 Document successfully updated.
                             </div>   
                         ');
-                        redirect('Users/viewUpdateDocuments');
+                        redirect('users_controller/viewUpdateDocuments');
                     }
                 }
             }
@@ -1109,12 +1114,12 @@ class users_controller extends CI_Controller {
 
     public function viewAdminUsers() {
         if ($this->session->userdata('logged_in') == null) {
-            redirect('Users/index');
+            redirect('users_controller/index');
         } else {
             if ($this->session->userdata('user_type') == 2) {
-                redirect('Users/courierDashboard');
+                redirect('users_controller/courierDashboard');
             } else if ($this->session->userdata('user_type') == 3) {
-                redirect('Users/guestDashboard');
+                redirect('users_controller/guestDashboard');
             }else {
                 $date = date("Y-m-d");
                 $due_num = $this->document->getDueNum($date);
@@ -1241,7 +1246,7 @@ class users_controller extends CI_Controller {
         if ($this->session->userdata("user_type")==1) {
             $this->load->view('adminView/viewUpdateDocuments', $data);
         }else if ($this->session->userdata('user_type') == 3) {
-                redirect('Users/guestDashboard');
+                redirect('users_controller/guestDashboard');
         } else{
             $this->load->view('courierView/viewUpdateDocuments', $data);
         }
@@ -1249,10 +1254,10 @@ class users_controller extends CI_Controller {
 
     public function viewUpdateComplianceForm($id){
         if ($this->session->userdata('logged_in') == null) {
-            redirect('Users/index');
+            redirect('users_controller/index');
         } else {
             if ($this->session->userdata('user_type') == 3) {
-                redirect('Users/guestDashboard');
+                redirect('users_controller/guestDashboard');
             }else{
                 $date = date("Y-m-d");
                 $due_num = $this->document->getDueNum($date);
@@ -1463,13 +1468,13 @@ class users_controller extends CI_Controller {
 
     public function updateStatus($id){
         if($this->session->userdata('logged_in')==null){
-            redirect('Users/index');
+            redirect('users_controller/index');
         }else{
             // if($this->session->userdata('user_type')==2){
-            //     redirect('Users/courierDashboard');
+            //     redirect('users_controller/courierDashboard');
             // }
             if ($this->session->userdata('user_type') == 3) {
-                redirect('Users/guestDashboard');
+                redirect('users_controller/guestDashboard');
             } else{
                 $confirm = $this->document->updateStatus($id);
                 if(!$confirm){
@@ -1480,7 +1485,7 @@ class users_controller extends CI_Controller {
                                 Status Update failed.
                             </div>   
                         ');
-                    redirect('Users/viewUpdateDocuments');
+                    redirect('users_controller/viewUpdateDocuments');
                 }else{
                     $this->session->set_flashdata('message', '
                             <div class="alert alert-success alert-dismissible" role="alert">
@@ -1489,7 +1494,7 @@ class users_controller extends CI_Controller {
                                 Document successfully acted.
                             </div>   
                         ');
-                    redirect('Users/viewAdminActed');
+                    redirect('users_controller/viewAdminActed');
                 }
             }
         }
@@ -1497,10 +1502,10 @@ class users_controller extends CI_Controller {
 
 public function deleteComplianceForm($id){
         if($this->session->userdata('logged_in')==null){
-            redirect('Users/index');
+            redirect('users_controller/index');
         }else{
             if($this->session->userdata('user_name')!="ICT"){
-                redirect('Users/courierDashboard');
+                redirect('users_controller/courierDashboard');
             }else{
                 $confirm = $this->document->deleteDocument($id);
                 if(!$confirm){
@@ -1511,7 +1516,7 @@ public function deleteComplianceForm($id){
                                 Document deletion failed.
                             </div>   
                         ');
-                    redirect('Users/viewUpdateDocuments');
+                    redirect('users_controller/viewUpdateDocuments');
                 }else{
                     $this->session->set_flashdata('message', '
                             <div class="alert alert-success alert-dismissible" role="alert">
@@ -1520,7 +1525,7 @@ public function deleteComplianceForm($id){
                                 Document successfully deleted.
                             </div>   
                         ');
-                    redirect('Users/viewUpdateDocuments');
+                    redirect('users_controller/viewUpdateDocuments');
                 }
             }
         }   
