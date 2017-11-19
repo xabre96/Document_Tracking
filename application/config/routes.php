@@ -8,3 +8,4 @@ $route['404_override'] = 'error/404';
  */
 $route['login'] = 'users_controller/userLogin';
 $route['logout'] = 'users_controller/logout';
+$route['add-document'] = 'users_controller/addDocument';
