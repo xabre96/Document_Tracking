@@ -6,8 +6,6 @@
         <link rel="shortcut icon" href="<?php echo base_url('images/denr_logo.png'); ?>" type="image/x-icon" /> 
         <link rel='stylesheet' href="<?php echo base_url('mars_tf_export/html/assets/css/app.css'); ?>">
         <link rel='stylesheet' href="<?php echo base_url('mars_tf_export/html/assets/css/animate.min.css'); ?>">
-       <!--  <link href='http://fonts.googleapis.com/css?family=Raleway:200,300,400,500,700' rel='stylesheet' type='text/css'>
-        <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"> -->
         <link href="<?php echo base_url('mars_tf_export/html/assets/favicon.ico'); ?>" rel="shortcut icon">
         <link href="<?php echo base_url('mars_tf_export/html/assets/apple-touch-icon.png'); ?>" rel="apple-touch-icon">
         <title>Document Tracking</title>
@@ -31,17 +29,13 @@
         <br>
         <div class="all-wrapper no-menu-wrapper">
             <div class="col-md-12" style="margin: 0px;">
-                <!--                <div class="col-md-4">
-                                   </div>
-                                    <img src="<?php //echo base_url('images/dt_logo3.png');  ?>" alt="image-log">
-                            </div>-->
                 <div class="row">
                     <div class="col-md-4 col-md-offset-4">
                         <div class="content-wrapper">
                             <div class="content-inner">
                                 <div class="main-content" style="background: #FFF;">
                                     <div class="main-content-inner">
-                                        <form method="POST" action="<?php echo base_url('Users/userLogin'); ?>">
+                                        <form method="POST" action="<?php echo base_url('login'); ?>">
                                             <h3 class="form-title form-title-first"><i class="icon-lock"></i> Login</h3>
                                             <div class="form-group">
                                                 <label>Username</label>
@@ -58,7 +52,6 @@
                                                     </label>
                                                 </div>
                                             </div>
-                                            <!-- <br/> -->
                                             <input type="submit" value="Login" class="btn btn-default"/>
                                             <?php echo @$message; ?>
                                         </form>
@@ -76,7 +69,7 @@
         <footer class="footer bg-black" style="padding: 0px; color:#ffffff; border-top: 3px ridge #cfcfcf;">
             <p class="" style="padding: 2px; margin: 0px; text-align: center; background-color: black; font-size: 12px;">
                 <img src="<?php echo base_url('images/dc_logo.png'); ?>" style="height: 20px; width: 20px;">Document Monitoring System<br>
-                Copyright <img src="<?php echo base_url('images/DENR_Logo.svg_.png'); ?>" style="height: 20px; width: 20px; margin-bottom: 3px;"> 2015 Department of Environment and Natural Resources
+                Copyright <img src="<?php echo base_url('images/DENR_Logo.svg_.png'); ?>" style="height: 20px; width: 20px; margin-bottom: 3px;"> <?php echo date('Y'); ?> Department of Environment and Natural Resources
             </p>
         </footer>
 
