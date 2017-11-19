@@ -7,7 +7,7 @@
            
             <!-- <a href="#" style="color: #FFF;"><i class="fa fa-circle" style="color: red;"></i> Online</a> -->
             <p style="color: #FFF;">Admin</p>
-            <a href="<?php echo base_url('users_controller/editPassword/'.$this->session->userdata('user_id')); ?>" style="color: yellow;">Change Password</a>
+            <a href="<?php echo base_url('users_controller/editPassword/' . $this->session->userdata('user_id')); ?>" style="color: yellow;">Change Password</a>
         </div>
     </div>
     <ul class="sidebar-menu">
@@ -70,15 +70,9 @@
         </li>
 
         <li class="active">
-            <a href="<?php echo base_url('users_controller/logout'); ?>">
+            <a href="<?php echo base_url('logout'); ?>">
                 <i class="fa fa-mail-reply"></i> <span>Logout</span>
             </a>
         </li>
-
-
-
-
-
-
     </ul>
 </section>
