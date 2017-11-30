@@ -1,3 +1,4 @@
+<script src="<?php echo base_url('node_modules/moment/min/moment.min.js'); ?>"></script>
 <script src="<?php echo base_url('bootstrap/script/jquery.js'); ?>"></script>
 <script src="<?php echo base_url('assets/angular.min.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo base_url('bootstrap/js/plugins/datatables/jquery.dataTables.js'); ?>"
@@ -59,14 +60,12 @@
 
         switch (parseInt($("#complianceType").val())) {
             case 1:
-                tempDate.setDate(tempDate.getDate() + 1);
-                var dueAndFollowDate = tempDate.getFullYear() + '-' + tempDate.getMonth() + '-' + tempDate.getDate();
+                var dueAndFollowDate = moment(tempDate).add(1, 'days').format('YYYY-MM-DD');
                 $("#dueDate").val(dueAndFollowDate);
                 $("#followDate").val(dueAndFollowDate);
                 break;
             case 3:
-                tempDate.setDate(tempDate.getDate() + 4);
-                var dueAndFollowDate = tempDate.getFullYear() + '-' + tempDate.getMonth() + '-' + tempDate.getDate();
+                var dueAndFollowDate = moment(tempDate).add(4, 'days').format('YYYY-MM-DD');
                 $("#dueDate").val(dueAndFollowDate);
                 $("#followDate").val(dueAndFollowDate);
                 break;
