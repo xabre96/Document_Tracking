@@ -28,7 +28,7 @@
                 <i class="fa fa-angle-left pull-right"></i>
             </a>
             <ul class="treeview-menu">
-                <li><a href="<?php echo base_url('users_controller/complianceForm'); ?>" style="margin-left: 10px;"><i class="fa fa-plus"></i>Add Compliance</a></li>
+                <li><a href="<?php echo base_url('add-compliance-form'); ?>" style="margin-left: 10px;"><i class="fa fa-plus"></i>Add Compliance</a></li>
 
                 <li>
                     <a href="<?php echo base_url('users_controller/viewUpdateDocuments'); ?>" style="margin-left: 10px;">
