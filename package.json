@@ -1,0 +1,30 @@
+{
+  "name": "dms",
+  "version": "1.0.0",
+  "description": "DENR Document Monitoring System",
+  "main": "index.js",
+  "dependencies": {
+    "moment": "^2.19.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xabre96/Document_Tracking.git"
+  },
+  "keywords": [
+    "DENR",
+    "Document",
+    "Monitoring",
+    "System",
+    "dms"
+  ],
+  "author": "Xan Gutierrez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xabre96/Document_Tracking/issues"
+  },
+  "homepage": "https://github.com/xabre96/Document_Tracking#readme"
+}
