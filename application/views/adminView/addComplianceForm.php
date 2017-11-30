@@ -21,7 +21,7 @@
                                 <div class="col-md-3">
                                     <div>
                                         <label for="dateReceived">Date Received </label>
-                                        <input type="date" class="form-control" id="dateReceived"
+                                        <input type="date" class="form-control calculateDate" id="dateReceived"
                                                name="dateReceived"
                                                required>
                                     </div>
@@ -47,7 +47,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="exampleSelectDate">Document Type</label>
-                                        <select name="complianceType" class="form-control" id="complianceType">
+                                        <select name="complianceType" class="form-control calculateDate" id="complianceType">
                                             <?php foreach ($data2 as $key => $value) { ?>
                                                 <option value="<?php echo $value->compliance_type_id; ?>"><?php echo $value->compliance_type; ?></option>
                                             <?php } ?>

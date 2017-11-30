@@ -54,7 +54,7 @@
         $("#addDocumentForm")[0].reset();
     });
     
-    $("#dateReceived").change(function () {
+    $(".calculateDate").change(function () {
         var dateReceived = $("#dateReceived").val();
         var tempDate = new Date(dateReceived);
 
@@ -70,6 +70,9 @@
                 $("#followDate").val(dueAndFollowDate);
                 break;
             case 4:
+                $("#dateReceived").val();
+                $("#dueDate").val();
+                $("#followDate").val();
                 console.log('No follow up and due date.');
                 break;
             default:
